@@ -4,22 +4,24 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>성서제휴맵</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
   <style>
     body, html {
       margin: 0;
       padding: 0;
       font-family: sans-serif;
-      background-color: #ffffff;
+      background-color: #ccffcc;
+      height: 100%;
     }
 
     .top-bar {
-      display:flex;
+      display: flex;
       align-items: center;
       justify-content: space-between;
       background-color: white;
       padding: 1rem 1.5rem;
       position: relative;
-      z-index: 2;
+      z-index: 3;
     }
 
     .menu-icon {
@@ -44,51 +46,87 @@
     .home-text {
       color: #007f00;
       font-weight: bold;
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: inherit;
+      font-family: inherit;
     }
 
     .main {
-      background: url('https://th.bing.com/th/id/R.e8976298a680b0e4763df43f5e0c97e8?rik=bPdZuFtnfykQYg&riu=http%3a%2f%2fbareunmedia.cafe24.com%2fwp-content%2fuploads%2f2020%2f07%2f15461741671648.jpg&ehk=pSrD1Ky9A9Rkk%2fluqi%2bHco%2bTStz9vn3l8Sus3dEt2JM%3d&risl=&pid=ImgRaw&r=0') no-repeat center center;
-      background-size: cover;
-      height: 80vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      position: relative;
-      text-align: center;
-    }
-
-    .button-group {
       display: flex;
       flex-direction: row;
-      gap: 80px;
-    }
-
-    .circle-button {
-      width: 200px;
-      height: 200px;
-      border-radius: 50%;
-      border: 2px solid white;
-      background-color: rgba(0,0,0,0.5);
-      color: white;
-      font-size: 28px;
-      font-weight: bold;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
       justify-content: center;
-      cursor: pointer;
+      align-items: center;
+      height: calc(100vh - 120px);
+      padding: 40px;
+      gap: 40px;
+      position: relative;
+      transition: filter 0.4s;
     }
 
-    .circle-button svg {
-      width: 56px;
-      height: 56px;
-      margin-bottom: 10px;
+    .main.blurred {
+      filter: blur(4px);
+      pointer-events: none;
+    }
+
+    .map-box, .iframe-box {
+      background-color: white;
+      border-radius: 12px;
+      box-shadow: 0 0 8px rgba(0, 127, 0, 0.5);
+      transition: all 0.4s ease-in-out;
+    }
+
+    .map-box.full {
+      width: 90%;
+      height: 100%;
+    }
+
+    .map-box.half {
+      width: 45%;
+      height: 100%;
+    }
+
+    .iframe-box {
+      display: none;
+      position: relative;
+      width: 45%;
+      height: 100%;
+    }
+
+    .iframe-box.show {
+      display: block;
+    }
+
+    .iframe-box iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+      border-radius: 12px;
+    }
+
+    #map {
+      width: 100%;
+      height: 100%;
+      border-radius: 12px;
+    }
+
+    .close-btn {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      background: transparent;
+      color: black;
+      border: none;
+      font-size: 24px;
+      font-weight: bold;
+      cursor: pointer;
+      z-index: 10;
     }
 
     .bottom-bar {
       background-color: white;
       padding: 1rem 1.5rem;
-      height: auto;
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -108,39 +146,77 @@
       line-height: 1.4;
     }
 
-  @media (max-width: 600px) {
-  .main {
-    flex-direction: column;
-    padding: 2rem 1rem;
-    height: auto;
-    background-position: center top;
-  }
+    .overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.4);
+      backdrop-filter: blur(4px);
+      z-index: 2;
+      display: none;
+    }
 
-  .button-group {
-    flex-direction: column;
-    gap: 24px;
-    align-items: center;
-    width: 100%;
-  }
+    .sidebar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 250px;
+      height: 100%;
+      background-color: white;
+      box-shadow: 2px 0 5px rgba(0,0,0,0.3);
+      padding: 5rem 1.5rem 1.5rem 1.5rem;
+      z-index: 4;
+      display: none;
+      flex-direction: column;
+      gap: 1rem;
+    }
 
-  .circle-button {
-    width: 140px;
-    height: 140px;
-    font-size: 16px;
-    padding: 0;
-  }
+    .sidebar .close-btn {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      font-size: 24px;
+      cursor: pointer;
+    }
 
-  .circle-button svg {
-    width: 36px;
-    height: 36px;
-    margin-bottom: 6px;
-  }
-}
+    .sidebar a {
+      text-decoration: none;
+      color: #333;
+      font-size: 18px;
+      display: flex;
+      align-items: center;
+      background-color: #f0f0f0;
+      padding: 12px 15px;
+      border-radius: 8px;
+      transition: background-color 0.2s;
+    }
 
+    .sidebar a:hover {
+      background-color: #a5e6a3;
+    }
+
+    .sidebar-icon {
+      width: 24px;
+      height: 24px;
+      margin-right: 10px;
+    }
+
+    .label-icon {
+      background: transparent;
+      color: #000000;
+      font-size: 12px;
+      font-weight: bold;
+      text-align: center;
+      white-space: nowrap;
+      user-select: none;
+      pointer-events: none;
+      text-shadow: 0 0 3px white;
+    }
   </style>
 </head>
 <body>
-  <!-- 네비게이션 바 영역 -->
   <div class="top-bar">
     <div class="menu-icon" onclick="openSidebar()">☰</div>
     <div class="title">
@@ -152,141 +228,29 @@
       </div>
       성서제휴맵
     </div>
-    <button class="home-text" type="button" style="border:none; background:none; cursor:pointer; font-size:inherit; font-family:inherit;">
-  HOME
-    </button>
-
+    <button class="home-text">HOME</button>
   </div>
 
-  <!-- 네비게이션 메뉴 (사이드바) -->
-<div class="overlay" id="overlay" onclick="closeSidebar()"></div>
-<div class="sidebar" id="sidebar">
-  <div class="close-btn" onclick="closeSidebar()">✖</div>
-  
- <a href="map.html" class="sidebar-btn">
-    <img src="https://cdn-icons-png.flaticon.com/24/684/684908.png" alt="지도 아이콘" class="sidebar-icon" />
-    지도
-  </a>
-  
-  <a href="#" class="sidebar-btn">
-    <img src="https://images.icon-icons.com/1154/PNG/512/1486564398-menu2_81519.png" alt="리스트 아이콘" class="sidebar-icon" />
-    리스트
-  </a>
-  
-  <a href="#" class="sidebar-btn">
-    <img src="https://images.icon-icons.com/1686/PNG/512/12099handshake_111465.png" alt="외부업체 제휴 아이콘" class="sidebar-icon" />
-    외부업체 제휴
-  </a>
-  
-  <a href="#" class="sidebar-btn">
-    <img src="https://images.icon-icons.com/1572/PNG/512/3592834-general-hierachy-map-office-site-structure_107753.png" alt="사이트맵 아이콘" class="sidebar-icon" />
-    사이트맵
-  </a>
-</div>
+  <div class="overlay" id="overlay" onclick="closeSidebar()"></div>
 
-<style>
-  .sidebar {
-    display: none;
-    width: 250px;
-    background-color: #fff;
-    padding: 20px;
-    position: fixed;
-    left: 0;
-    top: 0;
-    bottom: 0;
-    box-shadow: 2px 0 10px rgba(0,0,0,0.1);
-    z-index: 1000;
-  }
+  <div class="sidebar" id="sidebar">
+    <button class="close-btn" onclick="closeSidebar()">✖</button>
+    <a href="#"><img src="https://cdn-icons-png.flaticon.com/24/684/684908.png" class="sidebar-icon" /> 지도</a>
+    <a href="#"><img src="https://images.icon-icons.com/1154/PNG/512/1486564398-menu2_81519.png" class="sidebar-icon" /> 리스트</a>
+    <a href="#"><img src="https://images.icon-icons.com/1686/PNG/512/12099handshake_111465.png" class="sidebar-icon" /> 외부업체 제휴</a>
+    <a href="#"><img src="https://images.icon-icons.com/1572/PNG/512/3592834-general-hierachy-map-office-site-structure_107753.png" class="sidebar-icon" /> 사이트맵</a>
+  </div>
 
-  .close-btn {
-    font-size: 20px;
-    cursor: pointer;
-    margin-bottom: 20px;
-    text-align: right;
-  }
-
-  .sidebar-btn {
-    display: flex;
-    align-items: center;
-    background-color: #f0f0f0;
-    padding: 12px 15px;
-    margin-bottom: 10px;
-    border-radius: 8px;
-    text-decoration: none;
-    color: #333;
-    transition: background-color 0.2s;
-  }
-
-  .sidebar-btn:hover {
-    background-color: #a5e6a3; /* 약간 더 진한 연초록 */
-  }
-
-  .sidebar-icon {
-    width: 24px;
-    height: 24px;
-    margin-right: 10px;
-  }
-</style>
-
-
-<style>
-  .sidebar a {
-    display: flex;
-    align-items: center;
-  }
-
-  .sidebar-icon {
-    width: 24px;
-    height: 24px;
-    margin-right: 10px;
-  }
-  @media (max-width: 768px) {
-  .button-group {
-    flex-direction: column;
-    gap: 20px;
-    align-items: center;
-  }
-
-  .circle-button {
-    width: 140px;
-    height: 140px;
-    font-size: 18px;
-  }
-
-  .circle-button svg {
-    width: 36px;
-    height: 36px;
-    margin-bottom: 6px;
-  }
-
-  .main {
-    padding: 20px;
-    height: auto;
-  }
-}
-
-</style>
-
-
-  <!-- 메인 버튼 영역 -->
-  <div class="main">
-    <div class="button-group">
-      <div class="circle-button">
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6" width="56" height="56">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 6.75h12M8.25 12h12m-12 5.25h12M3.75 6.75h.007v.008H3.75V6.75Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0ZM3.75 12h.007v.008H3.75V12Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm-.375 5.25h.007v.008H3.75v-.008Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z" />
-        </svg>
-        리스트로 보기
-      </div>
-      <div class="circle-button" onclick="location.href='map.html'">
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" width="56" height="56" style="margin-bottom:10px;">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M9 6.75V15m6-6v8.25m.503 3.498 4.875-2.437c.381-.19.622-.58.622-1.006V4.82c0-.836-.88-1.38-1.628-1.006l-3.869 1.934c-.317.159-.69.159-1.006 0L9.503 3.252a1.125 1.125 0 0 0-1.006 0L3.622 5.689C3.24 5.88 3 6.27 3 6.695V19.18c0 .836.88 1.38 1.628 1.006l3.869-1.934c.317-.159.69-.159 1.006 0l4.994 2.497c.317.158.69.158 1.006 0Z" />
-        </svg>
-        지도로 보기
-      </div>
+  <div class="main" id="main">
+    <div class="iframe-box" id="iframeBox">
+      <button class="close-btn" onclick="closeIframe()">✖</button>
+      <iframe id="infoFrame" src=""></iframe>
+    </div>
+    <div class="map-box full" id="mapBox">
+      <div id="map"></div>
     </div>
   </div>
 
-  <!-- 푸터 -->
   <div class="bottom-bar">
     <img src="https://i.namu.wiki/i/xWThtdKlAVAELfSy_c0Fse6dtpeB7Wkiw9gi136WhQnMWgMf-EX214vu1CagyVoGIR6_LuQH7TIHDbyjyox4DCeV1MXIiHG7NE8h3hHGsL4IE-opK0hr67GuCACIaP_Zu-w1R8BPSCqjga1S-Xytog.svg" alt="학교 로고" />
     <div class="bottom-text">
@@ -295,18 +259,77 @@
     </div>
   </div>
 
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <script>
-    // 사이드바 열기
     function openSidebar() {
       document.getElementById('sidebar').style.display = 'flex';
       document.getElementById('overlay').style.display = 'block';
+      document.getElementById('main').classList.add('blurred');
     }
 
-    // 사이드바 닫기
     function closeSidebar() {
       document.getElementById('sidebar').style.display = 'none';
       document.getElementById('overlay').style.display = 'none';
+      document.getElementById('main').classList.remove('blurred');
     }
+
+    function openIframe(url) {
+      document.getElementById('iframeBox').classList.add('show');
+      document.getElementById('mapBox').classList.remove('full');
+      document.getElementById('mapBox').classList.add('half');
+      document.getElementById('infoFrame').src = url;
+    }
+
+    function closeIframe() {
+      document.getElementById('iframeBox').classList.remove('show');
+      document.getElementById('mapBox').classList.remove('half');
+      document.getElementById('mapBox').classList.add('full');
+      document.getElementById('infoFrame').src = '';
+    }
+
+    const map = L.map('map', { attributionControl: false }).setView([37.6487780, 127.0643529], 15);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      maxZoom: 19,
+      attribution: '&copy; OpenStreetMap contributors'
+    }).addTo(map);
+
+    function createLabelIcon(text) {
+      return L.divIcon({
+        className: 'label-icon',
+        html: text,
+        iconAnchor: [30, 0],
+        popupAnchor: [0, -30]
+      });
+    }
+
+    function addMarkerWithLabel(lat, lng, labelText, popupText, openPopup = false, detailPage = '') {
+      const marker = L.marker([lat, lng]).addTo(map);
+      if (popupText) {
+        marker.bindPopup(popupText);
+        if (openPopup) marker.openPopup();
+      }
+      if (detailPage) {
+        marker.on('click', () => openIframe(detailPage));
+      }
+      const label = L.marker([lat, lng], {
+        icon: createLabelIcon(labelText),
+        interactive: false,
+        keyboard: false
+      }).addTo(map);
+    }
+
+    addMarkerWithLabel(37.6487780, 127.0643529, '한국성서대학교', '한국성서대학교', true);
+    addMarkerWithLabel(37.6448907, 127.0642467, '중계역', '중계역');
+    addMarkerWithLabel(37.6562678, 127.0630304, '노원역', '노원역');
+    addMarkerWithLabel(37.6495520, 127.0622619, '권순옥김밥', '권순옥김밥<br/>서울 노원구 동일로 1354<br/>현금/계좌이체 시 10% 할인', false, 'Gwon_Soon_ok_Kim_Bap.html');
+
+    map.on('zoomend', () => {
+      const zoom = map.getZoom();
+      const newSize = 12 + (zoom - 15) * 1.8;
+      document.querySelectorAll('.label-icon').forEach(label => {
+        label.style.fontSize = newSize + 'px';
+      });
+    });
   </script>
 </body>
 </html>
