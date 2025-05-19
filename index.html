@@ -108,17 +108,26 @@
       line-height: 1.4;
     }
 
-    @media (max-width: 768px) {
+   @media (max-width: 768px) {
+  .main {
+    flex-direction: column;
+    padding: 2rem 1rem;
+    height: auto;
+    background-position: center top;
+  }
+
   .button-group {
     flex-direction: column;
-    gap: 20px;
+    gap: 24px;
     align-items: center;
+    width: 100%;
   }
 
   .circle-button {
     width: 140px;
     height: 140px;
-    font-size: 18px;
+    font-size: 16px;
+    padding: 0;
   }
 
   .circle-button svg {
@@ -126,12 +135,8 @@
     height: 36px;
     margin-bottom: 6px;
   }
-
-  .main {
-    padding: 20px;
-    height: auto;
-  }
 }
+
   </style>
 </head>
 <body>
