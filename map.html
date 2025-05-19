@@ -240,6 +240,29 @@
         height: 50%;
       }
     }
+
+@media (max-width: 768px) {
+  .main {
+    flex-direction: column;
+    padding: 0;
+  }
+
+  .map-box.full {
+    height: 50% !important;
+  }
+
+  .iframe-box.show {
+    height: 50%;
+    display: block;
+  }
+
+  .map-box.half {
+    display: none;
+  }
+}
+
+
+
   </style>
 </head>
 <body>
