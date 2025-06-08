@@ -8,16 +8,19 @@
 .image-wrapper {
   position: relative;
   width: 100%;
-  height: 200px;
+  height: 200px; 
   border-radius: 8px;
   overflow: hidden;
   background-color: #ccc;
 }
 
-.card img {
+
+ .card img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: cover;        
+  object-position: top;     
+  background-color: #eee;
   transition: filter 0.3s ease;
   display: block;
 }
@@ -79,13 +82,12 @@ padding-top: 0.8rem;
 }
 
 
-/* 기존 스타일 */
 body {
   margin: 0;
   font-family: 'Helvetica Neue', 'Apple SD Gothic Neo', 'Malgun Gothic', 'Noto Sans KR', Arial, sans-serif;
-  background-color: #a9a9a9;
   color: white;
   overflow-x: hidden;
+  background: linear-gradient(to bottom, #3f3f3f 30%, #d0d0d0 90%);
 }
 
 header {
@@ -206,14 +208,6 @@ main {
   align-items: center;
 }
 
-.card img {
-  width: 100%;
-  height: 160px;
-  object-fit: cover;
-  border-radius: 8px;
-  margin-bottom: 0.5rem;
-  background: #ccc;
-}
 
 .card h3 {
   margin: 0.5rem 0 0.2rem 0;
@@ -368,7 +362,7 @@ main {
       <div class="card-row">
         <div class="card">
   <div class="image-wrapper">
-    <img src="#" alt="권순옥김밥" />
+    <img src="https://raw.githubusercontent.com/sooah-125/map/main/img/kwon_sun_ok_gimbap.png" alt="권순옥김밥" />
     <div class="overlay">
       <div class="info-row"><span class="label">도로명:</span><span class="value">서울 노원구 동일로 1354 명석빌딩 1층</span></div>
       <div class="info-row"><span class="label">영업시간:</span><span class="value">06:30~20:30</span></div>
@@ -395,7 +389,7 @@ main {
     
     <div class="card">
   <div class="image-wrapper">
-    <img src="https://raw.githubusercontent.com/sooah-125/map/main/img/노원수제비.png" alt="노원수제비" />
+    <img src="https://raw.githubusercontent.com/sooah-125/map/main/img/nowon_sujebi.png" alt="노원수제비" />
     <div class="overlay">
       <div class="info-row"><span class="label">도로명:</span><span class="value">서울 노원구 동일로 1354</span></div>
       <div class="info-row"><span class="label">영업시간:</span><span class="value">11:00~22:00</span></div>
@@ -409,7 +403,7 @@ main {
 
 <div class="card">
   <div class="image-wrapper">
-    <img src="#" alt="니뽕내뽕 노원역점" />
+    <img src="https://raw.githubusercontent.com/sooah-125/map/main/img/nipong_naepong_nowon.png" alt="니뽕내뽕 노원역점" />
     <div class="overlay">
       <div class="info-row"><span class="label">도로명:</span><span class="value">서울 노원구 상계로 76, 2층</span></div>
       <div class="info-row"><span class="label">영업시간:</span><span class="value">11:30~21:00/14:40~16:30 브레이크 (수요일 정기휴무)</span></div>
@@ -421,6 +415,26 @@ main {
   <p>중식</p>
 </div>
 
+
+
+<div class="card">
+  <div class="image-wrapper">
+    <img src="https://raw.githubusercontent.com/sooah-125/map/main/img/nowon_korokke.png" alt="노원고로케" />
+    <div class="overlay">
+      <div class="info-row"><span class="label">도로명:</span><span class="value">서울 노원구 동일로 1354, 108호</span></div>
+      <div class="info-row"><span class="label">영업시간:</span><span class="value">12:00~19:00 (일요일 정기휴무/재료 소진 시 영업종료)</span></div>
+      <div class="info-row"><span class="label">전화번호:</span><span class="value">02-935-7482</span></div>
+      <div class="info-row"><span class="label">제휴혜택:</span><span class="value">10개 구매 시 1개 추가 증정</span></div>
+    </div>
+  </div>
+  <h3>노원고로케</h3>
+  <p>고로케</p>
+</div>
+
+
+
+
+</div>
   </div>
 </section>
 
@@ -460,7 +474,7 @@ main {
   <div class="card-row">
    <div class="card">
   <div class="image-wrapper">
-    <img src="#" alt="롯데리아 노원역점" />
+    <img src="https://raw.githubusercontent.com/sooah-125/map/main/img/lotteria_nowon.png" alt="롯데리아 노원역점" />
     <div class="overlay">
       <div class="info-row"><span class="label">도로명:</span><span class="value">서울 노원구 상계로 64</span></div>
       <div class="info-row"><span class="label">영업시간:</span><span class="value">24시간 영업</span></div>
@@ -481,7 +495,7 @@ main {
   <div class="card-row">
    <div class="card">
   <div class="image-wrapper">
-    <img src="#" alt="명랑핫도그" />
+    <img src="https://raw.githubusercontent.com/sooah-125/map/main/img/myeongrang_hotdog.png" alt="명랑핫도그" />
     <div class="overlay">
       <div class="info-row"><span class="label">도로명:</span><span class="value">서울 노원구 동일로 1393</span></div>
       <div class="info-row"><span class="label">영업시간:</span><span class="value">11:00~22:10 (화요일 정기 휴무)</span></div>
@@ -495,7 +509,7 @@ main {
 
 <div class="card">
   <div class="image-wrapper">
-    <img src="#" alt="밀알생돈까스" />
+    <img src="https://raw.githubusercontent.com/sooah-125/map/main/img/milal_pork_cutlet.png" alt="밀알생돈까스" />
     <div class="overlay">
       <div class="info-row"><span class="label">도로명:</span><span class="value">서울 노원구 동일로 1356<br>상계동 213호</span></div>
       <div class="info-row"><span class="label">영업시간:</span><span class="value">11:00~20:30 (토요일 20:00까지 / 일요일 정기휴무)</span></div>
@@ -579,7 +593,7 @@ main {
   <!-- 수유리우동집 상계백병원점 -->
     <div class="card">
       <div class="image-wrapper">
-        <img src="#" alt="수유리우동집 상계백병원점" />
+        <img src="https://raw.githubusercontent.com/sooah-125/map/main/img/suyuri_noodle_house.png" alt="수유리우동집 상계백병원점" />
         <div class="overlay">
           <div class="info-row"><span class="label">도로명:</span><span class="value">서울 노원구 동일로 1361</span></div>
           <div class="info-row"><span class="label">영업시간:</span><span class="value">10:30~22:00 <br>(일요일 정기휴무)</span></div>
@@ -588,7 +602,7 @@ main {
         </div>
       </div>
       <h3>수유리우동집 상계백병원점</h3>
-      <p>우동, 소바</p>
+      <p>우동</p>
     </div>
 
 
@@ -596,7 +610,7 @@ main {
 <!-- 슈엔차이 상계점 -->
     <div class="card">
       <div class="image-wrapper">
-        <img src="#" alt="슈엔차이 상계점" />
+        <img src="https://raw.githubusercontent.com/sooah-125/map/main/img/	xuanchai.png" alt="슈엔차이 상계점" />
         <div class="overlay">
           <div class="info-row"><span class="label">도로명:</span><span class="value">서울 노원구 동일로 1335 대원빌딩 2층</span></div>
           <div class="info-row"><span class="label">영업시간:</span><span class="value">11:30~21:00/15:00~16:30 브레이크 (주말은 브레이크X)</span></div>
@@ -627,7 +641,7 @@ main {
 <!-- 신화쭈꾸미 노원본점 -->
     <div class="card">
       <div class="image-wrapper">
-        <img src="#" alt="신화쭈꾸미 노원본점" />
+        <img src="https://raw.githubusercontent.com/sooah-125/map/main/img/sinhwa_jjukkumi.png" alt="신화쭈꾸미 노원본점" />
         <div class="overlay">
           <div class="info-row"><span class="label">도로명:</span><span class="value">서울 노원구 동일로 1361, <br>201동 상가 1층</span></div>
           <div class="info-row"><span class="label">영업시간:</span><span class="value">11:30~23:00</span></div>
@@ -657,7 +671,7 @@ main {
     <!-- 영성식당 -->
     <div class="card">
       <div class="image-wrapper">
-        <img src="#" alt="영성식당" />
+        <img src="https://raw.githubusercontent.com/sooah-125/map/main/img/yeongseong_sikdang.png" alt="영성식당" />
         <div class="overlay">
           <div class="info-row"><span class="label">도로명:</span><span class="value">서울 노원구 동일로 1343</span></div>
           <div class="info-row"><span class="label">영업시간:</span><span class="value">11:00~22:00</span></div>
@@ -667,7 +681,6 @@ main {
       </div>
       <h3>영성식당</h3>
       <p>백반</p>
-      <p></p>
     </div>
 
     </div>
@@ -680,7 +693,7 @@ main {
      <!-- 죽이야기 -->
     <div class="card">
       <div class="image-wrapper">
-        <img src="#" alt="죽이야기" />
+        <img src="https://raw.githubusercontent.com/sooah-125/map/main/img/juk_story.png" alt="죽이야기" />
         <div class="overlay">
           <div class="info-row"><span class="label">도로명:</span><span class="value">서울 노원구 동일로 1354 명석빌딩</span></div>
           <div class="info-row"><span class="label">영업시간:</span><span class="value">08:00~20:00</span></div>
@@ -718,7 +731,7 @@ main {
     <!-- 치히로 노원점 -->
     <div class="card">
       <div class="image-wrapper">
-        <img src="#" alt="치히로 노원점" />
+        <img src="https://raw.githubusercontent.com/sooah-125/map/main/img/chihiro_nowon.png" alt="치히로 노원점" />
         <div class="overlay">
           <div class="info-row"><span class="label">도로명:</span><span class="value">서울 노원구 상계로 76, 2층</span></div>
           <div class="info-row"><span class="label">영업시간:</span><span class="value">11:00~22:00/15:00~16:30 브레이크(주말은 브레이크X)</span></div>
@@ -739,7 +752,7 @@ main {
    <!-- 컴포즈커피 상계백병원점 -->
     <div class="card">
       <div class="image-wrapper">
-        <img src="#" alt="컴포즈커피 상계백병원점" />
+        <img src="https://raw.githubusercontent.com/sooah-125/map/main/img/compose_coffee.png" alt="컴포즈커피 상계백병원점" />
         <div class="overlay">
           <div class="info-row"><span class="label">도로명:</span><span class="value">서울 노원구 동일로 1350</span></div>
           <div class="info-row"><span class="label">영업시간:</span><span class="value">08:00~22:30</span></div>
@@ -825,7 +838,7 @@ main {
     <!-- 흥부솥뚜껑 생삼겹살 노원본점 -->
     <div class="card">
       <div class="image-wrapper">
-        <img src="#" alt="흥부솥뚜껑 생삼겹살 노원본점" />
+        <img src="https://raw.githubusercontent.com/sooah-125/map/main/img/heungbu_sot_samgyeopsal.png" alt="흥부솥뚜껑 생삼겹살 노원본점" />
         <div class="overlay">
           <div class="info-row"><span class="label">도로명:</span><span class="value">서울 노원구 동일로 1353</span></div>
           <div class="info-row"><span class="label">영업시간:</span><span class="value">16:00 ~ 23:00</span></div>
@@ -962,3 +975,4 @@ auth.onAuthStateChanged(user => {
 
 </body>
 </html>
+
