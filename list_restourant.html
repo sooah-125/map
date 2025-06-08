@@ -1,0 +1,964 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>성서제휴맵</title>
+  <style>
+.image-wrapper {
+  position: relative;
+  width: 100%;
+  height: 200px;
+  border-radius: 8px;
+  overflow: hidden;
+  background-color: #ccc;
+}
+
+.card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: filter 0.3s ease;
+  display: block;
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.75); /* 어두운 배경으로 가독성 ↑ */
+  color: white;
+  border-radius: 8px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: stretch;
+  text-align: left;
+   padding: 0.8rem 1rem 0.6rem 0.7rem;
+padding-top: 0.8rem; 
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.card:hover .image-wrapper img {
+  filter: blur(2px);
+}
+
+.card:hover .overlay {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.info-row {
+  display: flex;
+  flex-wrap: nowrap; /* 줄바꿈 방지 */
+  align-items: flex-start; /* 위쪽 정렬 */
+  gap: 0.1rem;
+  margin-bottom: 0.15rem;
+  line-height: 1.3;
+  word-break: keep-all;
+  width: 100%;
+}
+
+.label {
+  flex: 0 0 55px; /* 고정 너비 정확히 */
+  font-weight: bold;
+  color: #fff;
+  text-align: left;
+}
+
+.value {
+  flex: 1;
+  color: #eee;
+  text-align: left;
+  min-width: 0; /* flex 줄바꿈 정리 */
+}
+
+
+/* 기존 스타일 */
+body {
+  margin: 0;
+  font-family: 'Helvetica Neue', 'Apple SD Gothic Neo', 'Malgun Gothic', 'Noto Sans KR', Arial, sans-serif;
+  background-color: #a9a9a9;
+  color: white;
+  overflow-x: hidden;
+}
+
+header {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 1.5rem;
+  background-color: transparent;
+  z-index: 1000;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.school-name {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: white;
+  flex-shrink: 0;
+}
+
+.nav-buttons {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+
+.nav-buttons::-webkit-scrollbar {
+  display: none;
+}
+
+.nav-buttons button {
+  background: transparent;
+  border: none;
+  color: white;
+  font-size: 1rem;
+  cursor: pointer;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.nav-buttons .signup {
+  border: 1px solid white;
+  border-radius: 5px;
+  padding: 0.3rem 0.8rem;
+}
+
+main {
+  padding-top: 120px;
+  background: linear-gradient(to bottom, #3f3f3f 30%, #d0d0d0 90%);
+}
+
+.main-title {
+  text-align: center;
+  font-size: 3rem;
+  margin-bottom: 0.5rem;
+  color: white;
+}
+
+.subtitle {
+  text-align: center;
+  font-size: 1rem;
+  margin-bottom: 2rem;
+  color: white;
+}
+
+.initial-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-bottom: 3rem;
+}
+
+.initial-buttons a {
+  color: white;
+  text-decoration: none;
+  border: 1px solid white;
+  padding: 0.3rem 0.8rem;
+  border-radius: 8px;
+  font-size: 1rem;
+  background-color: transparent;
+  cursor: pointer;
+}
+
+.initial-section {
+  margin: 4rem auto;
+  max-width: 1300px;
+  padding: 0 1rem;
+}
+
+.initial-section h2 {
+  font-size: 2rem;
+  border-bottom: 2px solid white;
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+}
+
+.card-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 2rem;
+}
+
+.card {
+  background-color: white;
+  color: black;
+  border-radius: 10px;
+  padding: 1rem;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.card img {
+  width: 100%;
+  height: 160px;
+  object-fit: cover;
+  border-radius: 8px;
+  margin-bottom: 0.5rem;
+  background: #ccc;
+}
+
+.card h3 {
+  margin: 0.5rem 0 0.2rem 0;
+}
+
+.card p {
+  margin: 0.2rem 0;
+}
+
+.card button {
+  margin-top: 0.5rem;
+  background-color: #333;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.card button:disabled {
+  background-color: #777;
+  cursor: default;
+}
+
+/* 사이드바 */
+#side-nav {
+  position: fixed;
+  top: 0;
+  right: -280px;
+  width: 280px;
+  height: 100vh;
+  background-color: #000;
+  color: white;
+  box-shadow: -4px 0 8px rgba(0,0,0,0.7);
+  transition: right 0.3s ease;
+  z-index: 1500;
+  display: flex;
+  flex-direction: column;
+  padding: 2rem 1.5rem;
+  box-sizing: border-box;
+}
+
+#side-nav.open {
+  right: 0;
+}
+
+#side-nav button.close-btn {
+  align-self: flex-end;
+  background: transparent;
+  border: none;
+  color: white;
+  font-size: 1.8rem;
+  cursor: pointer;
+  margin-bottom: 2rem;
+}
+
+#side-nav nav ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+#side-nav nav ul li button,
+#side-nav nav ul li a {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 1.1rem;
+  cursor: pointer;
+  text-align: left;
+  width: 100%;
+  padding: 0;
+  display: block;
+  text-decoration: none;
+}
+
+#side-nav nav ul li button {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+#side-nav nav ul li ul {
+  display: none;
+  flex-direction: column;
+  padding-left: 1rem;
+  margin-top: 1rem;
+  list-style-type: none;
+}
+
+#side-nav nav ul li ul li a {
+  font-size: 1rem;
+  padding: 0rem 0;
+  color: white;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+#side-nav nav ul li ul li a:hover {
+  text-decoration: underline;
+}
+
+#overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 1200;
+  background: rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  display: none;
+}
+
+#overlay.active {
+  display: block;
+}
+</style>
+
+</head>
+<body>
+  <header>
+    <div class="school-name">한국성서대학교</div>
+    <div class="nav-buttons">
+      <button>HOME</button>
+      <button>지도</button>
+      <button>리스트</button>
+      <button>외부업체</button>
+      <button id="hamburger-btn">☰</button>
+      <button class="signup">Sign Up</button>
+    </div>
+  </header>
+
+  <!-- 👇 기존 list.html의 전체 main 내용 붙여넣기 -->
+  <main>
+    <div class="main-title">성서제휴맵</div>
+    <div class="subtitle">성서인만을 위한 지도기반 제휴관련 서비스</div>
+
+    <div class="initial-buttons">
+      <a href="#ㄱ">ㄱ</a><a href="#ㄴ">ㄴ</a><a href="#ㄷ">ㄷ</a><a href="#ㄹ">ㄹ</a><a href="#ㅁ">ㅁ</a>
+      <a href="#ㅂ">ㅂ</a><a href="#ㅅ">ㅅ</a><a href="#ㅇ">ㅇ</a><a href="#ㅈ">ㅈ</a><a href="#ㅊ">ㅊ</a>
+      <a href="#ㅋ">ㅋ</a><a href="#ㅌ">ㅌ</a><a href="#ㅍ">ㅍ</a><a href="#ㅎ">ㅎ</a>
+    </div>
+
+    <!-- ㄱ -->
+    <section id="ㄱ" class="initial-section">
+      <h2>ㄱ</h2>
+      <div class="card-row">
+        <div class="card">
+  <div class="image-wrapper">
+    <img src="#" alt="권순옥김밥" />
+    <div class="overlay">
+      <div class="info-row"><span class="label">도로명:</span><span class="value">서울 노원구 동일로 1354 명석빌딩 1층</span></div>
+      <div class="info-row"><span class="label">영업시간:</span><span class="value">06:30~20:30</span></div>
+      <div class="info-row"><span class="label">전화번호:</span><span class="value">02-935-5260</span></div>
+      <div class="info-row"><span class="label">제휴혜택:</span><span class="value">현금/계좌이체 시 10% 할인</span></div>
+    </div>
+  </div>
+  <h3>권순옥김밥</h3>
+  <p>한식</p>
+</div>
+
+
+
+          
+        </div>
+      </div>
+    </section>
+
+    <!-- ㄴ -->
+    <section id="ㄴ" class="initial-section">
+  <h2>ㄴ</h2>
+  <div class="card-row">
+    
+    
+    <div class="card">
+  <div class="image-wrapper">
+    <img src="https://raw.githubusercontent.com/sooah-125/map/main/img/노원수제비.png" alt="노원수제비" />
+    <div class="overlay">
+      <div class="info-row"><span class="label">도로명:</span><span class="value">서울 노원구 동일로 1354</span></div>
+      <div class="info-row"><span class="label">영업시간:</span><span class="value">11:00~22:00</span></div>
+      <div class="info-row"><span class="label">전화번호:</span><span class="value">02-932-4948</span></div>
+      <div class="info-row"><span class="label">제휴혜택:</span><span class="value">현금/계좌이체 결제 시 500원 할인</span></div>
+    </div>
+  </div>
+  <h3>노원수제비</h3>
+  <p>한식</p>
+</div>
+
+<div class="card">
+  <div class="image-wrapper">
+    <img src="#" alt="니뽕내뽕 노원역점" />
+    <div class="overlay">
+      <div class="info-row"><span class="label">도로명:</span><span class="value">서울 노원구 상계로 76, 2층</span></div>
+      <div class="info-row"><span class="label">영업시간:</span><span class="value">11:30~21:00/14:40~16:30 브레이크 (수요일 정기휴무)</span></div>
+      <div class="info-row"><span class="label">전화번호:</span><span class="value">0507-1301-7463</span></div>
+      <div class="info-row"><span class="label">제휴혜택:</span><span class="value">짬뽕 주문 시 탄산음료 제공<br>(세트 주문 시 에이드로 업그레이드)</span></div>
+    </div>
+  </div>
+  <h3>니뽕내뽕 노원역점</h3>
+  <p>중식</p>
+</div>
+
+  </div>
+</section>
+
+
+
+
+
+
+
+
+
+
+
+
+    <!-- 이후 ㄷ ~ ㅎ 섹션들 동일하게 유지 (생략) -->
+  <section id="ㄷ" class="initial-section">
+  <h2>ㄷ</h2>
+  <div class="card-row">
+    <div class="card">
+      <div class="image-wrapper"><img src="#" alt="준비중" />
+        <div class="overlay">
+          <div class="info-row"><span class="label">도로명:</span><span class="value">서울 노원구 동일로 1354</span></div>
+          <div class="info-row"><span class="label">영업시간:</span><span class="value">06:30~20:30</span></div>
+          <div class="info-row"><span class="label">전화번호:</span><span class="value">02-935-5260</span></div>
+          <div class="info-row"><span class="label">제휴혜택:</span><span class="value">현금/계좌이체 시 10% 할인</span></div>
+        </div>
+    </div>
+      <h3>준비중입니다</h3>
+      <p>제휴 정보 없음</p>
+      
+    </div>
+  </div>
+</section>
+
+<section id="ㄹ" class="initial-section">
+  <h2>ㄹ</h2>
+  <div class="card-row">
+   <div class="card">
+  <div class="image-wrapper">
+    <img src="#" alt="롯데리아 노원역점" />
+    <div class="overlay">
+      <div class="info-row"><span class="label">도로명:</span><span class="value">서울 노원구 상계로 64</span></div>
+      <div class="info-row"><span class="label">영업시간:</span><span class="value">24시간 영업</span></div>
+      <div class="info-row"><span class="label">전화번호:</span><span class="value">02-932-1756</span></div>
+      <div class="info-row"><span class="label">제휴혜택:</span><span class="value">세트 4종(불고기, 새우, <br>크리스피, 데리버거 10% 할인)</span></div>
+    </div>
+  </div>
+  <h3>롯데리아 노원역점</h3>
+  <p>햄버거</p>
+</div>
+      
+    </div>
+  </div>
+</section>
+
+<section id="ㅁ" class="initial-section">
+  <h2>ㅁ</h2>
+  <div class="card-row">
+   <div class="card">
+  <div class="image-wrapper">
+    <img src="#" alt="명랑핫도그" />
+    <div class="overlay">
+      <div class="info-row"><span class="label">도로명:</span><span class="value">서울 노원구 동일로 1393</span></div>
+      <div class="info-row"><span class="label">영업시간:</span><span class="value">11:00~22:10 (화요일 정기 휴무)</span></div>
+      <div class="info-row"><span class="label">전화번호:</span><span class="value">02-932-5122</span></div>
+      <div class="info-row"><span class="label">제휴혜택:</span><span class="value">10,000원 이상 구매 시 미닛메이드 1개 or <br>생수 1개 제공</span></div>
+    </div>
+  </div>
+  <h3>명랑핫도그</h3>
+  <p>핫도그</p>
+</div>
+
+<div class="card">
+  <div class="image-wrapper">
+    <img src="#" alt="밀알생돈까스" />
+    <div class="overlay">
+      <div class="info-row"><span class="label">도로명:</span><span class="value">서울 노원구 동일로 1356<br>상계동 213호</span></div>
+      <div class="info-row"><span class="label">영업시간:</span><span class="value">11:00~20:30 (토요일 20:00까지 / 일요일 정기휴무)</span></div>
+      <div class="info-row"><span class="label">전화번호:</span><span class="value">0507-1401-5430</span></div>
+      <div class="info-row"><span class="label">제휴혜택:</span><span class="value">8,500원 이상 결제 시 500원 할인</span></div>
+    </div>
+  </div>
+  <h3>밀알생돈까스</h3>
+  <p>돈까스</p>
+</div>
+
+  </div>
+</section>
+
+<section id="ㅂ" class="initial-section">
+  <h2>ㅂ</h2>
+  <div class="card-row">
+  <div class="card">
+  
+  
+  
+  <div class="image-wrapper">
+    <img src="#" alt="별학골명품소머리국밥" />
+    <div class="overlay">
+      <div class="info-row"><span class="label">도로명:</span><span class="value">서울 노원구 동일로 1362</span></div>
+      <div class="info-row"><span class="label">영업시간:</span><span class="value">10:00~23:00</span></div>
+      <div class="info-row"><span class="label">전화번호:</span><span class="value">02-939-0707</span></div>
+      <div class="info-row"><span class="label">제휴혜택:</span><span class="value">현금/계좌이체 시 500원 할인</span></div>
+    </div>
+  </div>
+  <h3>별학골명품소머리국밥</h3>
+  <p>국밥</p>
+</div>
+  
+  
+  
+  
+  
+  
+  
+  </div>
+</section>
+
+<section id="ㅅ" class="initial-section">
+  <h2>ㅅ</h2>
+  <div class="card-row">
+    
+    <!-- 시장풍경 국시집 -->
+    <div class="card">
+      <div class="image-wrapper">
+        <img src="#" alt="시장풍경 국시집" />
+        <div class="overlay">
+          <div class="info-row"><span class="label">도로명:</span><span class="value">서울 노원구 동일로 1362</span></div>
+          <div class="info-row"><span class="label">영업시간:</span><span class="value">11:30~20:00<br>/15:00~16:30 브레이크<br> (주말은 11:30~15:00)</span></div>
+          <div class="info-row"><span class="label">전화번호:</span><span class="value">02-935-2469</span></div>
+          <div class="info-row"><span class="label">제휴혜택:</span><span class="value">닭, 멸치 국시, 냉모밀 양 1.5배 제공</span></div>
+        </div>
+      </div>
+      <h3>시장풍경 국시집</h3>
+      <p>국수</p>
+    </div>
+
+
+
+<!-- 샐러디 노원역점 -->
+    <div class="card">
+      <div class="image-wrapper">
+        <img src="#" alt="샐러디 노원역점" />
+        <div class="overlay">
+          <div class="info-row"><span class="label">도로명:</span><span class="value">서울 노원구 노해로 501,<br> 104호</span></div>
+          <div class="info-row"><span class="label">영업시간:</span><span class="value">10:00 ~ 21:00 (모든 공휴일 정상영업)</span></div>
+          <div class="info-row"><span class="label">전화번호:</span><span class="value">0507-1362-3286</span></div>
+          <div class="info-row"><span class="label">제휴혜택:</span><span class="value">매장 이용 시 10% 할인</span></div>
+        </div>
+      </div>
+      <h3>샐러디 노원역점</h3>
+      <p>샐러드</p>
+    </div>
+
+
+  <!-- 수유리우동집 상계백병원점 -->
+    <div class="card">
+      <div class="image-wrapper">
+        <img src="#" alt="수유리우동집 상계백병원점" />
+        <div class="overlay">
+          <div class="info-row"><span class="label">도로명:</span><span class="value">서울 노원구 동일로 1361</span></div>
+          <div class="info-row"><span class="label">영업시간:</span><span class="value">10:30~22:00 <br>(일요일 정기휴무)</span></div>
+          <div class="info-row"><span class="label">전화번호:</span><span class="value">02-930-9485</span></div>
+          <div class="info-row"><span class="label">제휴혜택:</span><span class="value">1인당 면류 하나 이상 주문 시 우동면, 잔치면 곱빼기 제공</span></div>
+        </div>
+      </div>
+      <h3>수유리우동집 상계백병원점</h3>
+      <p>우동, 소바</p>
+    </div>
+
+
+
+<!-- 슈엔차이 상계점 -->
+    <div class="card">
+      <div class="image-wrapper">
+        <img src="#" alt="슈엔차이 상계점" />
+        <div class="overlay">
+          <div class="info-row"><span class="label">도로명:</span><span class="value">서울 노원구 동일로 1335 대원빌딩 2층</span></div>
+          <div class="info-row"><span class="label">영업시간:</span><span class="value">11:30~21:00/15:00~16:30 브레이크 (주말은 브레이크X)</span></div>
+          <div class="info-row"><span class="label">전화번호:</span><span class="value">02-933-3345</span></div>
+          <div class="info-row"><span class="label">제휴혜택:</span><span class="value">현금/계좌이체 시 식사 메뉴당 500원 할인 / 요리류 1,000원 할인</span></div>
+        </div>
+      </div>
+      <h3>슈엔차이 상계점</h3>
+      <p>중식</p>
+    </div>
+
+ <!-- 신미방마라탕 노원점 -->
+    <div class="card">
+      <div class="image-wrapper">
+        <img src="#" alt="신미방마라탕 노원점" />
+        <div class="overlay">
+          <div class="info-row"><span class="label">도로명:</span><span class="value">서울 노원구 상계로64, 1층 2호</span></div>
+          <div class="info-row"><span class="label">영업시간:</span><span class="value">10:40~22:40 (금, 토, 일은 10:40~23:55)</span></div>
+          <div class="info-row"><span class="label">전화번호:</span><span class="value">070-7576-1883</span></div>
+          <div class="info-row"><span class="label">제휴혜택:</span><span class="value">캔음료 1캔 or 꼬치류 2개 증정</span></div>
+        </div>
+      </div>
+      <h3>신미방마라탕 노원점</h3>
+      <p>마라탕</p>
+    </div>
+
+
+<!-- 신화쭈꾸미 노원본점 -->
+    <div class="card">
+      <div class="image-wrapper">
+        <img src="#" alt="신화쭈꾸미 노원본점" />
+        <div class="overlay">
+          <div class="info-row"><span class="label">도로명:</span><span class="value">서울 노원구 동일로 1361, <br>201동 상가 1층</span></div>
+          <div class="info-row"><span class="label">영업시간:</span><span class="value">11:30~23:00</span></div>
+          <div class="info-row"><span class="label">전화번호:</span><span class="value">0507-1438-8956</span></div>
+          <div class="info-row"><span class="label">제휴혜택:</span><span class="value">1인당 1,000원 할인(철판요리)</span></div>
+        </div>
+      </div>
+      <h3>신화쭈꾸미 노원본점</h3>
+      <p>주꾸미요리</p>
+    </div>
+
+
+
+
+
+
+
+      
+    </div>
+  </div>
+</section>
+
+<section id="ㅇ" class="initial-section">
+  <h2>ㅇ</h2>
+  <div class="card-row">
+    
+    <!-- 영성식당 -->
+    <div class="card">
+      <div class="image-wrapper">
+        <img src="#" alt="영성식당" />
+        <div class="overlay">
+          <div class="info-row"><span class="label">도로명:</span><span class="value">서울 노원구 동일로 1343</span></div>
+          <div class="info-row"><span class="label">영업시간:</span><span class="value">11:00~22:00</span></div>
+          <div class="info-row"><span class="label">전화번호:</span><span class="value">02-931-6837</span></div>
+          <div class="info-row"><span class="label">제휴혜택:</span><span class="value">테이블당 캔음료 1개 or 계란찜 제공 (가게 내부 혼잡할 경우 계란찜 제공 불가할 수 있음)</span></div>
+        </div>
+      </div>
+      <h3>영성식당</h3>
+      <p>백반</p>
+      <p></p>
+    </div>
+
+    </div>
+  </div>
+</section>
+
+<section id="ㅈ" class="initial-section">
+  <h2>ㅈ</h2>
+  <div class="card-row">
+     <!-- 죽이야기 -->
+    <div class="card">
+      <div class="image-wrapper">
+        <img src="#" alt="죽이야기" />
+        <div class="overlay">
+          <div class="info-row"><span class="label">도로명:</span><span class="value">서울 노원구 동일로 1354 명석빌딩</span></div>
+          <div class="info-row"><span class="label">영업시간:</span><span class="value">08:00~20:00</span></div>
+          <div class="info-row"><span class="label">전화번호:</span><span class="value">02-952-6666</span></div>
+          <div class="info-row"><span class="label">제휴혜택:</span><span class="value">현금/계좌이체 시 500원 할인</span></div>
+        </div>
+      </div>
+      <h3>죽이야기</h3>
+      <p>죽</p>
+    </div>
+
+    <!-- 쩝스버거 -->
+    <div class="card">
+      <div class="image-wrapper">
+        <img src="#" alt="쩝스버거" />
+        <div class="overlay">
+          <div class="info-row"><span class="label">도로명:</span><span class="value">서울 노원구 상계로 91, 1층 102호</span></div>
+          <div class="info-row"><span class="label">영업시간:</span><span class="value">11:30- 21:00/15:00~16:30 브레이크(일요일 정기휴무)</span></div>
+          <div class="info-row"><span class="label">전화번호:</span><span class="value">0507-1395-9075</span></div>
+          <div class="info-row"><span class="label">제휴혜택:</span><span class="value">10,000원 이상 구매 시<br>5% 할인</span></div>
+        </div>
+      </div>
+      <h3>쩝스버거</h3>
+      <p>햄버거</p>
+    </div>
+      
+    </div>
+  </div>
+</section>
+
+<section id="ㅊ" class="initial-section">
+  <h2>ㅊ</h2>
+  <div class="card-row">
+   
+    <!-- 치히로 노원점 -->
+    <div class="card">
+      <div class="image-wrapper">
+        <img src="#" alt="치히로 노원점" />
+        <div class="overlay">
+          <div class="info-row"><span class="label">도로명:</span><span class="value">서울 노원구 상계로 76, 2층</span></div>
+          <div class="info-row"><span class="label">영업시간:</span><span class="value">11:00~22:00/15:00~16:30 브레이크(주말은 브레이크X)</span></div>
+          <div class="info-row"><span class="label">전화번호:</span><span class="value">0507-1387-5968</span></div>
+          <div class="info-row"><span class="label">제휴혜택:</span><span class="value">인원수 대로 메뉴 주문시 김치나베돈까스 제공</span></div>
+        </div>
+      </div>
+      <h3>치히로 노원점</h3>
+      <p>일식</p>
+    </div>
+    </div>
+  </div>
+</section>
+
+<section id="ㅋ" class="initial-section">
+  <h2>ㅋ</h2>
+  <div class="card-row">
+   <!-- 컴포즈커피 상계백병원점 -->
+    <div class="card">
+      <div class="image-wrapper">
+        <img src="#" alt="컴포즈커피 상계백병원점" />
+        <div class="overlay">
+          <div class="info-row"><span class="label">도로명:</span><span class="value">서울 노원구 동일로 1350</span></div>
+          <div class="info-row"><span class="label">영업시간:</span><span class="value">08:00~22:30</span></div>
+          <div class="info-row"><span class="label">전화번호:</span><span class="value">02-952-1656</span></div>
+          <div class="info-row"><span class="label">제휴혜택:</span><span class="value">현금/계좌이체 시 10% 할인 (중복적립X, 사이드 메뉴X)</span></div>
+        </div>
+      </div>
+      <h3>컴포즈커피 상계백병원점</h3>
+      <p>커피</p>
+    </div>
+
+      
+    </div>
+  </div>
+</section>
+
+<section id="ㅌ" class="initial-section">
+  <h2>ㅌ</h2>
+  <div class="card-row">
+    <div class="card">
+      <div class="image-wrapper"><img src="#" alt="준비중" />
+        <div class="overlay">
+          <div class="info-row"><span class="label">도로명:</span><span class="value">서울 노원구 동일로 1354</span></div>
+          <div class="info-row"><span class="label">영업시간:</span><span class="value">06:30~20:30</span></div>
+          <div class="info-row"><span class="label">전화번호:</span><span class="value">02-935-5260</span></div>
+          <div class="info-row"><span class="label">제휴혜택:</span><span class="value">현금/계좌이체 시 10% 할인</span></div>
+        </div>
+    </div>
+      <h3>준비중입니다</h3>
+      <p>제휴 정보 없음</p>
+      
+    </div>
+  </div>
+</section>
+
+<section id="ㅍ" class="initial-section">
+  <h2>ㅍ</h2>
+  <div class="card-row">
+    <div class="card">
+       <!-- 포메인 노원점 -->
+    
+      <div class="image-wrapper">
+        <img src="#" alt="포메인 노원점" />
+        <div class="overlay">
+          <div class="info-row"><span class="label">도로명:</span><span class="value">서울 노원구 노해로77길 14-3</span></div>
+          <div class="info-row"><span class="label">영업시간:</span><span class="value">11:00~22:00</span></div>
+          <div class="info-row"><span class="label">전화번호:</span><span class="value">02-3391-3649</span></div>
+          <div class="info-row"><span class="label">제휴혜택:</span><span class="value">인당 음료 제공</span></div>
+        </div>
+      </div>
+      <h3>포메인 노원점</h3>
+      <p>베트남 음식</p>
+    </div>
+      
+
+<!-- 피자스쿨 노원점 -->
+    <div class="card">
+      <div class="image-wrapper">
+        <img src="#" alt="피자스쿨 노원점" />
+        <div class="overlay">
+          <div class="info-row"><span class="label">도로명:</span><span class="value">서울 노원구 동일로 1390</span></div>
+          <div class="info-row"><span class="label">영업시간:</span><span class="value">11:00~23:00</span></div>
+          <div class="info-row"><span class="label">전화번호:</span><span class="value">02-936-3339</span></div>
+          <div class="info-row"><span class="label">제휴혜택:</span><span class="value">모든 피자 500원 할인</span></div>
+        </div>
+      </div>
+      <h3>피자스쿨 노원점</h3>
+      <p>피자</p>
+    </div>
+
+
+
+
+
+
+    </div>
+  </div>
+</section>
+
+<section id="ㅎ" class="initial-section">
+  <h2>ㅎ</h2>
+  <div class="card-row">
+    <!-- 흥부솥뚜껑 생삼겹살 노원본점 -->
+    <div class="card">
+      <div class="image-wrapper">
+        <img src="#" alt="흥부솥뚜껑 생삼겹살 노원본점" />
+        <div class="overlay">
+          <div class="info-row"><span class="label">도로명:</span><span class="value">서울 노원구 동일로 1353</span></div>
+          <div class="info-row"><span class="label">영업시간:</span><span class="value">16:00 ~ 23:00</span></div>
+          <div class="info-row"><span class="label">전화번호:</span><span class="value">0507-1352-6584</span></div>
+          <div class="info-row"><span class="label">제휴혜택:</span><span class="value">학생증 제시 시<br>1인분당 1,000원 할인</span></div>
+        </div>
+      </div>
+      <h3>흥부솥뚜껑 생삼겹살 노원본점</h3>
+      <p>삼겹살</p>
+    </div>
+      
+    </div>
+  </div>
+</section>
+
+
+<aside id="side-nav" aria-label="사이드 내비게이션">
+  <button class="close-btn" aria-label="사이드 내비 닫기">&times;</button>
+  <nav>
+    <ul>
+      <li><a href="#">지도로 보기</a></li>
+      <li>
+        <button id="side-list-btn" aria-expanded="false" aria-controls="side-list-submenu">
+          리스트로 보기 ⏷
+        </button>
+        <ul id="side-list-submenu" aria-label="리스트 하위메뉴">
+          <li><a href="#">식당 제휴</a></li>
+          <li><a href="#">여가 제휴</a></li>
+        </ul>
+      </li>
+      <li><a href="#">외부 제휴</a></li>
+      <li><a href="#">사이트맵</a></li>
+    </ul>
+  </nav>
+</aside>
+<div id="overlay"></div>
+
+<script>
+  const hamburgerBtn = document.querySelector(".nav-buttons button[id='hamburger-btn']") || document.querySelector(".nav-buttons button:contains('☰')");
+  const sideNav = document.getElementById("side-nav");
+  const closeBtn = document.querySelector("#side-nav .close-btn");
+  const overlay = document.getElementById("overlay");
+  const sideListBtn = document.getElementById("side-list-btn");
+  const sideListSubmenu = document.getElementById("side-list-submenu");
+
+  hamburgerBtn?.addEventListener("click", () => {
+    sideNav.classList.add("open");
+    overlay.classList.add("active");
+  });
+
+  closeBtn?.addEventListener("click", () => {
+    sideNav.classList.remove("open");
+    overlay.classList.remove("active");
+  });
+
+  overlay?.addEventListener("click", () => {
+    sideNav.classList.remove("open");
+    overlay.classList.remove("active");
+  });
+
+  sideListBtn?.addEventListener("click", () => {
+    const isOpen = sideListSubmenu.style.display === "flex";
+    sideListSubmenu.style.display = isOpen ? "none" : "flex";
+    sideListBtn.textContent = isOpen ? "리스트로 보기 ⏷" : "리스트로 보기 ⏶";
+    sideListBtn.setAttribute("aria-expanded", isOpen ? "false" : "true");
+  });
+</script>
+
+
+
+
+<!-- Firebase SDK -->
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+<script>
+  const firebaseConfig = {
+    apiKey: "AIzaSyD-itP2Il2kZYzm-4BXL5wXXphp5gnTN3U",
+    authDomain: "web-programing-6218e.firebaseapp.com",
+    projectId: "web-programing-6218e",
+    appId: "1:687421762824:web:be3d91a6c66d304a32d0bd"
+  };
+  firebase.initializeApp(firebaseConfig);
+  // ✅ 전역에 명시적으로 선언 추가
+let currentUser; // 또는 var currentUser;
+  const auth = firebase.auth();
+
+  
+    
+auth.onAuthStateChanged(user => {
+  currentUser = user; // ✅ 전역 저장
+
+  const signupBtn = document.querySelector(".signup");
+  if (!signupBtn) return;
+
+  const newBtn = signupBtn.cloneNode(true);
+  signupBtn.parentNode.replaceChild(newBtn, signupBtn);
+
+  if (user) {
+    newBtn.textContent = "Log out";
+    newBtn.onclick = () => {
+      auth.signOut().then(() => location.reload());
+    };
+  } else {
+    newBtn.textContent = "Sign Up";
+    newBtn.onclick = () => {
+      window.location.href = "login.html";
+    };
+  }
+
+  // ✅ 로그인 확인 후 접근 제한 처리
+  const protectedPages = ["list_restourant.html", "map.html", "partner.html"];
+  const currentPath = window.location.pathname.split("/").pop();
+  if (!user && protectedPages.includes(currentPath)) {
+    alert("로그인이 필요합니다.");
+    window.location.href = "login.html";
+  }
+});
+
+
+
+
+
+
+  
+</script>
+
+
+
+
+
+
+
+
+
+</body>
+</html>
