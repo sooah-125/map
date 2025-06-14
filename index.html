@@ -555,10 +555,10 @@
 
     const protectedPages = ["list_restourant.html","list_leisure.html", "map.html", "external.html", "ask.html","sitemap.html"];
     const currentPath = window.location.pathname.split("/").pop();
-    if (!user && protectedPages.includes(currentPath)) {
-      alert("로그인이 필요합니다.");
-      window.location.href = "login.html";
-    }
+    // if (!user && protectedPages.includes(currentPath)) {
+//   alert("로그인이 필요합니다.");
+//   window.location.href = "login.html";
+// }
   });
 </script>
 
