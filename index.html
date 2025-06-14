@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>성서제휴맵</title>
+
+  <script>
+    // 페이지가 깜빡이는 현상(FOUC)을 막기 위해, CSS를 읽기 전에 테마를 먼저 적용합니다.
+    (function() {
+      const savedTheme = localStorage.getItem('theme') || 'light';
+      if (savedTheme === 'dark') {
+        document.documentElement.classList.add('dark-mode');
+      }
+    })();
+  </script>
+
+ <style>
+    /* --- 테마별 색상 변수 정의 --- */
+    :root {
+      /* 라이트 모드 (기본값) */
+      --bg-color: #f5f5f7;
+      --bg-gradient-start: rgba(245, 245, 247, 0.9);
+      --bg-gradient-end: rgba(220, 220, 225, 0.95);
+      --text-color: #1d1d1f;
+      --text-color-secondary: #6e6e73;
+      --header-bg: rgba(255, 255, 255, 0.7);
+      --card-bg: rgba(255, 255, 255, 0.8);
+      --border-color: rgba(0, 0, 0, 0.1);
+      --button-bg: #333;
+      --button-text: #fff;
+      --signup-bg: #000;
+      --signup-text: #fff;
+      --apple-blue: #007aff;
+      --apple-blur: saturate(180%) blur(20px);
+    }
+
+    html.dark-mode {
+      /* 다크 모드 */
+      --bg-color: #111112;
+      --bg-gradient-start: rgba(17, 17, 18, 0.85);
+      --bg-gradient-end: rgba(51, 51, 53, 0.95);
+      --text-color: #f5f5f7;
+      --text-color-secondary: #86868b;
+      --header-bg: rgba(28, 28, 30, 0.7);
+      --card-bg: rgba(28, 28, 30, 0.85);
+      --border-color: rgba(255, 255, 255, 0.1);
+      --button-bg: #333;
+      --button-text: #f5f5f7;
+      --signup-bg: #fff;
+      --signup-text: #000;
+    }
+
+    /* --- 기본 스타일 (변수 사용) --- */
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      color: var(--text-color);
+      min-height: 100vh;
+      overflow-x: hidden;
+      background-color: var(--bg-color);
+      background-image: url('22235_23589_729.jpg');
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+      transition: background-color 0.3s, color 0.3s;
+    }
+
+    main {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      padding-top: 25vh;
+      padding-bottom: 6rem;
+      min-height: 140vh;
+      position: relative;
+      overflow-x: hidden;
+      background: linear-gradient(to bottom, var(--bg-gradient-start), var(--bg-gradient-end));
+      transition: background 0.3s;
+    }
+
+    /* --- Header (헤더) --- */
+    header {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 1.5rem;
+      z-index: 1000;
+      box-sizing: border-box;
+      background-color: var(--header-bg);
+      backdrop-filter: var(--apple-blur);
+      -webkit-backdrop-filter: var(--apple-blur);
+      border-bottom: 1px solid var(--border-color);
+      transition: background-color 0.3s, border-color 0.3s;
+    }
+
+    .school-name {
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: var(--text-color);
+      flex-shrink: 0;
+    }
+    
+    /* ▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼ */
+    /*               여기가 수정된 부분입니다                */
+    /* nav-buttons의 직속 자식인 ul.nav-list에만 flex를 적용하도록 수정 */
+    .nav-buttons > .nav-list {
+      list-style: none;
+      display: flex;
+      gap: 1rem;
+      margin: 0;
+      padding: 0;
+      align-items: center;
+    }
+    /* ▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲ */
+
+    .nav-buttons a,
+    .nav-buttons .dropbtn,
+    .nav-buttons button {
+      color: var(--text-color);
+      background: transparent;
+      border: none;
+      font-size: 1rem;
+      font-weight: 500;
+      text-decoration: none;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: color 0.3s ease;
+    }
+
+    .nav-buttons a:hover,
+    .nav-buttons .dropbtn:hover,
+    .nav-buttons button:hover {
+      color: var(--apple-blue);
+    }
+    
+    .nav-buttons .signup {
+      background-color: var(--signup-bg);
+      color: var(--signup-text);
+      border-radius: 999px;
+      padding: 0.4rem 1rem;
+      font-weight: 600;
+      transition: background-color 0.3s, color 0.3s;
+    }
+    
+    /* --- 메인 타이틀 및 버튼 --- */
+    .main-title {
+      text-align: center;
+      font-size: 3.5rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      color: var(--text-color);
+    }
+
+    .subtitle {
+      text-align: center;
+      font-size: 1.5rem;
+      margin-bottom: 3rem;
+      color: var(--text-color-secondary);
+      font-weight: 500;
+    }
+    
+    .view-buttons {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 4rem;
+      z-index: 1;
+      justify-content: center;
+    }
+
+    .view-buttons button {
+      padding: 0.8rem 2.5rem;
+      border: 1.5px solid var(--text-color-secondary);
+      border-radius: 999px;
+      font-size: 1.1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    
+    .view-buttons .map-button {
+      background-color: var(--signup-bg);
+      color: var(--signup-text);
+      border-color: var(--signup-bg);
+    }
+
+    .view-buttons .list-button {
+      background-color: transparent;
+      color: var(--text-color);
+      border-color: var(--text-color);
+    }
+
+    .view-buttons button:hover {
+      transform: scale(1.05);
+      filter: brightness(1.2);
+    }
+
+    /* --- 카드 캐러셀 --- */
+    .card-carousel {
+      width: 100%;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      display: flex;
+      padding: 1rem 2rem;
+      box-sizing: border-box;
+      gap: 1.5rem;
+    }
+    .card-carousel::-webkit-scrollbar { height: 5px; }
+    .card-carousel::-webkit-scrollbar-thumb { background: #888; border-radius: 10px; }
+    
+    .card {
+      flex: 0 0 300px;
+      scroll-snap-align: start;
+      background-color: var(--card-bg);
+      color: var(--text-color);
+      border-radius: 22px;
+      padding: 1.2rem;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      transition: transform 0.3s, box-shadow 0.3s, background-color 0.3s;
+      border: 1px solid var(--border-color);
+      backdrop-filter: var(--apple-blur);
+      -webkit-backdrop-filter: var(--apple-blur);
+    }
+    .card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+    }
+    .card img {
+      width: 100%; height: 180px; object-fit: cover;
+      border-radius: 14px; margin-bottom: 1rem; display: block;
+    }
+    .card h3 {
+      margin: 0.5rem 0 0.2rem 0; font-size: 1.25rem; font-weight: 600;
+    }
+    .card p {
+      margin: 0.2rem 0; color: var(--text-color-secondary); font-weight: 500;
+    }
+    .card button {
+      margin-top: 1rem; background-color: var(--button-bg); color: var(--button-text);
+      border: none; padding: 0.6rem 1.5rem; border-radius: 999px;
+      cursor: pointer; font-weight: 600; transition: background-color 0.3s;
+    }
+    .card button:hover { filter: brightness(1.2); }
+    
+    /* --- 드롭다운 메뉴 --- */
+    .dropdown { position: relative; }
+    .dropdown-content {
+      display: none; /* 평소엔 숨김 */
+      position: absolute; top: 150%; left: 50%;
+      transform: translateX(-50%); min-width: 160px; border-radius: 12px;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.2); z-index: 1001;
+      list-style: none; padding: 0.5rem 0; margin: 0;
+      overflow: hidden; 
+      background-color: var(--card-bg);
+      backdrop-filter: var(--apple-blur); -webkit-backdrop-filter: var(--apple-blur);
+      border: 1px solid var(--border-color);
+      transition: background-color 0.3s;
+    }
+    .dropdown:hover .dropdown-content { display: block; } /* 마우스 올리면 보임 */
+    .dropdown-content li a {
+      display: block; padding: 0.7rem 1.2rem; color: var(--text-color);
+      text-decoration: none; font-size: 0.95rem; 
+      transition: background-color 0.2s, color 0.2s;
+    }
+    .dropdown-content li a:hover { background-color: var(--apple-blue); color: #fff; }
+
+    /* --- 사이드바 --- */
+    #side-nav {
+      position: fixed; top: 0; right: -300px; width: 300px; height: 100vh;
+      box-shadow: -10px 0 30px rgba(0,0,0,0.3);
+      transition: right 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), background-color 0.3s;
+      z-index: 1500; display: flex; flex-direction: column;
+      padding: 2rem; box-sizing: border-box;
+      background-color: var(--header-bg);
+      backdrop-filter: var(--apple-blur); -webkit-backdrop-filter: var(--apple-blur);
+      border-left: 1px solid var(--border-color);
+    }
+    #side-nav.open { right: 0; }
+    #side-nav button.close-btn {
+      align-self: flex-end; background: transparent; border: none;
+      color: var(--text-color-secondary); font-size: 2rem; cursor: pointer;
+      margin-bottom: 2rem; transition: color 0.3s;
+    }
+    #side-nav button.close-btn:hover { color: var(--text-color); }
+    #side-nav nav ul {
+      list-style: none; padding: 0; margin: 0; display: flex;
+      flex-direction: column; gap: 1.5rem;
+    }
+    #side-nav nav ul li button, #side-nav nav ul li a {
+      background: none; border: none; color: var(--text-color);
+      font-size: 1.2rem; font-weight: 500; cursor: pointer;
+      text-align: left; width: 100%; padding: 0; display: block;
+      text-decoration: none; transition: color 0.3s;
+    }
+    #side-nav nav ul li button:hover, #side-nav nav ul li a:hover { color: var(--apple-blue); }
+    #side-nav nav ul li button { display: flex; justify-content: space-between; align-items: center; }
+    #side-nav nav ul li ul {
+      display: none; flex-direction: column; padding-left: 1.5rem;
+      margin-top: 1.2rem; gap: 1rem; list-style-type: none;
+    }
+    #side-nav nav ul li ul li a {
+      font-size: 1rem; font-weight: 400; color: var(--text-color-secondary);
+    }
+    
+    #overlay {
+      position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+      z-index: 1200; background: rgba(0, 0, 0, 0.2);
+      backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px); display: none;
+    }
+    #overlay.active { display: block; }
+
+    /* --- 테마 전환 토글 스위치 스타일 --- */
+    .theme-switcher {
+      display: flex;
+      align-items: center;
+    }
+    #theme-toggle {
+      display: none;
+    }
+    #theme-toggle + label {
+      position: relative;
+      display: flex;
+      align-items: center;
+      width: 50px;
+      height: 28px;
+      background-color: #ccc;
+      border-radius: 999px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    #theme-toggle + label::before {
+      content: '';
+      position: absolute;
+      left: 3px;
+      width: 22px;
+      height: 22px;
+      background-color: white;
+      border-radius: 50%;
+      transition: transform 0.3s;
+    }
+    #theme-toggle + label .icon {
+      position: absolute;
+      font-size: 14px;
+      transition: opacity 0.3s;
+      user-select: none; /* 아이콘 드래그 방지 */
+    }
+    #theme-toggle + label .sun-icon { right: 5px; opacity: 1; }
+    #theme-toggle + label .moon-icon { left: 5px; opacity: 0; }
+    
+    #theme-toggle:checked + label { background-color: var(--apple-blue); }
+    #theme-toggle:checked + label::before { transform: translateX(22px); }
+    #theme-toggle:checked + label .sun-icon { opacity: 0; }
+    #theme-toggle:checked + label .moon-icon { opacity: 1; }
+
+ </style>
+</head>
+<body>
+
+<header>
+  <div class="school-name">한국성서대학교</div>
+  <nav class="nav-buttons">
+    <ul class="nav-list">
+      <li><a href="index.html">HOME</a></li>
+      <li><a href="map.html">지도</a></li>
+      <li class="dropdown">
+        <a class="dropbtn">리스트</a>
+        <ul class="dropdown-content">
+          <li><a href="list_restourant.html">식당 제휴</a></li>
+          <li><a href="list_leisure.html">여가 제휴</a></li>
+        </ul>
+      </li>
+      <li><a href="external.html">외부업체</a></li>
+      <!-- 테마 전환 토글 스위치 추가 -->
+      <li class="theme-switcher">
+        <input type="checkbox" id="theme-toggle">
+        <label for="theme-toggle">
+            <span class="icon sun-icon">☀️</span>
+            <span class="icon moon-icon">🌙</span>
+        </label>
+      </li>
+      <li><button id="hamburger-btn" style="font-size: 1.5rem; padding-bottom: 4px;">☰</button></li>
+      <li><a href="login.html" class="signup">Sign Up</a></li>
+    </ul>
+  </nav>
+</header>
+
+<main>
+    <!-- 콘텐츠는 이전과 동일 -->
+    <div class="main-title">성서제휴맵</div>
+    <div class="subtitle">성서인만을 위한 지도기반 제휴관련 서비스</div>
+    <div class="view-buttons">
+      <button class="map-button" onclick="location.href='map.html'">지도로 보기</button>
+      <button class="list-button" onclick="location.href='list_restourant.html'">리스트로 보기</button>
+    </div>
+    <div class="card-carousel">
+      <div class="card">
+        <img src="https://raw.githubusercontent.com/sooah-125/map/main/img/milal_pork_cutlet.png" alt="밀알생돈까스" />
+        <h3>밀알생돈까스</h3>
+        <p>돈까스</p>
+        <button onclick="location.href='map.html?place=밀알생돈까스'">자세히 보기</button>
+      </div>
+      <div class="card">
+        <img src="https://raw.githubusercontent.com/sooah-125/map/main/img/xuanchai.png" alt="슈엔차이" />
+        <h3>슈엔차이</h3>
+        <p>중식</p>
+        <button onclick="location.href='map.html?place=슈엔차이 상계점'">자세히 보기</button>
+      </div>
+      <div class="card">
+        <img src="https://raw.githubusercontent.com/sooah-125/map/main/img/yeongseong_sikdang.png" alt="영성식당" />
+        <h3>영성식당</h3>
+        <p>백반</p>
+        <button onclick="location.href='map.html?place=영성식당'">자세히 보기</button>
+      </div>
+      <div class="card">
+        <img src="https://raw.githubusercontent.com/sooah-125/map/main/img/compose_coffee.png" alt="컴포즈커피" />
+        <h3>컴포즈커피 상계백병원점</h3>
+        <p>커피</p>
+        <button onclick="location.href='map.html?place=컴포즈커피 상계백병원점'">자세히 보기</button>
+      </div>
+      <div class="card">
+        <img src="https://raw.githubusercontent.com/sooah-125/map/main/img/davich_glasses_nowon.png" alt="다비치안경" />
+        <h3>다비치 안경 노원점</h3>
+        <p>안경원</p>
+        <button onclick="location.href='map.html?place=다비치 안경 노원상계백병원건너점'">자세히 보기</button>
+      </div>
+      <div class="card">
+        <img src="https://raw.githubusercontent.com/sooah-125/map/main/img/turtle_boardgame_cafe.png" alt="거북이 보드게임 카페" />
+        <h3>거북이 보드게임 카페</h3>
+        <p>보드게임카페</p>
+       <button onclick="location.href='map.html?place=거북이 보드게임 카페'">자세히 보기</button>
+      </div>
+      <div class="card">
+        <img src="https://raw.githubusercontent.com/sooah-125/map/main/img/the_maze_nowon.png" alt="더메이즈" />
+        <h3>더메이즈 노원점</h3>
+        <p>방탈출</p>
+        <button onclick="location.href='map.html?place=더메이즈 노원점'">자세히 보기</button>
+      </div>
+      <div class="card">
+        <img src="https://raw.githubusercontent.com/sooah-125/map/main/img/ditone_hair.png" alt="디톤헤어" />
+        <h3>디톤헤어 (구 제이빛 헤어)</h3>
+        <p>미용실</p>
+        <button onclick="location.href='map.html?place=디톤헤어 (구 제이빛 헤어)'">자세히 보기</button>
+      </div>
+    </div>
+</main>
+
+<aside id="side-nav" aria-label="사이드 내비게이션">
+  <!-- 콘텐츠는 이전과 동일 -->
+  <button class="close-btn" aria-label="사이드 내비 닫기">×</button>
+  <nav>
+    <ul>
+      <li><a href="map.html">지도로 보기</a></li>
+      <li>
+        <button id="side-list-btn" aria-expanded="false" aria-controls="side-list-submenu">
+          리스트로 보기 ⏷
+        </button>
+        <ul id="side-list-submenu" aria-label="리스트 하위메뉴">
+          <li><a href="list_restourant.html">식당 제휴</a></li>
+          <li><a href="list_leisure.html">여가 제휴</a></li>
+        </ul>
+      </li>
+      <li><a href="external.html">외부 제휴</a></li>
+      <li><a href="sitemap.html">사이트맵</a></li>
+      <li><a href="ask.html">문의</a></li>
+    </ul>
+  </nav>
+</aside>
+<div id="overlay"></div>
+
+<script>
+  // 사이드바 관련 스크립트 (기존 유지)
+  const hamburgerBtn = document.getElementById("hamburger-btn");
+  const sideNav = document.getElementById("side-nav");
+  const closeBtn = document.querySelector("#side-nav .close-btn");
+  const overlay = document.getElementById("overlay");
+  const sideListBtn = document.getElementById("side-list-btn");
+  const sideListSubmenu = document.getElementById("side-list-submenu");
+
+  hamburgerBtn?.addEventListener("click", () => {
+    sideNav.classList.add("open");
+    overlay.classList.add("active");
+  });
+  closeBtn?.addEventListener("click", () => {
+    sideNav.classList.remove("open");
+    overlay.classList.remove("active");
+  });
+  overlay?.addEventListener("click", () => {
+    sideNav.classList.remove("open");
+    overlay.classList.remove("active");
+  });
+  sideListBtn?.addEventListener("click", () => {
+    const isOpen = sideListSubmenu.style.display === "flex";
+    sideListSubmenu.style.display = isOpen ? "none" : "flex";
+    sideListBtn.innerHTML = isOpen ? "리스트로 보기 ⏷" : "리스트로 보기 ⏶";
+    sideListBtn.setAttribute("aria-expanded", isOpen ? "false" : "true");
+  });
+
+  // --- 테마 전환 로직 ---
+  const themeToggle = document.getElementById('theme-toggle');
+  const htmlElement = document.documentElement;
+
+  // 페이지 로드 시, 저장된 테마에 맞춰 토글 스위치 상태 설정
+  if (htmlElement.classList.contains('dark-mode')) {
+    themeToggle.checked = true;
+  }
+
+  // 토글 스위치 클릭 이벤트
+  themeToggle.addEventListener('change', () => {
+    if (themeToggle.checked) {
+      htmlElement.classList.add('dark-mode');
+      localStorage.setItem('theme', 'dark');
+    } else {
+      htmlElement.classList.remove('dark-mode');
+      localStorage.setItem('theme', 'light');
+    }
+  });
+</script>
+
+<!-- Firebase SDK (기존 유지) -->
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+<script>
+  const firebaseConfig = {
+    apiKey: "AIzaSyD-itP2Il2kZYzm-4BXL5wXXphp5gnTN3U",
+    authDomain: "web-programing-6218e.firebaseapp.com",
+    projectId: "web-programing-6218e",
+    appId: "1:687421762824:web:be3d91a6c66d304a32d0bd"
+  };
+  firebase.initializeApp(firebaseConfig);
+  let currentUser;
+  const auth = firebase.auth();
+    
+  auth.onAuthStateChanged(user => {
+    currentUser = user; 
+    const signupBtnContainer = document.querySelector(".signup")?.parentNode;
+    if (!signupBtnContainer) return;
+    const oldBtn = signupBtnContainer.querySelector('.signup');
+    const newBtn = oldBtn.cloneNode(true);
+    oldBtn.parentNode.replaceChild(newBtn, oldBtn);
+
+    if (user) {
+      newBtn.textContent = "Log out";
+      newBtn.onclick = () => { auth.signOut().then(() => location.reload()); };
+    } else {
+      newBtn.textContent = "Sign Up";
+      newBtn.onclick = () => { window.location.href = "login.html"; };
+    }
+
+    const protectedPages = ["list_restourant.html","list_leisure.html", "map.html", "external.html", "ask.html","sitemap.html"];
+    const currentPath = window.location.pathname.split("/").pop();
+    if (!user && protectedPages.includes(currentPath)) {
+      alert("로그인이 필요합니다.");
+      window.location.href = "login.html";
+    }
+  });
+</script>
+
+</body>
+</html>
