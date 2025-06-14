@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>사이트맵</title>
+  <style>
+.child-of-list {
+  margin-left: -18rem; /* 리스트 박스 기준 왼쪽 위치로 */
+}
+
+.child-of-ask {
+  margin-left: 18rem;  /* 문의 박스 기준 오른쪽 위치로 */
+}
+
+body {
+  margin: 0;
+  font-family: 'Helvetica Neue', 'Apple SD Gothic Neo', 'Malgun Gothic', 'Noto Sans KR', Arial, sans-serif;
+  color: white;
+  overflow-x: hidden;
+ 
+      text-align: center;
+    
+  background: linear-gradient(to bottom, #3f3f3f 30%, #d0d0d0 90%);
+}
+
+.main-title {
+  text-align: center;
+  font-size: 3rem;
+  margin-bottom: 0.5rem;
+  padding-bottom: 3rem;
+  color: white;
+}
+
+.tree > .level:first-child::before {
+  display: none;
+}
+
+    h1 {
+      font-size: 2.5rem;
+      margin-bottom: 2rem;
+    }
+    .tree {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 3rem;
+    }
+    .level {
+      display: flex;
+      gap: 2rem;
+      justify-content: center;
+      position: relative;
+    }
+    .node {
+      background: white;
+      color: black;
+       padding: 1rem 1.6rem; /* 기존보다 큼 */
+  font-size: 1.2rem;    /* 글자 크기도 키움 */
+      border-radius: 8px;
+      font-weight: bold;
+      text-decoration: none;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+      position: relative;
+    }
+
+    
+    .level::before {
+      content: "";
+      position: absolute;
+      top: -1.2rem;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: white;
+    }
+    .line {
+      position: absolute;
+      height: 1.2rem;
+      width: 2px;
+      background: white;
+      top: -1.2rem;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+    .node-container {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    a.node:hover {
+      background: #eee;
+    }
+
+
+
+
+
+    @media (max-width: 768px) {
+      .sitemap-container {
+        flex-direction: column;
+        align-items: center;
+      }
+    }
+
+
+
+.label {
+  flex: 0 0 55px; /* 고정 너비 정확히 */
+  font-weight: bold;
+  color: #fff;
+  text-align: left;
+}
+
+.value {
+  flex: 1;
+  color: #eee;
+  text-align: left;
+  min-width: 0; /* flex 줄바꿈 정리 */
+}
+
+
+body {
+  background: linear-gradient(to bottom, #3f3f3f 30%, #d0d0d0 90%);
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  background-size: cover;
+  color: white;
+  margin: 0;
+  font-family: 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif;
+}
+header {
+  overflow: visible; /* 드롭다운 보이게 만들기 */
+  position: fixed;
+  top: 0;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 1.5rem;
+  background-color: transparent;
+  z-index: 1000;
+  box-sizing: border-box;
+}
+
+.school-name {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: white;
+  flex-shrink: 0;
+}
+
+.nav-buttons {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+.nav-buttons a,
+.nav-buttons .dropbtn,
+.nav-buttons button {
+  color: white;
+  background: transparent;
+  border: none;
+  font-size: 1rem;
+  text-decoration: none;
+  cursor: pointer;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.nav-buttons .signup {
+  border: 1px solid white;
+  border-radius: 5px;
+  padding: 0.3rem 0.8rem;
+}
+
+.nav-buttons::-webkit-scrollbar {
+  display: none;
+}
+
+.nav-buttons button {
+  background: transparent;
+  border: none;
+  color: white;
+  font-size: 1rem;
+  cursor: pointer;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.nav-buttons .signup {
+  border: 1px solid white;
+  border-radius: 5px;
+  padding: 0.3rem 0.8rem;
+}
+
+main {
+  padding-top: 120px;
+  
+}
+
+.main-title {
+  text-align: center;
+  font-size: 3rem;
+  margin-bottom: 0.5rem;
+  color: white;
+}
+
+.subtitle {
+  text-align: center;
+  font-size: 1.5rem;
+  margin-bottom: 2rem;
+  color: white;
+}
+
+
+
+
+
+/* 사이드바 */
+#side-nav {
+  position: fixed;
+  top: 0;
+  right: -280px;
+  width: 280px;
+  height: 100vh;
+  background-color: #000;
+  color: white;
+  box-shadow: -4px 0 8px rgba(0,0,0,0.7);
+  transition: right 0.3s ease;
+  z-index: 1500;
+  display: flex;
+  flex-direction: column;
+  padding: 2rem 1.5rem;
+  box-sizing: border-box;
+}
+
+#side-nav.open {
+  right: 0;
+}
+
+#side-nav button.close-btn {
+  align-self: flex-end;
+  background: transparent;
+  border: none;
+  color: white;
+  font-size: 1.8rem;
+  cursor: pointer;
+  margin-bottom: 2rem;
+}
+
+#side-nav nav ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+#side-nav nav ul li button,
+#side-nav nav ul li a {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 1.1rem;
+  cursor: pointer;
+  text-align: left;
+  width: 100%;
+  padding: 0;
+  display: block;
+  text-decoration: none;
+}
+
+#side-nav nav ul li button {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+#side-nav nav ul li ul {
+  display: none;
+  flex-direction: column;
+  padding-left: 1rem;
+  margin-top: 1rem;
+  list-style-type: none;
+}
+
+#side-nav nav ul li ul li a {
+  font-size: 1rem;
+  padding: 0rem 0;
+  color: white;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+#side-nav nav ul li ul li a:hover {
+  text-decoration: underline;
+}
+
+#overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 1200;
+  background: rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  display: none;
+}
+
+#overlay.active {
+  display: block;
+}
+/* 드롭다운 */
+.dropdown {
+  position: relative;
+}
+
+.dropbtn {
+  color: white;
+  cursor: pointer;
+  padding: 0.3rem 0.5rem;
+}
+.dropdown-content {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background-color: #444;
+  border-radius: 5px;
+  min-width: 140px;
+  box-shadow: 0px 8px 16px rgba(0,0,0,0.2);
+  z-index: 1001;
+}
+.dropdown-content a {
+  width: 77%;      
+  display: block;
+  padding: 0.5rem 1rem;
+  color: white;
+  text-decoration: none;
+  font-size: 0.9rem;
+}
+.dropdown .dropbtn {
+  color: white;
+  background: transparent;
+  border: none;
+  font-size: 1rem;
+  text-decoration: none;
+  cursor: pointer;
+  white-space: nowrap;
+  padding: 0.3rem 0.5rem;
+}
+
+.dropdown-content li a {
+  display: block;
+  padding: 0.6rem 1rem;
+  color: white;
+  text-decoration: none;
+  font-size: 0.9rem;
+}
+
+
+.dropdown-content li a:hover {
+  background-color: #666;
+}
+
+/* 핵심: hover 시 열기 */
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+.dropdown-content a:hover {
+  background-color: #666;
+}
+
+
+/* 기본 숨김 */
+.nav-buttons li.dropdown ul.dropdown-content {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background-color: #444;
+  min-width: 140px;
+  border-radius: 5px;
+  box-shadow: 0px 8px 16px rgba(0,0,0,0.2);
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  z-index: 1001;
+}
+
+/* 항목 스타일 */
+.nav-buttons li.dropdown ul.dropdown-content li a {
+  display: block;
+  padding: 0.6rem 1rem;
+  color: white;
+  text-decoration: none;
+  font-size: 0.9rem;
+}
+
+.nav-buttons li.dropdown ul.dropdown-content li a:hover {
+  background-color: #666;
+}
+
+/* 마우스 올렸을 때 표시 */
+.nav-buttons li.dropdown:hover ul.dropdown-content {
+  display: block;
+}
+
+.nav-buttons ul {
+  list-style: none;     /* ● 마커 제거 */
+  display: flex;        /* 가로 정렬 */
+  gap: 1rem;            /* 항목 간 간격 */
+  margin: 0;
+  padding: 0;
+  align-items: center;  /* 햄버거 버튼 높이 정렬 */
+}
+
+.nav-buttons ul li {
+  display: flex;
+  align-items: center;
+}
+.nav-buttons {
+  overflow: visible;
+}
+
+.nav-list {
+  list-style: none;
+  display: flex;
+  gap: 1rem;
+  margin: 0;
+  padding: 0;
+  overflow: visible;
+}
+
+.nav-list li {
+  position: relative;
+}
+
+.nav-list li.dropdown .dropdown-content {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background-color: #444;
+  padding: 0.5rem 0;
+  min-width: 140px;
+  border-radius: 5px;
+  z-index: 1000;
+  box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+}
+
+.nav-list li.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+.nav-list li.dropdown .dropdown-content li a {
+  display: block;
+  padding: 0.5rem 1rem;
+  color: white;
+  text-decoration: none;
+}
+
+.nav-list li.dropdown .dropdown-content li a:hover {
+  background-color: #666;
+}
+
+
+  </style>
+</head>
+</head>
+<body>
+<header>
+  <div class="school-name">한국성서대학교</div>
+  <nav class="nav-buttons">
+    <ul class="nav-list">
+      <li><a href="index.html">HOME</a></li>
+      <li><a href="map.html">지도</a></li>
+
+      <li class="dropdown">
+        <a href="#" class="dropbtn">리스트</a>
+        <ul class="dropdown-content">
+          <li><a href="list_restourant.html">식당 제휴</a></li>
+          <li><a href="list_leisure.html">여가 제휴</a></li>
+        </ul>
+      </li>
+
+      <li><a href="external.html">외부업체</a></li>
+      <li><button id="hamburger-btn" style="margin-top: -4px;">☰</button></li>
+      <li><a href="login.html" class="signup">Sign Up</a></li>
+    </ul>
+  </nav>
+</header>
+
+
+
+
+<aside id="side-nav" aria-label="사이드 내비게이션">
+  <button class="close-btn" aria-label="사이드 내비 닫기">&times;</button>
+  <nav>
+    <ul>
+      <li><a href="map.html">지도로 보기</a></li>
+      <li>
+        <button id="side-list-btn" aria-expanded="false" aria-controls="side-list-submenu">
+          리스트로 보기 ⏷
+        </button>
+        <ul id="side-list-submenu" aria-label="리스트 하위메뉴">
+          <li><a href="list_restourant.html">식당 제휴</a></li>
+          <li><a href="list_leisure.html">여가 제휴</a></li>
+        </ul>
+      </li>
+      <li><a href="external.html">외부 제휴</a></li>
+      <li><a href="sitemap.html">사이트맵</a></li>
+      <li><a href="ask.html">문의</a></li>
+      
+      
+    </ul>
+  </nav>
+</aside>
+<div id="overlay"></div>
+
+<main>
+<h1>성서제휴맵 사이트맵</h1>
+  <div class="tree">
+    <div class="level">
+      <div class="node-container">
+        <a href="index.html" class="node">홈</a>
+      </div>
+    </div>
+
+    <div class="level">
+      <div class="node-container">
+        <div class="line"></div>
+        <a href="list_restourant.html" class="node">리스트</a>
+      </div>
+      <div class="node-container">
+        <div class="line"></div>
+        <a href="map.html" class="node">지도</a>
+      </div>
+      <div class="node-container">
+        <div class="line"></div>
+        <a href="external.html" class="node">외부업체</a>
+      </div>
+      <div class="node-container">
+        <div class="line"></div>
+        <a href="ask.html" class="node">문의</a>
+      </div>
+      <div class="node-container">
+        <div class="line"></div>
+        <a href="login.html" class="node">로그인</a>
+      </div>
+      <div class="node-container">
+        <div class="line"></div>
+        <a href="info.html" class="node">상세 정보</a>
+      </div>
+    </div>
+
+    <div class="level">
+      <div class="node-container">
+        <div class="line"></div>
+        <a href="list_restourant.html" class="node">식당 제휴</a>
+      </div>
+      <div class="node-container">
+        <div class="line"></div>
+        <a href="list_leisure.html" class="node">여가 제휴</a>
+      </div>
+      <div class="node-container">
+        <div class="line"></div>
+        <a href="ask_form.html" class="node">문의 작성</a>
+      </div>
+    </div>
+  </div>
+
+</main>
+<!-- Firebase SDK -->
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+<script>
+  const firebaseConfig = {
+    apiKey: "AIzaSyD-itP2Il2kZYzm-4BXL5wXXphp5gnTN3U",
+    authDomain: "web-programing-6218e.firebaseapp.com",
+    projectId: "web-programing-6218e",
+    appId: "1:687421762824:web:be3d91a6c66d304a32d0bd"
+  };
+  firebase.initializeApp(firebaseConfig);
+  // ✅ 전역에 명시적으로 선언 추가
+let currentUser; // 또는 var currentUser;
+  const auth = firebase.auth();
+
+  
+    
+auth.onAuthStateChanged(user => {
+  currentUser = user; // ✅ 전역 저장
+
+  const signupBtn = document.querySelector(".signup");
+  if (!signupBtn) return;
+
+  const homeBtn = signupBtn.cloneNode(true);
+  signupBtn.parentNode.replaceChild(homeBtn, signupBtn);
+
+  if (user) {
+    homeBtn.textContent = "Log out";
+    homeBtn.onclick = () => {
+      auth.signOut().then(() => location.reload());
+    };
+  } else {
+    homeBtn.textContent = "Sign Up";
+    homeBtn.onclick = () => {
+      window.location.href = "login.html";
+    };
+  }
+
+  // ✅ 로그인 확인 후 접근 제한 처리
+  const protectedPages = ["list_restourant.html","list_leisure.html", "map.html", "external.html", "ask.html","sitemap.html"];
+  const currentPath = window.location.pathname.split("/").pop();
+  if (!user && protectedPages.includes(currentPath)) {
+    alert("로그인이 필요합니다.");
+    window.location.href = "login.html";
+  }
+});
+
+
+
+
+
+
+  
+</script>
+
+<script>
+  const hamburgerBtn = document.querySelector(".nav-buttons button[id='hamburger-btn']") || document.querySelector(".nav-buttons button:contains('☰')");
+  const sideNav = document.getElementById("side-nav");
+  const closeBtn = document.querySelector("#side-nav .close-btn");
+  const overlay = document.getElementById("overlay");
+  const sideListBtn = document.getElementById("side-list-btn");
+  const sideListSubmenu = document.getElementById("side-list-submenu");
+
+  hamburgerBtn?.addEventListener("click", () => {
+    sideNav.classList.add("open");
+    overlay.classList.add("active");
+  });
+
+  closeBtn?.addEventListener("click", () => {
+    sideNav.classList.remove("open");
+    overlay.classList.remove("active");
+  });
+
+  overlay?.addEventListener("click", () => {
+    sideNav.classList.remove("open");
+    overlay.classList.remove("active");
+  });
+
+  sideListBtn?.addEventListener("click", () => {
+    const isOpen = sideListSubmenu.style.display === "flex";
+    sideListSubmenu.style.display = isOpen ? "none" : "flex";
+    sideListBtn.textContent = isOpen ? "리스트로 보기 ⏷" : "리스트로 보기 ⏶";
+    sideListBtn.setAttribute("aria-expanded", isOpen ? "false" : "true");
+  });
+</script>
+
+
+
+
+
+
+
+
+</body>
+</html>
