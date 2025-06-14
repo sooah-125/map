@@ -1,2 +1,0 @@
-# map
-My clone repository
