@@ -263,7 +263,11 @@
       border: 1px solid var(--border-color);
       transition: background-color 0.3s;
     }
-    .dropdown:hover .dropdown-content { display: block; } /* 마우스 올리면 보임 */
+  .dropdown:hover .dropdown-content,
+   .dropdown-content:hover {
+  display: block;
+}
+   /* 마우스 올리면 보임 */
     .dropdown-content li a {
       display: block; padding: 0.7rem 1.2rem; color: var(--text-color);
       text-decoration: none; font-size: 0.95rem; 
