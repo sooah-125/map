@@ -52,19 +52,14 @@
     }
 
     /* --- 기본 스타일 (변수 사용) --- */
-    body {
-      margin: 0;
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-      color: var(--text-color);
-      min-height: 100vh;
-      overflow-x: hidden;
-      background-color: var(--bg-color);
-      background-image: url('22235_23589_729.jpg');
-      background-size: cover;
-      background-position: center;
-      background-attachment: fixed;
-      transition: background-color 0.3s, color 0.3s;
-    }
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  overflow: hidden; /* ✅ 스크롤 제거 */
+font-family: sans-serif;
+}
+
 
     main {
       display: flex;
@@ -73,10 +68,10 @@
       justify-content: flex-start;
       padding-top: 25vh;
       padding-bottom: 6rem;
-      min-height: 140vh;
+      height: calc(100vh - 10rem); /* ✅ 화면 높이에 맞춤 */
       position: relative;
       overflow-x: hidden;
-      background: linear-gradient(to bottom, var(--bg-gradient-start), var(--bg-gradient-end));
+      background: linear-gradient(135deg, var(--bg-gradient-start), var(--bg-gradient-end));
       transition: background 0.3s;
     }
 
@@ -98,12 +93,152 @@
       transition: background-color 0.3s, border-color 0.3s;
     }
 
-    .school-name {
-      font-size: 1.5rem;
-      font-weight: 600;
-      color: var(--text-color);
-      flex-shrink: 0;
-    }
+.school-name { font-size: 1.5rem; font-weight: 600; color: var(--text-color); text-decoration: none; transition: color 0.3s; }
+    .school-name:hover { color: var(--apple-blue); }
+
+.nav-buttons .nav-list {
+  list-style: none;
+  display: flex;
+  gap: 1rem;
+  margin: 0;
+  padding: 0;
+  align-items: center;
+}
+
+.nav-buttons a,
+.nav-buttons .dropbtn,
+.nav-buttons button {
+  color: var(--text-color);
+  background: transparent;
+  border: none;
+  font-size: 1rem;
+  font-weight: 500;
+  text-decoration: none;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: color 0.3s ease;
+}
+
+.nav-buttons a:hover,
+.nav-buttons .dropbtn:hover,
+.nav-buttons button:hover {
+  color: var(--apple-blue);
+}
+
+.nav-buttons .signup {
+  background-color: var(--signup-bg);
+  color: var(--signup-text);
+  border-radius: 999px;
+  padding: 0.4rem 1rem;
+  font-weight: 600;
+  font-size: 1rem;
+  font-family: inherit;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.dropdown {
+  position: relative;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  min-width: 160px;
+  border-radius: 12px;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.2);
+  z-index: 1001;
+  list-style: none;
+  padding: 0.5rem 0;
+  margin: 0;
+  background-color: var(--header-bg);
+  backdrop-filter: saturate(180%) blur(20px);
+  border: 1px solid var(--border-color);
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+/* index.html 추가(선택) */
+.dropdown:hover .dropdown-content,
+.dropdown .dropdown-content:hover {
+  display: block;
+}
+.dropdown-content li a {
+  display: block;
+  padding: 0.7rem 1.2rem;
+  color: var(--text-color);
+  text-decoration: none;
+  font-size: 0.95rem;
+  transition: background-color 0.2s, color 0.2s;
+}
+
+.dropdown-content li a:hover {
+  background-color: var(--apple-blue);
+  color: #fff;
+}
+
+.theme-switcher {
+  display: flex;
+  align-items: center;
+}
+
+#theme-toggle {
+  display: none;
+}
+
+#theme-toggle + label {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 50px;
+  height: 28px;
+  background-color: #ccc;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+#theme-toggle + label::before {
+  content: '';
+  position: absolute;
+  left: 3px;
+  width: 22px;
+  height: 22px;
+  background-color: white;
+  border-radius: 50%;
+  transition: transform 0.3s;
+}
+
+#theme-toggle + label .icon {
+  position: absolute;
+  font-size: 14px;
+  transition: opacity 0.3s;
+  user-select: none;
+}
+
+#theme-toggle + label .sun-icon { right: 5px; opacity: 1; }
+#theme-toggle + label .moon-icon { left: 5px; opacity: 0; }
+
+#theme-toggle:checked + label {
+  background-color: var(--apple-blue);
+}
+
+#theme-toggle:checked + label::before {
+  transform: translateX(22px);
+}
+
+#theme-toggle:checked + label .sun-icon {
+  opacity: 0;
+}
+
+#theme-toggle:checked + label .moon-icon {
+  opacity: 1;
+}
+
     
     /* ▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼ */
     /*               여기가 수정된 부분입니다                */
@@ -147,6 +282,17 @@
       transition: background-color 0.3s, color 0.3s;
     }
     
+#hamburger-btn {
+  font-size: 1.5rem;
+  padding: 0.2rem 0.6rem;
+  line-height: 1;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: var(--text-color);
+}
+
+
     /* --- 메인 타이틀 및 버튼 --- */
     .main-title {
       text-align: center;
@@ -250,10 +396,10 @@
     .card button:hover { filter: brightness(1.2); }
     
     /* --- 드롭다운 메뉴 --- */
-    .dropdown { position: relative; }
-    .dropdown-content {
-      display: none; /* 평소엔 숨김 */
-      position: absolute; top: 150%; left: 50%;
+    i.dropdown { position: relative; padding: 0; }
+    li.dropdown .dropdown-content {
+    display: none; /* 평소엔 숨김 */
+    position: absolute; top: 100%; left: 50%;
       transform: translateX(-50%); min-width: 160px; border-radius: 12px;
       box-shadow: 0 8px 30px rgba(0,0,0,0.2); z-index: 1001;
       list-style: none; padding: 0.5rem 0; margin: 0;
@@ -263,11 +409,7 @@
       border: 1px solid var(--border-color);
       transition: background-color 0.3s;
     }
-  .dropdown:hover .dropdown-content,
-   .dropdown-content:hover {
-  display: block;
-}
-   /* 마우스 올리면 보임 */
+    .dropdown:hover .dropdown-content { display: block; } /* 마우스 올리면 보임 */
     .dropdown-content li a {
       display: block; padding: 0.7rem 1.2rem; color: var(--text-color);
       text-decoration: none; font-size: 0.95rem; 
@@ -362,38 +504,46 @@
     #theme-toggle:checked + label::before { transform: translateX(22px); }
     #theme-toggle:checked + label .sun-icon { opacity: 0; }
     #theme-toggle:checked + label .moon-icon { opacity: 1; }
-
  </style>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+
+
 </head>
 <body>
 
 <header>
-  <div class="school-name">한국성서대학교</div>
+  <a href="index.html" class="school-name">KBU Partner Map</a>
+
   <nav class="nav-buttons">
     <ul class="nav-list">
       <li><a href="index.html">HOME</a></li>
       <li><a href="map.html">지도</a></li>
       <li class="dropdown">
         <a class="dropbtn">리스트</a>
+
+
+
+
         <ul class="dropdown-content">
           <li><a href="list_restourant.html">식당 제휴</a></li>
           <li><a href="list_leisure.html">여가 제휴</a></li>
+          
         </ul>
       </li>
       <li><a href="external.html">외부업체</a></li>
-      <!-- 테마 전환 토글 스위치 추가 -->
       <li class="theme-switcher">
         <input type="checkbox" id="theme-toggle">
         <label for="theme-toggle">
-            <span class="icon sun-icon">☀️</span>
-            <span class="icon moon-icon">🌙</span>
+          <span class="icon sun-icon">☀️</span>
+          <span class="icon moon-icon">🌙</span>
         </label>
       </li>
-      <li><button id="hamburger-btn" style="font-size: 1.5rem; padding-bottom: 4px;">☰</button></li>
+      <li><button id="hamburger-btn">☰</button></li>
       <li><a href="login.html" class="signup">Sign Up</a></li>
     </ul>
   </nav>
 </header>
+
 
 <main>
     <!-- 콘텐츠는 이전과 동일 -->
@@ -404,56 +554,78 @@
       <button class="list-button" onclick="location.href='list_restourant.html'">리스트로 보기</button>
     </div>
     <div class="card-carousel">
-      <div class="card">
-        <img src="https://raw.githubusercontent.com/sooah-125/map/main/img/milal_pork_cutlet.png" alt="밀알생돈까스" />
-        <h3>밀알생돈까스</h3>
-        <p>돈까스</p>
-        <button onclick="location.href='map.html?place=밀알생돈까스'">자세히 보기</button>
-      </div>
-      <div class="card">
-        <img src="https://raw.githubusercontent.com/sooah-125/map/main/img/xuanchai.png" alt="슈엔차이" />
-        <h3>슈엔차이</h3>
-        <p>중식</p>
-        <button onclick="location.href='map.html?place=슈엔차이 상계점'">자세히 보기</button>
-      </div>
-      <div class="card">
-        <img src="https://raw.githubusercontent.com/sooah-125/map/main/img/yeongseong_sikdang.png" alt="영성식당" />
-        <h3>영성식당</h3>
-        <p>백반</p>
-        <button onclick="location.href='map.html?place=영성식당'">자세히 보기</button>
-      </div>
-      <div class="card">
-        <img src="https://raw.githubusercontent.com/sooah-125/map/main/img/compose_coffee.png" alt="컴포즈커피" />
-        <h3>컴포즈커피 상계백병원점</h3>
-        <p>커피</p>
-        <button onclick="location.href='map.html?place=컴포즈커피 상계백병원점'">자세히 보기</button>
-      </div>
-      <div class="card">
-        <img src="https://raw.githubusercontent.com/sooah-125/map/main/img/davich_glasses_nowon.png" alt="다비치안경" />
-        <h3>다비치 안경 노원점</h3>
-        <p>안경원</p>
-        <button onclick="location.href='map.html?place=다비치 안경 노원상계백병원건너점'">자세히 보기</button>
-      </div>
-      <div class="card">
-        <img src="https://raw.githubusercontent.com/sooah-125/map/main/img/turtle_boardgame_cafe.png" alt="거북이 보드게임 카페" />
-        <h3>거북이 보드게임 카페</h3>
-        <p>보드게임카페</p>
-       <button onclick="location.href='map.html?place=거북이 보드게임 카페'">자세히 보기</button>
-      </div>
-      <div class="card">
-        <img src="https://raw.githubusercontent.com/sooah-125/map/main/img/the_maze_nowon.png" alt="더메이즈" />
-        <h3>더메이즈 노원점</h3>
-        <p>방탈출</p>
-        <button onclick="location.href='map.html?place=더메이즈 노원점'">자세히 보기</button>
-      </div>
-      <div class="card">
-        <img src="https://raw.githubusercontent.com/sooah-125/map/main/img/ditone_hair.png" alt="디톤헤어" />
-        <h3>디톤헤어 (구 제이빛 헤어)</h3>
-        <p>미용실</p>
-        <button onclick="location.href='map.html?place=디톤헤어 (구 제이빛 헤어)'">자세히 보기</button>
-      </div>
+      
     </div>
 </main>
+<script>
+ const markerData = [
+  { name: "권순옥김밥", image: "kwon_sun_ok_gimbap.png", category: "김밥" },
+  { name: "시장풍경 국시집", image: "SijangPoonggyeong_Guksijip.png", category: "국수" },
+  { name: "노원수제비", image: "nowon_sujebi.png", category: "수제비" },
+  { name: "니뽕내뽕 노원역점", image: "nipong_naepong_nowon.png", category: "퓨전" },
+  { name: "롯데리아 노원역점", image: "lotteria_nowon.png", category: "패스트푸드" },
+  { name: "밀알생돈까스", image: "milal_pork_cutlet.png", category: "돈까스" },
+  { name: "별학골명품소머리국밥", image: "Byeolhakgol_Premium_Oxhead_Soup.png", category: "국밥" },
+  { name: "샐러디 노원역점", image: "saladey_nowon.png", category: "샐러드" },
+  { name: "수유리우동집 상계백병원점", image: "suyuri_noodle_house.png", category: "우동" },
+  { name: "슈엔차이 상계점", image: "xuanchai.png", category: "중식" },
+  { name: "신미방마라탕 노원점", image: "Sinmibang_Malatang.png", category: "중식" },
+  { name: "신화쭈꾸미 노원본점", image: "sinhwa_jjukkumi.png", category: "쭈꾸미" },
+  { name: "영성식당", image: "yeongseong_sikdang.png", category: "백반" },
+  { name: "죽이야기", image: "juk_story.png", category: "죽" },
+  { name: "포메인 노원점", image: "PhoMein.png", category: "베트남" },
+  { name: "Poke all day 포케&샐러드 노원점", image: "Poke_all_day.png", category: "포케" },
+  { name: "쩝스버거", image: "jjeops_burger.png", category: "버거" },
+  { name: "피자스쿨 노원점", image: "PizzaSchool.png", category: "피자" },
+  { name: "치히로 노원점", image: "chihiro_nowon.png", category: "일식" },
+  { name: "흥부솥뚜껑 생삼겹살 노원본점", image: "heungbu_sot_samgyeopsal.png", category: "삼겹살" },
+  { name: "노원고로케", image: "nowon_korokke.png", category: "간식" },
+  { name: "명랑핫도그", image: "myeongrang_hotdog.png", category: "간식" },
+  { name: "컴포즈커피 상계백병원점", image: "compose_coffee.png", category: "커피" },
+  { name: "거북이 보드게임 카페", image: "turtle_boardgame_cafe.png", category: "보드게임" },
+  { name: "김호증모가발 리디아153 노원점", image: "kimho_ridia153_nowon.png", category: "미용" },
+  { name: "드랍더핏피티스튜디오", image: "drop_the_fit_pt_studio.png", category: "피트니스" },
+  { name: "더메이즈 노원점", image: "the_maze_nowon.png", category: "방탈출" },
+  { name: "다비치 안경 노원상계백병원건너점", image: "davich_glasses_nowon.png", category: "안경원" },
+  { name: "디톤헤어 (구 제이빛 헤어)", image: "ditone_hair.png", category: "미용실" },
+  { name: "루프쉘하우스", image: "loop_shell_house.png", category: "카페" },
+  { name: "빌리버짐 중계역점", image: "believer_gym_junggye.png", category: "헬스" },
+  { name: "생명의말씀사", image: "word_of_life_bookstore.png", category: "서점" },
+  { name: "아이존팝", image: "izonepop.png", category: "문구" },
+  { name: "온 스터디 카페", image: "OnStudy_Cafe.png", category: "스터디카페" },
+  { name: "오늘, 우리 사진관", image: "OneulWoori_PhotoStudio.png", category: "사진관" },
+  { name: "알파 상계점", image: "Alpha_Sanggye.png", category: "문구" },
+  { name: "아프리카코인노래방", image: "africa_coin_noraebang.png", category: "노래방" },
+  { name: "에이바헤어", image: "Ava_Hair.png", category: "미용실" },
+  { name: "조아코인노래방", image: "joa_coin_noraebang.png", category: "노래방" },
+  { name: "쿠방플러스", image: "Koobang_Plus.png", category: "편의점" },
+  { name: "재이한의원", image: "Jaei_Oriental_Clinic.png", category: "한의원" },
+  { name: "필라테스인 노원중계본점", image: "Pilates_In.png", category: "필라테스" },
+  { name: "중계주짓수", image: "Junggye_JiuJitsu.png", category: "주짓수" },
+  { name: "핑퐁라이온스클럽", image: "PingPong_Lions.png", category: "탁구" },
+  { name: "포포PC방", image: "popo_pc_bang.png", category: "PC방" },
+  { name: "퍼퓸플레이", image: "Perfume_Play.png", category: "향수" },
+  { name: "홈즈앤루팡 보드게임카페", image: "Holmes_and_Lupin.png", category: "보드게임" },
+  { name: "휴식 노원1호점", image: "hyusik_nowon_branch1.png", category: "마사지" }
+];
+
+
+  const shuffled = markerData.sort(() => 0.5 - Math.random());
+  const selected = shuffled.slice(0, 6); // 원하는 카드 개수
+
+  const container = document.querySelector(".card-carousel");
+  selected.forEach(place => {
+    const card = document.createElement("div");
+    card.className = "card";
+    card.innerHTML = `
+      <img src="https://raw.githubusercontent.com/sooah-125/map/main/img/${place.image}" alt="${place.name}" />
+      <h3>${place.name}</h3>
+      <p>${place.category}</p>
+      <button onclick="location.href='map.html?place=${encodeURIComponent(place.name)}'">자세히 보기</button>
+    `;
+    container.appendChild(card);
+  });
+</script>
 
 <aside id="side-nav" aria-label="사이드 내비게이션">
   <!-- 콘텐츠는 이전과 동일 -->
@@ -468,9 +640,10 @@
         <ul id="side-list-submenu" aria-label="리스트 하위메뉴">
           <li><a href="list_restourant.html">식당 제휴</a></li>
           <li><a href="list_leisure.html">여가 제휴</a></li>
+          <li><a href="external.html">외부 업체</a></li>
         </ul>
       </li>
-      <li><a href="external.html">외부 제휴</a></li>
+      
       <li><a href="sitemap.html">사이트맵</a></li>
       <li><a href="ask.html">문의</a></li>
     </ul>
@@ -527,44 +700,42 @@
   });
 </script>
 
-<!-- Firebase SDK (기존 유지) -->
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
-<script>
-  const firebaseConfig = {
-    apiKey: "AIzaSyD-itP2Il2kZYzm-4BXL5wXXphp5gnTN3U",
-    authDomain: "web-programing-6218e.firebaseapp.com",
-    projectId: "web-programing-6218e",
-    appId: "1:687421762824:web:be3d91a6c66d304a32d0bd"
-  };
-  firebase.initializeApp(firebaseConfig);
-  let currentUser;
-  const auth = firebase.auth();
-    
-  auth.onAuthStateChanged(user => {
-    currentUser = user; 
+
+
+
+
+<script type="module" src="./firebase.js"></script>
+
+<!-- ✅ 헤더 버튼 토글만 (리다이렉트 없음) -->
+<script type="module">
+  import { auth } from "./firebase.js";
+  import { onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+  onAuthStateChanged(auth, (user) => {
     const signupBtnContainer = document.querySelector(".signup")?.parentNode;
     if (!signupBtnContainer) return;
-    const oldBtn = signupBtnContainer.querySelector('.signup');
+
+    // a.signup을 안전하게 교체해 클릭 핸들러 꼬임 방지
+    const oldBtn = signupBtnContainer.querySelector(".signup");
     const newBtn = oldBtn.cloneNode(true);
     oldBtn.parentNode.replaceChild(newBtn, oldBtn);
 
     if (user) {
       newBtn.textContent = "Log out";
-      newBtn.onclick = () => { auth.signOut().then(() => location.reload()); };
+      newBtn.removeAttribute("href");
+      newBtn.onclick = async (e) => {
+        e.preventDefault();
+        await signOut(auth);
+        location.reload();
+      };
     } else {
       newBtn.textContent = "Sign Up";
-      newBtn.onclick = () => { window.location.href = "login.html"; };
-    }
-
-    const protectedPages = ["list_restourant.html","list_leisure.html", "map.html", "external.html", "ask.html","sitemap.html"];
-    const currentPath = window.location.pathname.split("/").pop();
-    if (!user && protectedPages.includes(currentPath)) {
-      alert("로그인이 필요합니다.");
-      window.location.href = "login.html";
+      newBtn.href = "login.html";
+      newBtn.onclick = null;
     }
   });
 </script>
+
 
 </body>
 </html>
