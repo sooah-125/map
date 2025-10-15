@@ -1,1229 +1,346 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
+
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>성서제휴맵_리스트_식당제휴</title>
- <style>
-.image-wrapper {
-  position: relative;
-  width: 100%;
-  height: 200px; 
-  border-radius: 8px;
-  overflow: hidden;
-  background-color: #ccc;
-   
-}
-
- .card img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;        
-  object-position: top;     
-  background-color: #eee;
-  transition: filter 0.3s ease;
-  display: block;
-}
-
-.overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0,0,0,0.75);
-  color: white;
-  border-radius: 8px;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: stretch;
-  text-align: left;
-  padding: 0.8rem 1rem 0.6rem 0.7rem;
-
-
-  /* 핵심: 기본값에서 안보이게 + 이벤트 막기 */
-  opacity: 0;
-  pointer-events: none;
-  visibility: hidden;
-  transition: opacity 0.3s ease, visibility 0.3s ease;
-  z-index: 2;
-}
-
-.card:hover .image-wrapper img {
-  filter: blur(2px);
-}
-
-.card:hover .overlay {
-  opacity: 1;
-  pointer-events: auto;
-   visibility: visible;
-}
-
-.info-row {
-  display: flex;
-  flex-wrap: nowrap; /* 줄바꿈 방지 */
-  align-items: flex-start; /* 위쪽 정렬 */
-  gap: 0.1rem;
-  margin-bottom: 0.15rem;
-  line-height: 1.3;
-  word-break: keep-all;
-  width: 100%;
-}
-
-.label {
-  flex: 0 0 55px; /* 고정 너비 정확히 */
-  font-weight: bold;
-  color: #fff;
-  text-align: left;
-}
-
-.value {
-  flex: 1;
-  color: #eee;
-  text-align: left;
-  min-width: 0; /* flex 줄바꿈 정리 */
-}
-
-
-body {
-  margin: 0;
-  font-family: 'Helvetica Neue', 'Apple SD Gothic Neo', 'Malgun Gothic', 'Noto Sans KR', Arial, sans-serif;
-  color: white;
-  overflow-x: hidden;
-  background: linear-gradient(to bottom, #3f3f3f 30%, #d0d0d0 90%);
-}
-
-header {
-  overflow: visible; /* 드롭다운 보이게 만들기 */
-  position: fixed;
-  top: 0;
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 1rem 1.5rem;
-  background-color: transparent;
-  z-index: 1000;
-  box-sizing: border-box;
-}
-
-.school-name {
-  font-size: 1.5rem;
-  font-weight: bold;
-  color: white;
-  flex-shrink: 0;
-}
-
-.nav-buttons {
-  display: flex;
-  gap: 1rem;
-  flex-wrap: nowrap;
-  overflow-x: auto;
-  scrollbar-width: none;
-  -webkit-overflow-scrolling: touch;
-}
-.nav-buttons a,
-.nav-buttons .dropbtn,
-.nav-buttons button {
-  color: white;
-  background: transparent;
-  border: none;
-  font-size: 1rem;
-  text-decoration: none;
-  cursor: pointer;
-  white-space: nowrap;
-  flex-shrink: 0;
-}
-
-.nav-buttons .signup {
-  border: 1px solid white;
-  border-radius: 5px;
-  padding: 0.3rem 0.8rem;
-}
-
-.nav-buttons::-webkit-scrollbar {
-  display: none;
-}
-
-.nav-buttons button {
-  background: transparent;
-  border: none;
-  color: white;
-  font-size: 1rem;
-  cursor: pointer;
-  white-space: nowrap;
-  flex-shrink: 0;
-}
-
-.nav-buttons .signup {
-  border: 1px solid white;
-  border-radius: 5px;
-  padding: 0.3rem 0.8rem;
-}
-
-main {
-  padding-top: 120px;
-  background: linear-gradient(to bottom, #3f3f3f 30%, #d0d0d0 90%);
-}
-
-.main-title {
-  text-align: center;
-  font-size: 3rem;
-  margin-bottom: 0.5rem;
-  color: white;
-}
-
-.subtitle {
-  text-align: center;
-  font-size: 1.5rem;
-  margin-bottom: 2rem;
-  color: white;
-}
-
-.initial-buttons {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 0.5rem;
-  margin-bottom: 3rem;
-}
-
-.initial-buttons a {
-  color: white;
-  text-decoration: none;
-  border: 1px solid white;
-  padding: 0.3rem 0.8rem;
-  border-radius: 8px;
-  font-size: 1rem;
-  background-color: transparent;
-  cursor: pointer;
-}
-
-.initial-section {
-  margin: 4rem auto;
-  max-width: 1300px;
-  padding: 0 1rem;
-}
-
-.initial-section h2 {
-  font-size: 2rem;
-  border-bottom: 2px solid white;
-  margin-bottom: 1rem;
-  padding-bottom: 0.5rem;
-}
-
-.card-row {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 2rem;
-}
-
-.card {
-  background-color: white;
-  color: black;
-  border-radius: 10px;
-  padding: 1rem;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-
-.card h3 {
-  margin: 0.5rem 0 0.2rem 0;
-}
-
-.card p {
-  margin: 0.2rem 0;
-}
-
-.card button {
-  margin-top: 0.5rem;
-  background-color: #333;
-  color: white;
-  border: none;
-  padding: 0.5rem 1rem;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-.card button:disabled {
-  background-color: #777;
-  cursor: default;
-}
-
-/* 사이드바 */
-#side-nav {
-  position: fixed;
-  top: 0;
-  right: -280px;
-  width: 280px;
-  height: 100vh;
-  background-color: #000;
-  color: white;
-  box-shadow: -4px 0 8px rgba(0,0,0,0.7);
-  transition: right 0.3s ease;
-  z-index: 1500;
-  display: flex;
-  flex-direction: column;
-  padding: 2rem 1.5rem;
-  box-sizing: border-box;
-}
-
-#side-nav.open {
-  right: 0;
-}
-
-#side-nav button.close-btn {
-  align-self: flex-end;
-  background: transparent;
-  border: none;
-  color: white;
-  font-size: 1.8rem;
-  cursor: pointer;
-  margin-bottom: 2rem;
-}
-
-#side-nav nav ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 1.2rem;
-}
-
-#side-nav nav ul li button,
-#side-nav nav ul li a {
-  background: none;
-  border: none;
-  color: white;
-  font-size: 1.1rem;
-  cursor: pointer;
-  text-align: left;
-  width: 100%;
-  padding: 0;
-  display: block;
-  text-decoration: none;
-}
-
-#side-nav nav ul li button {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-#side-nav nav ul li ul {
-  display: none;
-  flex-direction: column;
-  padding-left: 1rem;
-  margin-top: 1rem;
-  list-style-type: none;
-}
-
-#side-nav nav ul li ul li a {
-  font-size: 1rem;
-  padding: 0rem 0;
-  color: white;
-  text-decoration: none;
-  cursor: pointer;
-}
-
-#side-nav nav ul li ul li a:hover {
-  text-decoration: underline;
-}
-
-#overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  z-index: 1200;
-  background: rgba(0, 0, 0, 0.1);
-  backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px);
-  display: none;
-}
-
-#overlay.active {
-  display: block;
-}
-/* 드롭다운 */
-.dropdown {
-  position: relative;
-}
-
-.dropbtn {
-  color: white;
-  cursor: pointer;
-  padding: 0.3rem 0.5rem;
-}
-.dropdown-content {
-  display: none;
-  position: absolute;
-  top: 100%;
-  left: 0;
-  background-color: #444;
-  border-radius: 5px;
-  min-width: 140px;
-  box-shadow: 0px 8px 16px rgba(0,0,0,0.2);
-  z-index: 1001;
-}
-.dropdown-content a {
-  width: 77%;      
-  display: block;
-  padding: 0.5rem 1rem;
-  color: white;
-  text-decoration: none;
-  font-size: 0.9rem;
-}
-.dropdown .dropbtn {
-  color: white;
-  background: transparent;
-  border: none;
-  font-size: 1rem;
-  text-decoration: none;
-  cursor: pointer;
-  white-space: nowrap;
-  padding: 0.3rem 0.5rem;
-}
-
-.dropdown-content li a {
-  display: block;
-  padding: 0.6rem 1rem;
-  color: white;
-  text-decoration: none;
-  font-size: 0.9rem;
-}
-
-
-.dropdown-content li a:hover {
-  background-color: #666;
-}
-
-/* 핵심: hover 시 열기 */
-.dropdown:hover .dropdown-content {
-  display: block;
-}
-.dropdown-content a:hover {
-  background-color: #666;
-}
-
-
-/* 기본 숨김 */
-.nav-buttons li.dropdown ul.dropdown-content {
-  display: none;
-  position: absolute;
-  top: 100%;
-  left: 0;
-  background-color: #444;
-  min-width: 140px;
-  border-radius: 5px;
-  box-shadow: 0px 8px 16px rgba(0,0,0,0.2);
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  z-index: 1001;
-}
-
-/* 항목 스타일 */
-.nav-buttons li.dropdown ul.dropdown-content li a {
-  display: block;
-  padding: 0.6rem 1rem;
-  color: white;
-  text-decoration: none;
-  font-size: 0.9rem;
-}
-
-.nav-buttons li.dropdown ul.dropdown-content li a:hover {
-  background-color: #666;
-}
-
-/* 마우스 올렸을 때 표시 */
-.nav-buttons li.dropdown:hover ul.dropdown-content {
-  display: block;
-}
-
-.nav-buttons ul {
-  list-style: none;     /* ● 마커 제거 */
-  display: flex;        /* 가로 정렬 */
-  gap: 1rem;            /* 항목 간 간격 */
-  margin: 0;
-  padding: 0;
-  align-items: center;  /* 햄버거 버튼 높이 정렬 */
-}
-
-.nav-buttons ul li {
-  display: flex;
-  align-items: center;
-}
-.nav-buttons {
-  overflow: visible;
-}
-
-.nav-list {
-  list-style: none;
-  display: flex;
-  gap: 1rem;
-  margin: 0;
-  padding: 0;
-  overflow: visible;
-}
-
-.nav-list li {
-  position: relative;
-}
-
-.nav-list li.dropdown .dropdown-content {
-  display: none;
-  position: absolute;
-  top: 100%;
-  left: 0;
-  background-color: #444;
-  padding: 0.5rem 0;
-  min-width: 140px;
-  border-radius: 5px;
-  z-index: 1000;
-  box-shadow: 0 8px 16px rgba(0,0,0,0.2);
-}
-
-.nav-list li.dropdown:hover .dropdown-content {
-  display: block;
-}
-
-.nav-list li.dropdown .dropdown-content li a {
-  display: block;
-  padding: 0.5rem 1rem;
-  color: white;
-  text-decoration: none;
-}
-
-.nav-list li.dropdown .dropdown-content li a:hover {
-  background-color: #666;
-}
-
-</style>
-
-<header>
-  <div class="school-name">한국성서대학교</div>
-  <nav class="nav-buttons">
-    <ul class="nav-list">
-      <li><a href="index.html">HOME</a></li>
-      <li><a href="map.html">지도</a></li>
-
-      <li class="dropdown">
-        <a href="#" class="dropbtn">리스트</a>
-        <ul class="dropdown-content">
-          <li><a href="list_restourant.html">식당 제휴</a></li>
-          <li><a href="list_leisure.html">여가 제휴</a></li>
-        </ul>
-      </li>
-
-      <li><a href="external.html">외부업체</a></li>
-      <li><button id="hamburger-btn" style="margin-top: -4px;">☰</button></li>
-      <li><a href="login.html" class="signup">Sign Up</a></li>
-    </ul>
-  </nav>
-</header>
-
-
-
-
-
+  
+
+  <title>성서제휴맵 - 여가 제휴</title>
+
+  <script>
+    // FOUC 방지용 테마 사전 적용 스크립트
+    (function() {
+      const savedTheme = localStorage.getItem('theme') || 'light';
+      if (savedTheme === 'dark') {
+        document.documentElement.classList.add('dark-mode');
+      }
+    })();
+  </script>
+
+  <style>
+    /* --- 테마별 색상 변수 정의 --- */
+    :root {
+      --bg-color: #f5f5f7;
+      --bg-gradient-start: rgba(245, 245, 247, 0.9);
+      --bg-gradient-end: rgba(220, 220, 225, 0.95);
+      --text-color: #1d1d1f;
+      --text-color-secondary: #6e6e73;
+      --header-bg: rgba(255, 255, 255, 0.7);
+      --card-bg: rgba(255, 255, 255, 0.8);
+      --border-color: rgba(0, 0, 0, 0.1);
+      --signup-bg: #000;
+      --signup-text: #fff;
+      --apple-blue: #007aff;
+      --apple-blur: saturate(180%) blur(20px);
+    }
+
+    html.dark-mode {
+      --bg-color: #111112;
+      --bg-gradient-start: rgba(17, 17, 18, 0.85);
+      --bg-gradient-end: rgba(51, 51, 53, 0.95);
+      --text-color: #f5f5f7;
+      --text-color-secondary: #86868b;
+      --header-bg: rgba(28, 28, 30, 0.7);
+      --card-bg: rgba(28, 28, 30, 0.85);
+      --border-color: rgba(255, 255, 255, 0.1);
+      --signup-bg: #fff;
+      --signup-text: #000;
+    }
+
+    /* --- 기본 스타일 --- */
+    html { overflow-x: hidden; }
+    body {
+      margin: 0;
+      font-family: sans-serif;
+      color: var(--text-color);
+      min-height: 100vh;
+      background-color: var(--bg-color);
+      background-image: url('22235_23589_729.jpg');
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+      transition: background-color 0.3s, color 0.3s;
+    }
+
+    main {
+      display: flex; flex-direction: column; align-items: center;
+      padding: 8rem 2rem 6rem 2rem; min-height: 100vh; box-sizing: border-box;
+      background: linear-gradient(to bottom, var(--bg-gradient-start), var(--bg-gradient-end));
+      transition: background 0.3s;
+    }
+
+    /* --- 헤더 --- */
+    header {
+      position: fixed; top: 0; width: 100%;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 1rem 1.5rem; z-index: 1000; box-sizing: border-box;
+      background-color: var(--header-bg);
+      backdrop-filter: var(--apple-blur); -webkit-backdrop-filter: var(--apple-blur);
+      border-bottom: 1px solid var(--border-color);
+      transition: background-color 0.3s, border-color 0.3s;
+    }
+    .school-name { font-size: 1.5rem; font-weight: 600; color: var(--text-color); text-decoration: none; transition: color 0.3s; }
+    .school-name:hover { color: var(--apple-blue); }
+    .nav-buttons > .nav-list { list-style: none; display: flex; gap: 1rem; margin: 0; padding: 0; align-items: center; }
+    .nav-buttons a, .nav-buttons .dropbtn, .nav-buttons button {
+      color: var(--text-color); background: transparent; border: none;
+      font-size: 1rem; font-weight: 500; text-decoration: none;
+      cursor: pointer; white-space: nowrap; transition: color 0.3s ease;
+    }
+    .nav-buttons a:hover, .nav-buttons .dropbtn:hover, .nav-buttons button:hover { color: var(--apple-blue); }
+    .nav-buttons .signup {
+      background-color: var(--signup-bg); color: var(--signup-text);
+      border-radius: 999px; padding: 0.4rem 1rem; font-weight: 600;
+      transition: background-color 0.3s, color 0.3s;
+    }
+
+    /* --- 드롭다운, 테마 스위치, 사이드바 (공통) --- */
+    .dropdown { position: relative; }
+    .dropdown-content { display: none; position: absolute; top: 100%; left: 50%; transform: translateX(-50%); min-width: 160px; border-radius: 12px; box-shadow: 0 8px 30px rgba(0,0,0,0.2); z-index: 1001; list-style: none; padding: 0.5rem 0; margin: 0; overflow: hidden; background-color: var(--card-bg); backdrop-filter: var(--apple-blur); -webkit-backdrop-filter: var(--apple-blur); border: 1px solid var(--border-color); }
+    .dropdown:hover .dropdown-content { display: block; }
+    .dropdown .dropdown-content:hover { display: block; }
+    .dropdown-content li a { display: block; padding: 0.7rem 1.2rem; color: var(--text-color); text-decoration: none; font-size: 0.95rem; transition: background-color 0.2s, color 0.2s; }
+    .dropdown-content li a:hover { background-color: var(--apple-blue); color: #fff; }
+    .theme-switcher { display: flex; align-items: center; }
+    #theme-toggle { display: none; }
+    #theme-toggle + label { position: relative; display: flex; align-items: center; width: 50px; height: 28px; background-color: #ccc; border-radius: 999px; cursor: pointer; transition: background-color 0.3s; }
+    #theme-toggle + label::before { content: ''; position: absolute; left: 3px; width: 22px; height: 22px; background-color: white; border-radius: 50%; transition: transform 0.3s; }
+    #theme-toggle + label .icon { position: absolute; font-size: 14px; transition: opacity 0.3s; user-select: none; }
+    #theme-toggle + label .sun-icon { right: 5px; opacity: 1; }
+    #theme-toggle + label .moon-icon { left: 5px; opacity: 0; }
+    #theme-toggle:checked + label { background-color: var(--apple-blue); }
+    #theme-toggle:checked + label::before { transform: translateX(22px); }
+    #theme-toggle:checked + label .sun-icon { opacity: 0; }
+    #theme-toggle:checked + label .moon-icon { opacity: 1; }
+    #side-nav { position: fixed; top: 0; right: -300px; width: 300px; height: 100vh; box-shadow: -10px 0 30px rgba(0,0,0,0.3); transition: right 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), background-color 0.3s; z-index: 1500; display: flex; flex-direction: column; padding: 2rem; box-sizing: border-box; background-color: var(--header-bg); backdrop-filter: var(--apple-blur); -webkit-backdrop-filter: var(--apple-blur); border-left: 1px solid var(--border-color); }
+    #side-nav.open { right: 0; }
+    #side-nav button.close-btn { align-self: flex-end; background: transparent; border: none; color: var(--text-color-secondary); font-size: 2rem; cursor: pointer; margin-bottom: 2rem; transition: color 0.3s; }
+    #side-nav nav ul { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 1.5rem; }
+    #side-nav nav ul li button, #side-nav nav ul li a { background: none; border: none; color: var(--text-color); font-size: 1.2rem; font-weight: 500; cursor: pointer; text-align: left; width: 100%; padding: 0; display: block; text-decoration: none; transition: color 0.3s; }
+    #side-nav nav ul li button { display: flex; justify-content: space-between; align-items: center; }
+    #side-nav nav ul li ul { display: none; flex-direction: column; padding-left: 1.5rem; margin-top: 1.2rem; gap: 1rem; list-style-type: none; }
+    #overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 1200; background: rgba(0, 0, 0, 0.2); backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px); display: none; }
+    #overlay.active { display: block; }
+
+    /* --- 페이지 전용 스타일 --- */
+    .main-title { text-align: center; font-size: 3.5rem; font-weight: 700; margin-bottom: 0.5rem; color: var(--text-color); }
+    .subtitle { text-align: center; font-size: 1.5rem; margin-bottom: 3rem; color: var(--text-color-secondary); font-weight: 500; }
+    .initial-buttons { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.75rem; margin-bottom: 4rem; }
+    .initial-buttons a { color: var(--text-color); text-decoration: none; border: 1.5px solid var(--text-color-secondary); padding: 0.5rem 1rem; border-radius: 999px; font-size: 1rem; font-weight: 500; background-color: transparent; cursor: pointer; transition: all 0.3s ease; }
+    .initial-buttons a:hover { background-color: var(--signup-bg); color: var(--signup-text); border-color: var(--signup-bg); transform: scale(1.05); }
+    .initial-section { width: 100%; max-width: 1200px; margin-bottom: 4rem; }
+    .initial-section h2 { font-size: 2.5rem; font-weight: 600; color: var(--text-color); border-bottom: 1px solid var(--border-color); margin-bottom: 2rem; padding-bottom: 1rem; }
+    .card-row { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 2rem; }
+    .card { background-color: var(--card-bg); color: var(--text-color); border-radius: 22px; padding: 1.2rem; box-shadow: 0 10px 30px rgba(0,0,0,0.1); display: flex; flex-direction: column; align-items: center; transition: transform 0.3s, box-shadow 0.3s, background-color 0.3s; border: 1px solid var(--border-color); backdrop-filter: var(--apple-blur); -webkit-backdrop-filter: var(--apple-blur); }
+    .card:hover { transform: translateY(-8px); box-shadow: 0 15px 40px rgba(0,0,0,0.2); }
+    .card h3 { margin: 1rem 0 0.2rem 0; font-size: 1.25rem; font-weight: 600; }
+    .card p { margin: 0.2rem 0; color: var(--text-color-secondary); font-weight: 500; }
+    .image-wrapper { position: relative; width: 100%; padding-bottom: 66.66%; height: 0; border-radius: 14px; overflow: hidden; background-color: var(--border-color); }
+    .card img { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s ease, filter 0.4s ease; }
+    .overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.6); color: #f5f5f7; display: flex; flex-direction: column; justify-content: center; padding: 1rem; box-sizing: border-box; opacity: 0; pointer-events: none; transition: opacity 0.4s ease; z-index: 2; }
+    .card:hover img { transform: scale(1.05); filter: blur(2px); }
+    .card:hover .overlay { opacity: 1; pointer-events: auto; }
+    .info-row { display: flex; gap: 0.5rem; margin-bottom: 0.4rem; font-size: 0.9rem; }
+    .label { flex-shrink: 0; font-weight: 600; opacity: 0.8; }
+    .value { font-weight: 400; }
+
+    /* --- 맨 위로 가기 버튼 --- */
+    #scrollTopBtn { display: none; position: fixed; bottom: 30px; right: 30px; z-index: 99; border: none; outline: none; background-color: var(--card-bg); color: var(--text-color); cursor: pointer; padding: 0; width: 50px; height: 50px; border-radius: 50%; font-size: 1.5rem; box-shadow: 0 5px 15px rgba(0,0,0,0.2); transition: all 0.3s; backdrop-filter: var(--apple-blur); -webkit-backdrop-filter: var(--apple-blur); border: 1px solid var(--border-color); }
+    #scrollTopBtn:hover { filter: brightness(1.2); transform: scale(1.1); }
+
+
+
+
+    
+  </style>
+</head>
+<body>
+  <header>
+    <a href="index.html" class="school-name">KBU Partner Map</a>
+    <nav class="nav-buttons">
+      <ul class="nav-list">
+        <li><a href="index.html">HOME</a></li>
+        <li><a href="map.html">지도</a></li>
+        <li class="dropdown">
+          <a href="#" class="dropbtn">리스트</a>
+          <ul class="dropdown-content">
+            <li><a href="list_restourant.html">식당 제휴</a></li>
+            <li><a href="list_leisure.html">여가 제휴</a></li>
+             
+          </ul>
+          <li><a href="external.html">외부 업체</a></li>
+        </li>
+       
+        <li class="theme-switcher">
+          <input type="checkbox" id="theme-toggle">
+          <label for="theme-toggle">
+              <span class="icon sun-icon">☀️</span>
+              <span class="icon moon-icon">🌙</span>
+          </label>
+        </li>
+        <li><button id="hamburger-btn" style="font-size: 1.5rem; padding-bottom: 4px;">☰</button></li>
+        <li><a href="login.html" class="signup">Sign Up</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <aside id="side-nav" aria-label="사이드 내비게이션">
+    <button class="close-btn" aria-label="사이드 내비 닫기">&times;</button>
+    <nav>
+      <ul>
+        <li><a href="map.html">지도로 보기</a></li>
+        <li>
+          <button id="side-list-btn" aria-expanded="false">리스트로 보기 ⏷</button>
+          <ul id="side-list-submenu" style="display: none;">
+            <li><a href="list_restourant.html">식당 제휴</a></li>
+            <li><a href="list_leisure.html">여가 제휴</a></li>
+            <li><a href="external.html">외부 업체</a></li>
+          </ul>
+        </li>
+        
+        <li><a href="sitemap.html">사이트맵</a></li>
+        <li><a href="ask.html">문의</a></li>
+      </ul>
+    </nav>
+  </aside>
+  <div id="overlay"></div>
 
   <main>
-    <div class="main-title">성서제휴맵</div>
-    <div class="subtitle">여가제휴</div>
-
+    <div class="main-title">성서 제휴 업체</div>
+    <div class="subtitle">여가 제휴 리스트</div>
     <div class="initial-buttons">
       <a href="#ㄱ">ㄱ</a><a href="#ㄴ">ㄴ</a><a href="#ㄷ">ㄷ</a><a href="#ㄹ">ㄹ</a><a href="#ㅁ">ㅁ</a>
       <a href="#ㅂ">ㅂ</a><a href="#ㅅ">ㅅ</a><a href="#ㅇ">ㅇ</a><a href="#ㅈ">ㅈ</a><a href="#ㅊ">ㅊ</a>
       <a href="#ㅋ">ㅋ</a><a href="#ㅌ">ㅌ</a><a href="#ㅍ">ㅍ</a><a href="#ㅎ">ㅎ</a>
     </div>
+    <section id="ㄱ" class="initial-section"><h2>ㄱ</h2><div class="card-row"></div></section>
+    <section id="ㄴ" class="initial-section"><h2>ㄴ</h2><div class="card-row"></div></section>
+    <section id="ㄷ" class="initial-section"><h2>ㄷ</h2><div class="card-row"></div></section>
+    <section id="ㄹ" class="initial-section"><h2>ㄹ</h2><div class="card-row"></div></section>
+    <section id="ㅁ" class="initial-section"><h2>ㅁ</h2><div class="card-row"></div></section>
+    <section id="ㅂ" class="initial-section"><h2>ㅂ</h2><div class="card-row"></div></section>
+    <section id="ㅅ" class="initial-section"><h2>ㅅ</h2><div class="card-row"></div></section>
+    <section id="ㅇ" class="initial-section"><h2>ㅇ</h2><div class="card-row"></div></section>
+    <section id="ㅈ" class="initial-section"><h2>ㅈ</h2><div class="card-row"></div></section>
+    <section id="ㅊ" class="initial-section"><h2>ㅊ</h2><div class="card-row"></div></section>
+    <section id="ㅋ" class="initial-section"><h2>ㅋ</h2><div class="card-row"></div></section>
+    <section id="ㅌ" class="initial-section"><h2>ㅌ</h2><div class="card-row"></div></section>
+    <section id="ㅍ" class="initial-section"><h2>ㅍ</h2><div class="card-row"></div></section>
+    <section id="ㅎ" class="initial-section"><h2>ㅎ</h2><div class="card-row"></div></section>
+  </main>
 
-    <!-- ㄱ -->
-    <section id="ㄱ" class="initial-section">
-      <h2>ㄱ</h2>
-      <div class="card-row">
-        <div class="card">
-  <div class="image-wrapper">
-    <img src="https://raw.githubusercontent.com/sooah-125/map/main/img/turtle_boardgame_cafe.png" alt="거북이 보드게임 카페" />
-    <div class="overlay">
-      <div class="info-row"><span class="label">도로명:</span><span class="value">서울 광진구 능동로13길 36<br>지하 1층</span></div>
-      <div class="info-row"><span class="label">영업시간:</span><span class="value">24시간</span></div>
-      <div class="info-row"><span class="label">전화번호:</span><span class="value">0507-1470-5547</span></div>
-      <div class="info-row"><span class="label">제휴혜택:</span><span class="value">평일 시간 무제한 이용권<br>10% 할인<br>/주말 시간 무제한 이용권 약 13% 할인
-</span></div>
-    </div>
-  </div>
-  <h3>거북이 보드게임 카페</h3>
-  <p>보드게임</p>
-</div>
+  <button id="scrollTopBtn" title="맨 위로 가기">↑</button>
 
- <div class="card">
-  <div class="image-wrapper">
-    <img src="https://raw.githubusercontent.com/sooah-125/map/main/img/kimho_ridia153_nowon.png" alt="김호증모가발 리디아153 노원점" />
-    <div class="overlay">
-      <div class="info-row"><span class="label">도로명:</span><span class="value">서울 노원구 동일로 1379</span></div>
-      <div class="info-row"><span class="label">영업시간:</span><span class="value">09:30~20:00<br>(일요일 정기휴무)</span></div>
-      <div class="info-row"><span class="label">전화번호:</span><span class="value">0507-1429-7020</span></div>
-      <div class="info-row"><span class="label">제휴혜택:</span><span class="value">가발 구매 및 증모 시술 시<br>가족 포함 10% 할인
-</span></div>
-    </div>
-  </div>
-  <h3>김호증모가발 리디아153 노원점</h3>
-  <p>가발</p>
-</div>
+  <!-- Data -->
 
+  <script src="data.js"></script>
 
+  <script>
+    // 공통 UI 스크립트 (사이드바, 테마, 스크롤탑)
+    const hamburgerBtn = document.getElementById("hamburger-btn");
+    const sideNav = document.getElementById("side-nav");
+    const closeBtn = document.querySelector("#side-nav .close-btn");
+    const overlay = document.getElementById("overlay");
+    const sideListBtn = document.getElementById("side-list-btn");
+    const sideListSubmenu = document.getElementById("side-list-submenu");
+    const themeToggle = document.getElementById('theme-toggle');
+    const htmlElement = document.documentElement;
+    const scrollTopBtn = document.getElementById("scrollTopBtn");
 
+    hamburgerBtn?.addEventListener("click", () => { sideNav.classList.add("open"); overlay.classList.add("active"); });
+    closeBtn?.addEventListener("click", () => { sideNav.classList.remove("open"); overlay.classList.remove("active"); });
+    overlay?.addEventListener("click", () => { sideNav.classList.remove("open"); overlay.classList.remove("active"); });
+    sideListBtn?.addEventListener("click", () => {
+      const isOpen = sideListSubmenu.style.display === "flex";
+      sideListSubmenu.style.display = isOpen ? "none" : "flex";
+      sideListBtn.innerHTML = isOpen ? "리스트로 보기 ⏷" : "리스트로 보기 ⏶";
+    });
 
+    if (htmlElement.classList.contains('dark-mode')) { themeToggle.checked = true; }
+    themeToggle.addEventListener('change', () => {
+      if (themeToggle.checked) { htmlElement.classList.add('dark-mode'); localStorage.setItem('theme', 'dark'); } 
+      else { htmlElement.classList.remove('dark-mode'); localStorage.setItem('theme', 'light'); }
+    });
 
+    window.addEventListener("scroll", () => { scrollTopBtn.style.display = (window.scrollY > 100) ? "block" : "none"; });
+    scrollTopBtn.addEventListener("click", () => { window.scrollTo({ top: 0, behavior: 'smooth' }); });
 
-
-
-          
-        </div>
-      </div>
-    </section>
-
-    <!-- ㄴ -->
-    <section id="ㄴ" class="initial-section">
-  <h2>ㄴ</h2>
-  <div class="card-row">
-    
-    
-  
-  </div>
-</section>
-
-
-
-
-
-
-
-
-
-
-
-
-
-  <section id="ㄷ" class="initial-section">
-  <h2>ㄷ</h2>
-  <div class="card-row">
-    <div class="card">
-      <div class="image-wrapper"><img src="https://raw.githubusercontent.com/sooah-125/map/main/img/drop_the_fit_pt_studio.png" alt="준비중" />
-        <div class="overlay">
-          <div class="info-row"><span class="label">도로명:</span><span class="value">서울 노원구 동일로 1352 6층</span></div>
-          <div class="info-row"><span class="label">영업시간:</span><span class="value">09:00~23:00(토요일 10:00~16:00<br>/일요일 정기휴무)</span></div>
-          <div class="info-row"><span class="label">전화번호:</span><span class="value">0507-1395-8606</span></div>
-          <div class="info-row"><span class="label">제휴혜택:</span><span class="value">PT 20회 + 3개월 990,000원</span></div>
-        </div>
-    </div>
-      <h3>드랍더핏피티스튜디오</h3>
-      <p>스포츠시설</p>
-       </div>
-
-
- <div class="card">
-      <div class="image-wrapper"><img src="	https://raw.githubusercontent.com/sooah-125/map/main/img/the_maze_nowon.png" alt="더메이즈 노원점" />
-        <div class="overlay">
-          <div class="info-row"><span class="label">도로명:</span><span class="value">서울 노원구 상계로5길 26<br>신일빌딩 6층</span></div>
-          <div class="info-row"><span class="label">영업시간:</span><span class="value">11:00~23:30(연중무휴)</span></div>
-          <div class="info-row"><span class="label">전화번호:</span><span class="value">02-6012-2620</span></div>
-          <div class="info-row"><span class="label">제휴혜택:</span><span class="value">최소 하루 전 전화 예약<br>/학생증 지참 시 인당 5,000원 할인</span></div>
-        </div>
-    </div>
-      <h3>더메이즈 노원점</h3>
-      <p>방탈출</p>
-       </div>
-
-
-
- <div class="card">
-      <div class="image-wrapper"><img src="https://raw.githubusercontent.com/sooah-125/map/main/img/davich_glasses_nowon.png" alt="다비치 안경 노원상계백병원건너점" />
-        <div class="overlay">
-          <div class="info-row"><span class="label">도로명:</span><span class="value">서울 노원구 동일로 1365</span></div>
-          <div class="info-row"><span class="label">영업시간:</span><span class="value">10:00~22:30</span></div>
-          <div class="info-row"><span class="label">전화번호:</span><span class="value">02-935-1357</span></div>
-          <div class="info-row"><span class="label">제휴혜택:</span><span class="value">전 상품 10% 할인<br>(최저가 팩렌즈 행사품 제외)</span></div>
-        </div>
-    </div>
-      <h3>다비치 안경 노원상계백병원건너점</h3>
-      <p>안경원</p>
-       </div>
-
-
-
-<div class="card">
-      <div class="image-wrapper"><img src="https://raw.githubusercontent.com/sooah-125/map/main/img/ditone_hair.png" alt="디톤헤어 (구 제이빛 헤어)" />
-        <div class="overlay">
-          <div class="info-row"><span class="label">도로명:</span><span class="value">서울 노원구 동일로 1363<br>2층 201호</span></div>
-          <div class="info-row"><span class="label">영업시간:</span><span class="value">화~토 10:00~20:00 (일·월요일 정기휴무)</span></div>
-          <div class="info-row"><span class="label">전화번호:</span><span class="value">010-5457-9498</span></div>
-          <div class="info-row"><span class="label">제휴혜택:</span><span class="value">펌·염색 시술 시 20% 할인<br>(부분 시술 제외)<br>/컷 2,000원 할인</span></div>
-        </div>
-    </div>
-      <h3>디톤헤어 (구 제이빛 헤어)</h3>
-      <p>미용실</p>
-       </div>
-
-
-
-
-
-
-    </div>
-  </div>
-</section>
-
-
-
-
-<section id="ㄹ" class="initial-section">
-  <h2>ㄹ</h2>
-  <div class="card-row">
-   <div class="card">
-  <div class="image-wrapper">
-    <img src="https://raw.githubusercontent.com/sooah-125/map/main/img/loop_shell_house.png" alt="루프쉘하우스" />
-    <div class="overlay">
-      <div class="info-row"><span class="label">도로명:</span><span class="value">서울 노원구 동일로 1456</span></div>
-      <div class="info-row"><span class="label">영업시간:</span><span class="value">08:00~24:00</span></div>
-      <div class="info-row"><span class="label">전화번호:</span><span class="value">0507-1342-2594</span></div>
-      <div class="info-row"><span class="label">제휴혜택:</span><span class="value">10개월 이상 거주 시 매달 10,000원 할인<br>/도배·바닥 리모델링 제공/<br>이사 당일 1층~4층까지 픽업 지원
-</span></div>
-    </div>
-  </div>
-  <h3>루프쉘하우스</h3>
-  <p>고시텔</p>
-</div>
-      
-
-    </div>
-  </div>
-</section>
-
-<section id="ㅁ" class="initial-section">
-  <h2>ㅁ</h2>
-  <div class="card-row">
-  
-
-
-  </div>
-</section>
-
-<section id="ㅂ" class="initial-section">
-  <h2>ㅂ</h2>
-  <div class="card-row">
-  <div class="card">
-  
-  
-  
-  <div class="image-wrapper">
-    <img src="https://raw.githubusercontent.com/sooah-125/map/main/img/believer_gym_junggye.png" alt="빌리버짐 중계역점" />
-    <div class="overlay">
-      <div class="info-row"><span class="label">도로명:</span><span class="value">서울 노원구 동일로 1308</span></div>
-      <div class="info-row"><span class="label">영업시간:</span><span class="value">06:00~24:00<br>(주말 08:00~22:00)</span></div>
-      <div class="info-row"><span class="label">전화번호:</span><span class="value">0507-1337-3011</span></div>
-      <div class="info-row"><span class="label">제휴혜택:</span><span class="value">회원권 20% 할인</span></div>
-    </div>
-  </div>
-  <h3>빌리버짐 중계역점</h3>
-  <p>헬스장</p>
-</div>
-  
-  
-  
-  
-  
-  
-  
-  </div>
-</section>
-
-<section id="ㅅ" class="initial-section">
-  <h2>ㅅ</h2>
-  <div class="card-row">
     
 
-    <div class="card">
-      <div class="image-wrapper">
-        <img src="https://raw.githubusercontent.com/sooah-125/map/main/img/word_of_life_bookstore.png" alt="생명의말씀사" />
-        <div class="overlay">
-          <div class="info-row"><span class="label">도로명:</span><span class="value">서울 노원구 동일로 1366</span></div>
-          <div class="info-row"><span class="label">영업시간:</span><span class="value">10:00~20:00<br>(일요일 정기휴무)</span></div>
-          <div class="info-row"><span class="label">전화번호:</span><span class="value">02-938-7979</span></div>
-          <div class="info-row"><span class="label">제휴혜택:</span><span class="value">5% 할인 + 5% 추가 적립 <br>(큐티책, 성경공부 교재 등 일부 품목 제외)</span></div>
-        </div>
-      </div>
-      <h3>생명의말씀사</h3>
-      <p>서점</p>
-    </div>
-
-
-
-
-      
-    </div>
-  </div>
-</section>
-
-<section id="ㅇ" class="initial-section">
-  <h2>ㅇ</h2>
-  <div class="card-row">
-    
-  
-    <div class="card">
-      <div class="image-wrapper">
-        <img src="https://raw.githubusercontent.com/sooah-125/map/main/img/izonepop.png" alt="아이존팝" />
-        <div class="overlay">
-          <div class="info-row"><span class="label">도로명:</span><span class="value">서울 노원구 노해로 485<br>지하 2층</span></div>
-          <div class="info-row"><span class="label">영업시간:</span><span class="value">14:00 - 23:00<br>(주말 10:00~23:55)</span></div>
-          <div class="info-row"><span class="label">전화번호:</span><span class="value">0507-1369-2506</span></div>
-          <div class="info-row"><span class="label">제휴혜택:</span><span class="value">1시간-1,000원/2시간-2,000원<br>/5인 이상 시 인당 2,000원 할인(모두 현금,계좌이체시 적용)</span></div>
-        </div>
-      </div>
-      <h3>아이존팝</h3>
-      <p>오락실</p>
-      <p></p>
-    </div>
-
-
-
-<div class="card">
-      <div class="image-wrapper">
-        <img src="https://raw.githubusercontent.com/sooah-125/map/main/img/OnStudy_Cafe.png" alt="온 스터디 카페" />
-        <div class="overlay">
-          <div class="info-row"><span class="label">도로명:</span><span class="value">서울 노원구 노해로 482<br>지하 1층</span></div>
-          <div class="info-row"><span class="label">영업시간:</span><span class="value">24시간</span></div>
-          <div class="info-row"><span class="label">전화번호:</span><span class="value">0507-1380-4248</span></div>
-          <div class="info-row"><span class="label">제휴혜택:</span><span class="value">사전 연락 시 한 달 이상 기간권 10% 할인<br>(학생증 제시 필수)</span></div>
-        </div>
-      </div>
-      <h3>온 스터디 카페</h3>
-      <p>스터디 카페</p>
-      <p></p>
-    </div>
-
-
-
-<div class="card">
-      <div class="image-wrapper">
-        <img src="https://raw.githubusercontent.com/sooah-125/map/main/img/OneulWoori_PhotoStudio.png" alt="오늘, 우리 사진관" />
-        <div class="overlay">
-          <div class="info-row"><span class="label">도로명:</span><span class="value">서울 노원구 동일로 218길 17</span></div>
-          <div class="info-row"><span class="label">영업시간:</span><span class="value">09:00~23:00</span></div>
-          <div class="info-row"><span class="label">전화번호:</span><span class="value">0506-753-1618</span></div>
-          <div class="info-row"><span class="label">제휴혜택:</span><span class="value">2~4인 상품(30,000원)을 1인 상품(20,000원)으로 제공<br>/평일 1장 추가 인화<br>/가능한 지점 (노원, 성신여대, 신촌, 광명철산, 수원영통)</span></div>
-        </div>
-      </div>
-      <h3>오늘, 우리 사진관</h3>
-      <p>사진관</p>
-      <p></p>
-    </div>
-
-
-
-<div class="card">
-      <div class="image-wrapper">
-        <img src="https://raw.githubusercontent.com/sooah-125/map/main/img/Alpha_Sanggye.png" alt="알파 상계점" />
-        <div class="overlay">
-          <div class="info-row"><span class="label">도로명:</span><span class="value">서울 노원구 노해로 501</span></div>
-          <div class="info-row"><span class="label">영업시간:</span><span class="value">월요일~금요일 09:00~21:00<br>(일요일 11:00~20:00<br>/토요일 09:00~20:00)</span></div>
-          <div class="info-row"><span class="label">전화번호:</span><span class="value">02-935-8382</span></div>
-          <div class="info-row"><span class="label">제휴혜택:</span><span class="value">학생증 제시 시<br>10,000원 이상 5% 할인<br>/50,000원 이상 10% 할인</span></div>
-        </div>
-      </div>
-      <h3>알파 상계점</h3>
-      <p>문구점</p>
-      <p></p>
-    </div>
-
-<div class="card">
-      <div class="image-wrapper">
-        <img src="https://raw.githubusercontent.com/sooah-125/map/main/img/africa_coin_noraebang.png" alt="아프리카코인노래방" />
-        <div class="overlay">
-          <div class="info-row"><span class="label">도로명:</span><span class="value">서울 노원구 동일로 1323<br>지하 1층</span></div>
-          <div class="info-row"><span class="label">영업시간:</span><span class="value">11:00~23:45</span></div>
-          <div class="info-row"><span class="label">전화번호:</span><span class="value">010-3028-0801</span></div>
-          <div class="info-row"><span class="label">제휴혜택:</span><span class="value">6곡 결제 시 1곡 추가<br>/1시간 결제 시 10분 추가<br>/특실·이벤트룸 10분 추가</span></div>
-        </div>
-      </div>
-      <h3>아프리카코인노래방</h3>
-      <p>노래방</p>
-      <p></p>
-    </div>
-
-
-<div class="card">
-      <div class="image-wrapper">
-        <img src="https://raw.githubusercontent.com/sooah-125/map/main/img/Ava_Hair.png" alt="에이바헤어" />
-        <div class="overlay">
-          <div class="info-row"><span class="label">도로명:</span><span class="value">서울 노원구 동일로 1356</span></div>
-          <div class="info-row"><span class="label">영업시간:</span><span class="value">10:00~20:00</span></div>
-          <div class="info-row"><span class="label">전화번호:</span><span class="value">0507-1358-1483</span></div>
-          <div class="info-row"><span class="label">제휴혜택:</span><span class="value">커트(16,000원) 2,000원 할인</span></div>
-        </div>
-      </div>
-      <h3>에이바헤어</h3>
-      <p>미용실</p>
-      <p></p>
-    </div>
-
-
-
-
-
-    
-    </div>
-  </div>
-</section>
-
-<section id="ㅈ" class="initial-section">
-  <h2>ㅈ</h2>
-  <div class="card-row">
- 
-    <div class="card">
-      <div class="image-wrapper">
-        <img src="https://raw.githubusercontent.com/sooah-125/map/main/img/joa_coin_noraebang.png" alt="조아코인노래방" />
-        <div class="overlay">
-          <div class="info-row"><span class="label">도로명:</span><span class="value">서울 노원구 상계로 65 현성빌딩</span></div>
-          <div class="info-row"><span class="label">영업시간:</span><span class="value">11:00~24:00</span></div>
-          <div class="info-row"><span class="label">전화번호:</span><span class="value">010-3059-7556</span></div>
-          <div class="info-row"><span class="label">제휴혜택:</span><span class="value">1,000원 4곡방 또는<br>8곡 결제 시 +1곡<br>/3곡방 또는 3곡 결제 시 +1곡</span></div>
-        </div>
-      </div>
-      <h3>조아코인노래방</h3>
-      <p>노래방</p>
-    </div>
-
-   
-<div class="card">
-      <div class="image-wrapper">
-        <img src="https://raw.githubusercontent.com/sooah-125/map/main/img/Jaei_Oriental_Clinic.png" alt="재이한의원" />
-        <div class="overlay">
-          <div class="info-row"><span class="label">도로명:</span><span class="value">서울 노원구 동일로 1345 3층</span></div>
-          <div class="info-row"><span class="label">영업시간:</span><span class="value">09:30~20:00 <br>(토요일 09:30~15:00<br>/일요일 정기휴무)</span></div>
-          <div class="info-row"><span class="label">전화번호:</span><span class="value">02-937-8875</span></div>
-          <div class="info-row"><span class="label">제휴혜택:</span><span class="value">비급여 항목 10% 할인 <br>(다이어트 한약, 일반 한약, 약침, 소화제류, 파스류, 감기약 등)</span></div>
-        </div>
-      </div>
-      <h3>재이한의원</h3>
-      <p>한의원</p>
-    </div>
-
-
-
-<div class="card">
-      <div class="image-wrapper">
-        <img src="https://raw.githubusercontent.com/sooah-125/map/main/img/Junggye_JiuJitsu.png" alt="중계주짓수" />
-        <div class="overlay">
-          <div class="info-row"><span class="label">도로명:</span><span class="value">서울 노원구 동일로 1354</span></div>
-          <div class="info-row"><span class="label">영업시간:</span><span class="value">월요일~금요일 10:00~23:00<br>/토요일 11:30~15:00<br>(일요일 정기휴무)</span></div>
-          <div class="info-row"><span class="label">전화번호:</span><span class="value">0507-1332-5021</span></div>
-          <div class="info-row"><span class="label">제휴혜택:</span><span class="value">현금/계좌이체 시 <br>10,000원 할인 (일일체험 제외)</span></div>
-        </div>
-      </div>
-      <h3>중계주짓수</h3>
-      <p>주짓수</p>
-    </div>
-
-
-
-
-
-    
-      
-    </div>
-  </div>
-</section>
-
-<section id="ㅊ" class="initial-section">
-  <h2>ㅊ</h2>
-  <div class="card-row">
-   
-
-</section>
-
-<section id="ㅋ" class="initial-section">
-  <h2>ㅋ</h2>
-  <div class="card-row">
- 
-    <div class="card">
-      <div class="image-wrapper">
-        <img src="https://raw.githubusercontent.com/sooah-125/map/main/img/Koobang_Plus.png" alt="쿠방플러스" />
-        <div class="overlay">
-          <div class="info-row"><span class="label">도로명:</span><span class="value">서울 노원구 노원로26길 39</span></div>
-          <div class="info-row"><span class="label">영업시간:</span><span class="value">10:00~20:00<br>(월요일 정기휴무)</span></div>
-          <div class="info-row"><span class="label">전화번호:</span><span class="value">0507-1436-4104</span></div>
-          <div class="info-row"><span class="label">제휴혜택:</span><span class="value">쿠키·케이크 체험 시<br>음료 500원 할인</span></div>
-        </div>
-      </div>
-      <h3>쿠방플러스</h3>
-      <p>디저트 공방</p>
-    </div>
-
-      
-    </div>
-  </div>
-</section>
-
-<section id="ㅌ" class="initial-section">
-  <h2>ㅌ</h2>
-  <div class="card-row">
-    
-      
-    </div>
-  </div>
-</section>
-
-<section id="ㅍ" class="initial-section">
-  <h2>ㅍ</h2>
-  <div class="card-row">
-    <div class="card">
- 
-    
-      <div class="image-wrapper">
-        <img src="https://raw.githubusercontent.com/sooah-125/map/main/img/Pilates_In.png" alt="필라테스인 노원중계본점" />
-        <div class="overlay">
-          <div class="info-row"><span class="label">도로명:</span><span class="value">서울 노원구 동일로 1341<br>경남빌딩 7층</span></div>
-          <div class="info-row"><span class="label">영업시간:</span><span class="value">10:00~22:00(토요일 10:00~15:00<br>/일요일 정기휴무)</span></div>
-          <div class="info-row"><span class="label">전화번호:</span><span class="value">0507-1341-7290</span></div>
-          <div class="info-row"><span class="label">제휴혜택:</span><span class="value">체험권·그룹레슨·개인레슨 할인 제공</span></div>
-        </div>
-      </div>
-      <h3>필라테스인 노원중계본점</h3>
-      <p>필라테스</p>
-    </div>
-      
-
-
-    <div class="card">
-      <div class="image-wrapper">
-        <img src="https://raw.githubusercontent.com/sooah-125/map/main/img/PingPong_Lions.png" alt="핑퐁라이온스클럽" />
-        <div class="overlay">
-          <div class="info-row"><span class="label">도로명:</span><span class="value">서울 노원구 동일로 1370</span></div>
-          <div class="info-row"><span class="label">영업시간:</span><span class="value">평일 24시간</span></div>
-          <div class="info-row"><span class="label">전화번호:</span><span class="value">02-931-7070</span></div>
-          <div class="info-row"><span class="label">제휴혜택:</span><span class="value"> 학생증 제시 시 1시간 1,000원 할인<br>/성서대 탁구단 가입 시 10분 무료 레슨</span></div>
-        </div>
-      </div>
-      <h3>핑퐁라이온스클럽</h3>
-      <p>탁구장</p>
-    </div>
-
-
-
-
-     <div class="card">
-      <div class="image-wrapper">
-        <img src="https://raw.githubusercontent.com/sooah-125/map/main/img/popo_pc_bang.png" alt="포포PC방" />
-        <div class="overlay">
-          <div class="info-row"><span class="label">도로명:</span><span class="value">서울 노원구 동일로 1323</span></div>
-          <div class="info-row"><span class="label">영업시간:</span><span class="value">24시간(연중무휴)</span></div>
-          <div class="info-row"><span class="label">전화번호:</span><span class="value">070-8244-8799</span></div>
-          <div class="info-row"><span class="label">제휴혜택:</span><span class="value">회원쿠폰 5,000원 구매 시<br>1시간 무료 제공</span></div>
-        </div>
-      </div>
-      <h3>포포PC방</h3>
-      <p>PC방</p>
-    </div>
-
-
-
-
-<div class="card">
-      <div class="image-wrapper">
-        <img src="https://raw.githubusercontent.com/sooah-125/map/main/img/Perfume_Play.png" alt="퍼퓸플레이" />
-        <div class="overlay">
-          <div class="info-row"><span class="label">도로명:</span><span class="value">서울 노원구 상계로7길 16층</span></div>
-          <div class="info-row"><span class="label">영업시간:</span><span class="value">11:00~20:00<br>/토요일 10:00~20:00<br>/일요일 14:00~20:00</span></div>
-          <div class="info-row"><span class="label">전화번호:</span><span class="value">0507-1345-6734</span></div>
-          <div class="info-row"><span class="label">제휴혜택:</span><span class="value">학생증 제시 및 본인 확인 후<br>30ml 이상 퍼퓸 구매 시 5% 할인</span></div>
-        </div>
-      </div>
-      <h3>퍼퓸플레이</h3>
-      <p>공방</p>
-    </div>
-
-
-
-
-
-
-
-
-    </div>
-  </div>
-</section>
-
-<section id="ㅎ" class="initial-section">
-  <h2>ㅎ</h2>
-  <div class="card-row">
-  
-
-
-
-
-<div class="card">
-      <div class="image-wrapper">
-        <img src="https://raw.githubusercontent.com/sooah-125/map/main/img/Holmes_and_Lupin.png" alt="홈즈앤루팡 보드게임카페" />
-        <div class="overlay">
-          <div class="info-row"><span class="label">도로명:</span><span class="value">서울 노원구 상계로 64<br>화랑빌딩 3층</span></div>
-          <div class="info-row"><span class="label">영업시간:</span><span class="value">13:00~24:00<br>/토요일 12:00~01:00<br>/일요일 12:00~24:00</span></div>
-          <div class="info-row"><span class="label">전화번호:</span><span class="value">0507-1430-7799</span></div>
-          <div class="info-row"><span class="label">제휴혜택:</span><span class="value">인당 1시간 1,000원 할인</span></div>
-        </div>
-      </div>
-      <h3>홈즈앤루팡 보드게임카페</h3>
-      <p>보드게임</p>
-    </div>
-      
-
-
-<div class="card">
-      <div class="image-wrapper">
-        <img src="https://raw.githubusercontent.com/sooah-125/map/main/img/hyusik_nowon_branch1.png" alt="휴식 노원1호점" />
-        <div class="overlay">
-          <div class="info-row"><span class="label">도로명:</span><span class="value">서울 노원구 상계로 76</span></div>
-          <div class="info-row"><span class="label">영업시간:</span><span class="value">24시간</span></div>
-          <div class="info-row"><span class="label">전화번호:</span><span class="value">0504-1363-4079</span></div>
-          <div class="info-row"><span class="label">제휴혜택:</span><span class="value">신규 입실 시 20,000원 할인<br>/6개월 이상 계약 시 월마다 20,000원 추가 할인<br>/파티룸 10% 할인</span></div>
-        </div>
-      </div>
-      <h3>휴식 노원1호점</h3>
-      <p>고시원</p>
-    </div>
-
-
-    </div>
-  </div>
-</section>
-</main>
-
-<aside id="side-nav" aria-label="사이드 내비게이션">
-  <button class="close-btn" aria-label="사이드 내비 닫기">&times;</button>
-  <nav>
-    <ul>
-      <li><a href="map.html">지도로 보기</a></li>
-      <li>
-        <button id="side-list-btn" aria-expanded="false" aria-controls="side-list-submenu">
-          리스트로 보기 ⏷
-        </button>
-        <ul id="side-list-submenu" aria-label="리스트 하위메뉴">
-          <li><a href="list_restourant.html">식당 제휴</a></li>
-          <li><a href="list_leisure.html">여가 제휴</a></li>
-        </ul>
-      </li>
-      <li><a href="external.html">외부 제휴</a></li>
-      <li><a href="sitemap.html">사이트맵</a></li>
-      <li><a href="ask.html">문의</a></li>
-      
-      
-    </ul>
-  </nav>
-</aside>
-<div id="overlay"></div>
-<script>
-  const hamburgerBtn = document.querySelector(".nav-buttons button[id='hamburger-btn']") || document.querySelector(".nav-buttons button:contains('☰')");
-  const sideNav = document.getElementById("side-nav");
-  const closeBtn = document.querySelector("#side-nav .close-btn");
-  const overlay = document.getElementById("overlay");
-  const sideListBtn = document.getElementById("side-list-btn");
-  const sideListSubmenu = document.getElementById("side-list-submenu");
-
-  hamburgerBtn?.addEventListener("click", () => {
-    sideNav.classList.add("open");
-    overlay.classList.add("active");
-  });
-
-  closeBtn?.addEventListener("click", () => {
-    sideNav.classList.remove("open");
-    overlay.classList.remove("active");
-  });
-
-  overlay?.addEventListener("click", () => {
-    sideNav.classList.remove("open");
-    overlay.classList.remove("active");
-  });
-
-  sideListBtn?.addEventListener("click", () => {
-    const isOpen = sideListSubmenu.style.display === "flex";
-    sideListSubmenu.style.display = isOpen ? "none" : "flex";
-    sideListBtn.textContent = isOpen ? "리스트로 보기 ⏷" : "리스트로 보기 ⏶";
-    sideListBtn.setAttribute("aria-expanded", isOpen ? "false" : "true");
+    // 카드 동적 생성 스크립트
+    function getInitial(text) {
+      if (!text) return null;
+      const initials = "ㄱㄲㄴㄷㄸㄹㅁㅂㅃㅅㅆㅇㅈㅉㅊㅋㅌㅍㅎ";
+      const charCode = text.charCodeAt(0) - 44032;
+      if (charCode < 0 || charCode > 11171) return null;
+      return initials[Math.floor(charCode / 588)];
+    }
+
+    const leisureData = storeData.filter(store => store.category === '여가');
+    leisureData.forEach(store => {
+      const initial = getInitial(store.name);
+      if (!initial) return;
+
+      const section = document.getElementById(initial);
+      if (section) {
+        const cardRow = section.querySelector('.card-row');
+        const cardHTML = `
+          <div class="card">
+            <div class="image-wrapper">
+              <img src="${store.image}" alt="${store.name}" />
+              <div class="overlay">
+                <div class="info-row"><span class="label">혜택:</span><span class="value">${store.benefit}</span></div>
+                <div class="info-row"><span class="label">시간:</span><span class="value">${store.hours}</span></div>
+                <div class="info-row"><span class="label">번호:</span><span class="value">${store.phone}</span></div>
+              </div>
+            </div>
+            <h3>${store.name}</h3>
+            <p>${store.type || '서비스'}</p>
+          </div>
+        `;
+        cardRow.innerHTML += cardHTML;
+      }
+    });
+  </script>
+
+  <script type="module">
+  import { auth } from "./firebase.js";
+  import { onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+  onAuthStateChanged(auth, (user) => {
+    const signupBtnContainer = document.querySelector(".signup")?.parentNode;
+    if (!signupBtnContainer) return;
+
+    const oldBtn = signupBtnContainer.querySelector(".signup");
+    const newBtn = oldBtn.cloneNode(true);
+    oldBtn.parentNode.replaceChild(newBtn, oldBtn);
+
+    if (user) {
+      newBtn.textContent = "Log out";
+      newBtn.removeAttribute("href");
+      newBtn.onclick = async (e) => { e.preventDefault(); await signOut(auth); location.reload(); };
+    } else {
+      newBtn.textContent = "Sign Up";
+      newBtn.href = "login.html";
+      newBtn.onclick = null;
+    }
   });
 </script>
+<!-- 로그인 가드 -->
+<script type="module">
+  import { auth, guardRequireVerifiedAuth } from "./firebase.js";
+  import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
+  // ① 인증 가드: 미로그인/미인증이면 login.html로 보냄
+  guardRequireVerifiedAuth("login.html");
 
-
-
-<!-- Firebase SDK -->
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
-<script>
-  const firebaseConfig = {
-    apiKey: "AIzaSyD-itP2Il2kZYzm-4BXL5wXXphp5gnTN3U",
-    authDomain: "web-programing-6218e.firebaseapp.com",
-    projectId: "web-programing-6218e",
-    appId: "1:687421762824:web:be3d91a6c66d304a32d0bd"
-  };
-  firebase.initializeApp(firebaseConfig);
-  // ✅ 전역에 명시적으로 선언 추가
-let currentUser; // 또는 var currentUser;
-  const auth = firebase.auth();
-
-  
-    
-auth.onAuthStateChanged(user => {
-  currentUser = user; // ✅ 전역 저장
-
-  const signupBtn = document.querySelector(".signup");
-  if (!signupBtn) return;
-
-  const homeBtn = signupBtn.cloneNode(true);
-  signupBtn.parentNode.replaceChild(homeBtn, signupBtn);
-
-  if (user) {
-    homeBtn.textContent = "Log out";
-    newBtn.onclick = () => {
-      auth.signOut().then(() => location.reload());
-    };
-  } else {
-    homeBtn.textContent = "Sign Up";
-    homeBtn.onclick = () => {
-      window.location.href = "login.html";
-    };
-  }
-
-  // ✅ 로그인 확인 후 접근 제한 처리
-  const protectedPages = ["list_restourant.html","list_leisure.html", "map.html", "external.html", "ask.html","sitemap.html"];
-  const currentPath = window.location.pathname.split("/").pop();
-  if (!user && protectedPages.includes(currentPath)) {
-    alert("로그인이 필요합니다.");
-    window.location.href = "login.html";
-  }
-});
-
-
-
-
-
-
-  
+  // ② 인증 OK면 화면 보이기
+  onAuthStateChanged(auth, (user) => {
+    if (user && user.emailVerified) {
+      document.documentElement.classList.remove('auth-check');
+    }
+  });
 </script>
-
-
-
-
-
-
-
-
-
 </body>
 </html>
