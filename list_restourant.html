@@ -1,13 +1,12 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8">
+  <title>성서제휴맵 - 로그인</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>성서제휴맵 - 식당 제휴</title>
 
   <script>
-    // FOUC 방지용 테마 사전 적용 스크립트
+    // 페이지가 깜빡이는 현상(FOUC)을 막기 위해, CSS를 읽기 전에 테마를 먼저 적용합니다.
     (function() {
       const savedTheme = localStorage.getItem('theme') || 'light';
       if (savedTheme === 'dark') {
@@ -19,6 +18,7 @@
   <style>
     /* --- 테마별 색상 변수 정의 --- */
     :root {
+      /* 라이트 모드 (기본값) */
       --bg-color: #f5f5f7;
       --bg-gradient-start: rgba(245, 245, 247, 0.9);
       --bg-gradient-end: rgba(220, 220, 225, 0.95);
@@ -27,6 +27,7 @@
       --header-bg: rgba(255, 255, 255, 0.7);
       --card-bg: rgba(255, 255, 255, 0.8);
       --border-color: rgba(0, 0, 0, 0.1);
+      --input-bg: rgba(230, 230, 235, 0.7);
       --signup-bg: #000;
       --signup-text: #fff;
       --apple-blue: #007aff;
@@ -34,25 +35,27 @@
     }
 
     html.dark-mode {
+      /* 다크 모드 */
       --bg-color: #111112;
       --bg-gradient-start: rgba(17, 17, 18, 0.85);
       --bg-gradient-end: rgba(51, 51, 53, 0.95);
       --text-color: #f5f5f7;
       --text-color-secondary: #86868b;
       --header-bg: rgba(28, 28, 30, 0.7);
-      --card-bg: rgba(28, 28, 30, 0.85);
-      --border-color: rgba(255, 255, 255, 0.1);
+      --card-bg: rgba(44, 44, 46, 0.85);
+      --border-color: rgba(255, 255, 255, 0.15);
+      --input-bg: rgba(60, 60, 62, 0.7);
       --signup-bg: #fff;
       --signup-text: #000;
     }
 
-    /* --- 기본 스타일 --- */
-    html { overflow-x: hidden; }
+    /* --- 기본 스타일 (변수 사용) --- */
     body {
       margin: 0;
       font-family: sans-serif;
       color: var(--text-color);
       min-height: 100vh;
+      overflow-x: hidden;
       background-color: var(--bg-color);
       background-image: url('22235_23589_729.jpg');
       background-size: cover;
@@ -62,13 +65,18 @@
     }
 
     main {
-      display: flex; flex-direction: column; align-items: center;
-      padding: 8rem 2rem 6rem 2rem; min-height: 100vh; box-sizing: border-box;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 8rem 2rem 6rem 2rem;
+      min-height: 100vh;
+      box-sizing: border-box;
       background: linear-gradient(to bottom, var(--bg-gradient-start), var(--bg-gradient-end));
       transition: background 0.3s;
     }
 
-    /* --- 헤더 --- */
+    /* --- Header (헤더) --- */
     header {
       position: fixed; top: 0; width: 100%;
       display: flex; justify-content: space-between; align-items: center;
@@ -93,17 +101,38 @@
       transition: background-color 0.3s, color 0.3s;
     }
 
-    /* --- 드롭다운, 테마 스위치, 사이드바 (공통) --- */
+    /* --- 드롭다운 메뉴 --- */
     .dropdown { position: relative; }
-    .dropdown-content { display: none; position: absolute; top: 100%; left: 50%; transform: translateX(-50%); min-width: 160px; border-radius: 12px; box-shadow: 0 8px 30px rgba(0,0,0,0.2); z-index: 1001; list-style: none; padding: 0.5rem 0; margin: 0; overflow: hidden; background-color: var(--card-bg); backdrop-filter: var(--apple-blur); -webkit-backdrop-filter: var(--apple-blur); border: 1px solid var(--border-color); }
+    .dropdown-content {
+      display: none; position: absolute; top: 150%; left: 50%;
+      transform: translateX(-50%); min-width: 160px; border-radius: 12px;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.2); z-index: 1001;
+      list-style: none; padding: 0.5rem 0; margin: 0; overflow: hidden; 
+      background-color: var(--card-bg);
+      backdrop-filter: var(--apple-blur); -webkit-backdrop-filter: var(--apple-blur);
+      border: 1px solid var(--border-color);
+    }
     .dropdown:hover .dropdown-content { display: block; }
-    .dropdown .dropdown-content:hover { display: block; }
-    .dropdown-content li a { display: block; padding: 0.7rem 1.2rem; color: var(--text-color); text-decoration: none; font-size: 0.95rem; transition: background-color 0.2s, color 0.2s; }
+    .dropdown-content li a {
+      display: block; padding: 0.7rem 1.2rem; color: var(--text-color);
+      text-decoration: none; font-size: 0.95rem; 
+      transition: background-color 0.2s, color 0.2s;
+    }
     .dropdown-content li a:hover { background-color: var(--apple-blue); color: #fff; }
+    
+    /* --- 테마 전환 토글 스위치 --- */
     .theme-switcher { display: flex; align-items: center; }
     #theme-toggle { display: none; }
-    #theme-toggle + label { position: relative; display: flex; align-items: center; width: 50px; height: 28px; background-color: #ccc; border-radius: 999px; cursor: pointer; transition: background-color 0.3s; }
-    #theme-toggle + label::before { content: ''; position: absolute; left: 3px; width: 22px; height: 22px; background-color: white; border-radius: 50%; transition: transform 0.3s; }
+    #theme-toggle + label {
+      position: relative; display: flex; align-items: center;
+      width: 50px; height: 28px; background-color: #ccc;
+      border-radius: 999px; cursor: pointer; transition: background-color 0.3s;
+    }
+    #theme-toggle + label::before {
+      content: ''; position: absolute; left: 3px;
+      width: 22px; height: 22px; background-color: white;
+      border-radius: 50%; transition: transform 0.3s;
+    }
     #theme-toggle + label .icon { position: absolute; font-size: 14px; transition: opacity 0.3s; user-select: none; }
     #theme-toggle + label .sun-icon { right: 5px; opacity: 1; }
     #theme-toggle + label .moon-icon { left: 5px; opacity: 0; }
@@ -111,231 +140,320 @@
     #theme-toggle:checked + label::before { transform: translateX(22px); }
     #theme-toggle:checked + label .sun-icon { opacity: 0; }
     #theme-toggle:checked + label .moon-icon { opacity: 1; }
-    #side-nav { position: fixed; top: 0; right: -300px; width: 300px; height: 100vh; box-shadow: -10px 0 30px rgba(0,0,0,0.3); transition: right 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), background-color 0.3s; z-index: 1500; display: flex; flex-direction: column; padding: 2rem; box-sizing: border-box; background-color: var(--header-bg); backdrop-filter: var(--apple-blur); -webkit-backdrop-filter: var(--apple-blur); border-left: 1px solid var(--border-color); }
-    #side-nav.open { right: 0; }
-    #side-nav button.close-btn { align-self: flex-end; background: transparent; border: none; color: var(--text-color-secondary); font-size: 2rem; cursor: pointer; margin-bottom: 2rem; transition: color 0.3s; }
-    #side-nav nav ul { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 1.5rem; }
-    #side-nav nav ul li button, #side-nav nav ul li a { background: none; border: none; color: var(--text-color); font-size: 1.2rem; font-weight: 500; cursor: pointer; text-align: left; width: 100%; padding: 0; display: block; text-decoration: none; transition: color 0.3s; }
-    #side-nav nav ul li button { display: flex; justify-content: space-between; align-items: center; }
-    #side-nav nav ul li ul { display: none; flex-direction: column; padding-left: 1.5rem; margin-top: 1.2rem; gap: 1rem; list-style-type: none; }
-    #overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 1200; background: rgba(0, 0, 0, 0.2); backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px); display: none; }
-    #overlay.active { display: block; }
 
-    /* --- 페이지 전용 스타일 --- */
-    .main-title { text-align: center; font-size: 3.5rem; font-weight: 700; margin-bottom: 0.5rem; color: var(--text-color); }
-    .subtitle { text-align: center; font-size: 1.5rem; margin-bottom: 3rem; color: var(--text-color-secondary); font-weight: 500; }
-    .initial-buttons { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.75rem; margin-bottom: 4rem; }
-    .initial-buttons a { color: var(--text-color); text-decoration: none; border: 1.5px solid var(--text-color-secondary); padding: 0.5rem 1rem; border-radius: 999px; font-size: 1rem; font-weight: 500; background-color: transparent; cursor: pointer; transition: all 0.3s ease; }
-    .initial-buttons a:hover { background-color: var(--signup-bg); color: var(--signup-text); border-color: var(--signup-bg); transform: scale(1.05); }
-    .initial-section { width: 100%; max-width: 1200px; margin-bottom: 4rem; }
-    .initial-section h2 { font-size: 2.5rem; font-weight: 600; color: var(--text-color); border-bottom: 1px solid var(--border-color); margin-bottom: 2rem; padding-bottom: 1rem; }
-    .card-row { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 2rem; }
-    .card { background-color: var(--card-bg); color: var(--text-color); border-radius: 22px; padding: 1.2rem; box-shadow: 0 10px 30px rgba(0,0,0,0.1); display: flex; flex-direction: column; align-items: center; transition: transform 0.3s, box-shadow 0.3s, background-color 0.3s; border: 1px solid var(--border-color); backdrop-filter: var(--apple-blur); -webkit-backdrop-filter: var(--apple-blur); }
-    .card:hover { transform: translateY(-8px); box-shadow: 0 15px 40px rgba(0,0,0,0.2); }
-    .card h3 { margin: 1rem 0 0.2rem 0; font-size: 1.25rem; font-weight: 600; }
-    .card p { margin: 0.2rem 0; color: var(--text-color-secondary); font-weight: 500; }
-    .image-wrapper { position: relative; width: 100%; padding-bottom: 66.66%; height: 0; border-radius: 14px; overflow: hidden; background-color: var(--border-color); }
-    .card img { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s ease, filter 0.4s ease; }
-    .overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.6); color: #f5f5f7; display: flex; flex-direction: column; justify-content: center; padding: 1rem; box-sizing: border-box; opacity: 0; pointer-events: none; transition: opacity 0.4s ease; z-index: 2; }
-    .card:hover img { transform: scale(1.05); filter: blur(2px); }
-    .card:hover .overlay { opacity: 1; pointer-events: auto; }
-    .info-row { display: flex; gap: 0.5rem; margin-bottom: 0.4rem; font-size: 0.9rem; }
-    .label { flex-shrink: 0; font-weight: 600; opacity: 0.8; }
-    .value { font-weight: 400; }
+    /* --- 로그인 컨테이너 (카드 스타일) --- */
+    .login-container {
+      background-color: var(--card-bg);
+      backdrop-filter: var(--apple-blur); -webkit-backdrop-filter: var(--apple-blur);
+      border: 1px solid var(--border-color);
+      padding: 2.5rem;
+      border-radius: 22px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+      width: 100%;
+      max-width: 400px;
+      text-align: center;
+      box-sizing: border-box;
+    }
 
-    /* --- 맨 위로 가기 버튼 --- */
-    #scrollTopBtn { display: none; position: fixed; bottom: 30px; right: 30px; z-index: 99; border: none; outline: none; background-color: var(--card-bg); color: var(--text-color); cursor: pointer; padding: 0; width: 50px; height: 50px; border-radius: 50%; font-size: 1.5rem; box-shadow: 0 5px 15px rgba(0,0,0,0.2); transition: all 0.3s; backdrop-filter: var(--apple-blur); -webkit-backdrop-filter: var(--apple-blur); border: 1px solid var(--border-color); }
-    #scrollTopBtn:hover { filter: brightness(1.2); transform: scale(1.1); }
+    .login-container h2 {
+      margin: 0 0 0.5rem 0;
+      font-size: 2.2rem;
+      font-weight: 600;
+      color: var(--text-color);
+    }
+
+    .login-container p {
+      margin-bottom: 2.5rem;
+      font-size: 1rem;
+      color: var(--text-color-secondary);
+    }
+
+    .login-container input {
+      width: 100%;
+      padding: 0.9rem 1rem;
+      margin-bottom: 1rem;
+      border-radius: 12px;
+      border: 1px solid var(--border-color);
+      background-color: var(--input-bg);
+      color: var(--text-color);
+      font-size: 1rem;
+      box-sizing: border-box;
+      transition: border-color 0.3s, box-shadow 0.3s;
+    }
+    .login-container input:focus {
+      outline: none;
+      border-color: var(--apple-blue);
+      box-shadow: 0 0 0 3px rgba(0, 122, 255, 0.3);
+    }
+
+    .login-container button[type="submit"] {
+      width: 100%;
+      padding: 0.9rem;
+      border: none;
+      border-radius: 999px;
+      background-color: var(--signup-bg);
+      color: var(--signup-text);
+      font-size: 1.1rem;
+      font-weight: 600;
+      cursor: pointer;
+      margin-top: 1rem;
+      transition: filter 0.3s, transform 0.3s;
+    }
+    .login-container button[type="submit"]:hover {
+      filter: brightness(1.2);
+      transform: scale(1.02);
+    }
+
+    .switch-btn {
+      background: none;
+      border: none;
+      color: var(--apple-blue);
+      margin-top: 1.5rem;
+      cursor: pointer;
+      font-size: 0.95rem;
+      font-weight: 500;
+      text-decoration: none;
+    }
+    .switch-btn:hover {
+      text-decoration: underline;
+    }
+
+    .error-message { color: #ff453a; margin-top: 1rem; font-weight: 500; }
+    .success-message { color: #32d74b; margin-top: 1rem; font-weight: 500; }
+
   </style>
 </head>
 <body>
-  <header>
-   <a href="index.html" class="school-name">KBU Partner Map</a>
-    <nav class="nav-buttons">
-      <ul class="nav-list">
-        <li><a href="index.html">HOME</a></li>
-        <li><a href="map.html">지도</a></li>
-        <li class="dropdown">
-          <a href="#" class="dropbtn">리스트</a>
-          <ul class="dropdown-content">
-            <li><a href="list_restourant.html">식당 제휴</a></li>
-            <li><a href="list_leisure.html">여가 제휴</a></li>
-          </ul>
-        </li>
-        <li><a href="external.html">외부업체</a></li>
-        <li class="theme-switcher">
-          <input type="checkbox" id="theme-toggle">
-          <label for="theme-toggle">
-              <span class="icon sun-icon">☀️</span>
-              <span class="icon moon-icon">🌙</span>
-          </label>
-        </li>
-        <li><button id="hamburger-btn" style="font-size: 1.5rem; padding-bottom: 4px;">☰</button></li>
-        <li><a href="login.html" class="signup">Sign Up</a></li>
-      </ul>
-    </nav>
-  </header>
 
-  <aside id="side-nav" aria-label="사이드 내비게이션">
-    <button class="close-btn" aria-label="사이드 내비 닫기">&times;</button>
-    <nav>
-      <ul>
-        <li><a href="map.html">지도로 보기</a></li>
-        <li>
-          <button id="side-list-btn" aria-expanded="false">리스트로 보기 ⏷</button>
-          <ul id="side-list-submenu" style="display: none;">
-            <li><a href="list_restourant.html">식당 제휴</a></li>
-            <li><a href="list_leisure.html">여가 제휴</a></li>
-            <li><a href="external.html">외부 업체</a></li>
-          </ul>
-        </li>
-       
-        <li><a href="sitemap.html">사이트맵</a></li>
-        <li><a href="ask.html">문의</a></li>
-      </ul>
-    </nav>
-  </aside>
-  <div id="overlay"></div>
+<header>
+  <a href="index.html" class="school-name">KBU Partner Map</a>
+  <nav class="nav-buttons">
+    <ul class="nav-list">
+      <li><a href="index.html">HOME</a></li>
+      <li><a href="map.html">지도</a></li>
+      <li class="dropdown">
+        <a href="#" class="dropbtn">리스트</a>
+        <ul class="dropdown-content">
+          <li><a href="list_restourant.html">식당 제휴</a></li>
+          <li><a href="list_leisure.html">여가 제휴</a></li>
+        </ul>
+      </li>
+      <li><a href="external.html">외부업체</a></li>
+      <li class="theme-switcher">
+        <input type="checkbox" id="theme-toggle">
+        <label for="theme-toggle">
+            <span class="icon sun-icon">☀️</span>
+            <span class="icon moon-icon">🌙</span>
+        </label>
+      </li>
+      <!-- 로그인 페이지에서는 햄버거/로그인 버튼을 숨길 수 있습니다. -->
+      <!-- <li><button id="hamburger-btn" style="font-size: 1.5rem; padding-bottom: 4px;">☰</button></li> -->
+      <!-- <li><a href="login.html" class="signup">Sign Up</a></li> -->
+    </ul>
+  </nav>
+</header>
 
-  <main>
-    <div class="main-title">성서 제휴 업체</div>
-    <div class="subtitle">식당 제휴 리스트</div>
-    <div class="initial-buttons">
-      <a href="#ㄱ">ㄱ</a><a href="#ㄴ">ㄴ</a><a href="#ㄷ">ㄷ</a><a href="#ㄹ">ㄹ</a><a href="#ㅁ">ㅁ</a>
-      <a href="#ㅂ">ㅂ</a><a href="#ㅅ">ㅅ</a><a href="#ㅇ">ㅇ</a><a href="#ㅈ">ㅈ</a><a href="#ㅊ">ㅊ</a>
-      <a href="#ㅋ">ㅋ</a><a href="#ㅌ">ㅌ</a><a href="#ㅍ">ㅍ</a><a href="#ㅎ">ㅎ</a>
-    </div>
-    <section id="ㄱ" class="initial-section"><h2>ㄱ</h2><div class="card-row"></div></section>
-    <section id="ㄴ" class="initial-section"><h2>ㄴ</h2><div class="card-row"></div></section>
-    <section id="ㄷ" class="initial-section"><h2>ㄷ</h2><div class="card-row"></div></section>
-    <section id="ㄹ" class="initial-section"><h2>ㄹ</h2><div class="card-row"></div></section>
-    <section id="ㅁ" class="initial-section"><h2>ㅁ</h2><div class="card-row"></div></section>
-    <section id="ㅂ" class="initial-section"><h2>ㅂ</h2><div class="card-row"></div></section>
-    <section id="ㅅ" class="initial-section"><h2>ㅅ</h2><div class="card-row"></div></section>
-    <section id="ㅇ" class="initial-section"><h2>ㅇ</h2><div class="card-row"></div></section>
-    <section id="ㅈ" class="initial-section"><h2>ㅈ</h2><div class="card-row"></div></section>
-    <section id="ㅊ" class="initial-section"><h2>ㅊ</h2><div class="card-row"></div></section>
-    <section id="ㅋ" class="initial-section"><h2>ㅋ</h2><div class="card-row"></div></section>
-    <section id="ㅌ" class="initial-section"><h2>ㅌ</h2><div class="card-row"></div></section>
-    <section id="ㅍ" class="initial-section"><h2>ㅍ</h2><div class="card-row"></div></section>
-    <section id="ㅎ" class="initial-section"><h2>ㅎ</h2><div class="card-row"></div></section>
-  </main>
-
-  <button id="scrollTopBtn" title="맨 위로 가기">↑</button>
-
-  <!-- Data -->
-  
-  <script src="data.js"></script>
-
-  <script>
-    // 공통 UI 스크립트 (사이드바, 테마, 스크롤탑)
-    const hamburgerBtn = document.getElementById("hamburger-btn");
-    const sideNav = document.getElementById("side-nav");
-    const closeBtn = document.querySelector("#side-nav .close-btn");
-    const overlay = document.getElementById("overlay");
-    const sideListBtn = document.getElementById("side-list-btn");
-    const sideListSubmenu = document.getElementById("side-list-submenu");
-    const themeToggle = document.getElementById('theme-toggle');
-    const htmlElement = document.documentElement;
-    const scrollTopBtn = document.getElementById("scrollTopBtn");
-
-    hamburgerBtn?.addEventListener("click", () => { sideNav.classList.add("open"); overlay.classList.add("active"); });
-    closeBtn?.addEventListener("click", () => { sideNav.classList.remove("open"); overlay.classList.remove("active"); });
-    overlay?.addEventListener("click", () => { sideNav.classList.remove("open"); overlay.classList.remove("active"); });
-    sideListBtn?.addEventListener("click", () => {
-      const isOpen = sideListSubmenu.style.display === "flex";
-      sideListSubmenu.style.display = isOpen ? "none" : "flex";
-      sideListBtn.innerHTML = isOpen ? "리스트로 보기 ⏷" : "리스트로 보기 ⏶";
-    });
-
-    if (htmlElement.classList.contains('dark-mode')) { themeToggle.checked = true; }
-    themeToggle.addEventListener('change', () => {
-      if (themeToggle.checked) { htmlElement.classList.add('dark-mode'); localStorage.setItem('theme', 'dark'); } 
-      else { htmlElement.classList.remove('dark-mode'); localStorage.setItem('theme', 'light'); }
-    });
-
-    window.addEventListener("scroll", () => { scrollTopBtn.style.display = (window.scrollY > 100) ? "block" : "none"; });
-    scrollTopBtn.addEventListener("click", () => { window.scrollTo({ top: 0, behavior: 'smooth' }); });
-
+<main>
+    <!-- 로그인 섹션 -->
+  <div class="login-container" id="login-section">
+    <h2>로그인</h2>
+    <p>학교 이메일(@bible.ac.kr)로 로그인하세요.</p>
+    <form id="login-form">
+      <input type="email" id="login-email" placeholder="학교 이메일" required>
+      <input type="password" id="login-password" placeholder="비밀번호" required>
+      <button type="submit">로그인</button>
+    </form>
+    <div id="login-error" class="error-message"></div>
+    <button id="resend-btn" type="button" style="display:none; margin-top: 8px;">인증 메일 다시 보내기</button>
+    <button class="switch-btn" onclick="showSignup()">계정이 없으신가요? 회원가입</button>
+  </div>
     
+      
+      
+       <!-- 회원가입 섹션 (로그인 섹션 바깥, 형제) -->
+  <div class="login-container" id="signup-section" style="display: none;">
+    <h2>회원가입</h2>
+    <p>학교 이메일(@bible.ac.kr)을 사용해 주세요.</p>
+    <form id="signup-form">
+      <input type="email" id="signup-email" placeholder="학교 이메일" required>
+      <input type="password" id="signup-password" placeholder="비밀번호" required>
+      <button type="submit">회원가입</button>
+    </form>
+    <div id="signup-message"></div>
+    <button class="switch-btn" onclick="showLogin()">이미 계정이 있으신가요? 로그인</button>
+  </div>
+</main>
 
-    // 카드 동적 생성 스크립트
-    function getInitial(text) {
-      if (!text) return null;
-      const initials = "ㄱㄲㄴㄷㄸㄹㅁㅂㅃㅅㅆㅇㅈㅉㅊㅋㅌㅍㅎ";
-      const charCode = text.charCodeAt(0) - 44032;
-      if (charCode < 0 || charCode > 11171) return null;
-      return initials[Math.floor(charCode / 588)];
-    }
+<script>
+  // --- 테마 전환 로직 ---
+  const themeToggle = document.getElementById('theme-toggle');
+  const htmlElement = document.documentElement;
 
-    const restaurantData = storeData.filter(store => store.category === '식당');
-    restaurantData.forEach(store => {
-      const initial = getInitial(store.name);
-      if (!initial) return;
-
-      const section = document.getElementById(initial);
-      if (section) {
-        const cardRow = section.querySelector('.card-row');
-        const cardHTML = `
-          <div class="card">
-            <div class="image-wrapper">
-              <img src="${store.image}" alt="${store.name}" />
-              <div class="overlay">
-                <div class="info-row"><span class="label">혜택:</span><span class="value">${store.benefit}</span></div>
-                <div class="info-row"><span class="label">시간:</span><span class="value">${store.hours}</span></div>
-                <div class="info-row"><span class="label">번호:</span><span class="value">${store.phone}</span></div>
-              </div>
-            </div>
-            <h3>${store.name}</h3>
-            <p>${store.type || '음식점'}</p>
-          </div>
-        `;
-        cardRow.innerHTML += cardHTML;
-      }
-    });
-  </script>
-
-
-
-<script type="module">
-  import { auth } from "./firebase.js";
-  import { onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-
-  onAuthStateChanged(auth, (user) => {
-    const signupBtnContainer = document.querySelector(".signup")?.parentNode;
-    if (!signupBtnContainer) return;
-
-    const oldBtn = signupBtnContainer.querySelector(".signup");
-    const newBtn = oldBtn.cloneNode(true);
-    oldBtn.parentNode.replaceChild(newBtn, oldBtn);
-
-    if (user) {
-      newBtn.textContent = "Log out";
-      newBtn.removeAttribute("href");
-      newBtn.onclick = async (e) => { e.preventDefault(); await signOut(auth); location.reload(); };
+  if (htmlElement.classList.contains('dark-mode')) {
+    themeToggle.checked = true;
+  }
+  themeToggle.addEventListener('change', () => {
+    if (themeToggle.checked) {
+      htmlElement.classList.add('dark-mode');
+      localStorage.setItem('theme', 'dark');
     } else {
-      newBtn.textContent = "Sign Up";
-      newBtn.href = "login.html";
-      newBtn.onclick = null;
+      htmlElement.classList.remove('dark-mode');
+      localStorage.setItem('theme', 'light');
     }
   });
+
+  // --- 폼 전환 로직 ---
+  function showSignup() {
+    document.getElementById("login-section").style.display = "none";
+    document.getElementById("signup-section").style.display = "block";
+  }
+  function showLogin() {
+    document.getElementById("signup-section").style.display = "none";
+    document.getElementById("login-section").style.display = "block";
+  }
 </script>
 
-<!-- 로그인 가드 -->
+
+<!-- 1) 공용 Firebase 초기화/헬퍼 -->
+<script type="module" src="./firebase.js"></script>
+
 <script type="module">
-  import { auth, guardRequireVerifiedAuth } from "./firebase.js";
-  import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+  import {
+    signUpWithEmailVerification,
+    signInRequireVerified,
+    auth,
+  } from "./firebase.js";
+  import {
+    onAuthStateChanged,
+    sendEmailVerification,
+    signOut,
+  } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
-  // ① 인증 가드: 미로그인/미인증이면 login.html로 보냄
-  guardRequireVerifiedAuth("login.html");
+  // 학교 도메인 제한 (@bible.ac.kr)
+  const isAllowedDomain = (email) => email.endsWith("@bible.ac.kr");
 
-  // ② 인증 OK면 화면 보이기
-  onAuthStateChanged(auth, (user) => {
-    if (user && user.emailVerified) {
-      document.documentElement.classList.remove('auth-check');
+  // 화면 토글
+  window.showSignup = () => {
+    document.getElementById("login-section").style.display = "none";
+    document.getElementById("signup-section").style.display = "block";
+  };
+  window.showLogin = () => {
+    document.getElementById("signup-section").style.display = "none";
+    document.getElementById("login-section").style.display = "block";
+  };
+
+  // --- 로그인 폼 ---
+  const loginForm   = document.getElementById("login-form");
+  const loginError  = document.getElementById("login-error");
+  const resendBtn   = document.getElementById("resend-btn");
+  let loggingIn = false;
+
+  loginForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    if (loggingIn) return;
+    loggingIn = true;
+    loginForm.querySelector('button[type="submit"]').disabled = true;
+
+    loginError.textContent = "";
+    resendBtn.style.display = "none";
+
+    const email    = document.getElementById("login-email").value.trim();
+    const password = document.getElementById("login-password").value;
+
+    if (!isAllowedDomain(email)) {
+      loginError.textContent = "학교 이메일(@bible.ac.kr)만 허용됩니다.";
+      loggingIn = false;
+      loginForm.querySelector('button[type="submit"]').disabled = false;
+      return;
+    }
+
+    try {
+      await signInRequireVerified(email, password); // ✅ 인증된 사용자만 통과
+      alert("로그인 성공! 홈페이지로 이동합니다.");
+      location.replace("index.html");
+setTimeout(() => location.replace("index.html"), 0);
+    } catch (err) {
+      if (err?.message === "EMAIL_NOT_VERIFIED") {
+        loginError.textContent = "이메일 인증이 필요합니다. 메일함을 확인하세요.";
+        resendBtn.style.display = "inline-block";
+        await signOut(auth); // (권장) 미인증이면 세션 정리
+      } else {
+        loginError.textContent = "로그인 실패: " + (err?.message || err);
+      }
+    } finally {
+      loggingIn = false;
+      loginForm.querySelector('button[type="submit"]').disabled = false;
     }
   });
+
+  // 인증 메일 재전송
+  resendBtn?.addEventListener("click", async () => {
+    const user = auth.currentUser;
+    if (!user) { alert("먼저 로그인 시도 후 사용하세요."); return; }
+    try {
+      await sendEmailVerification(user, {
+        url: "https://sooah-125.github.io/map/login.html",
+        handleCodeInApp: false
+      });
+      alert("인증 메일을 다시 보냈습니다. 스팸함도 확인해 주세요.");
+    } catch (e) {
+      alert("재전송 실패: " + (e?.message || e));
+    }
+  });
+
+  // --- 회원가입 폼 ---
+  const signupForm  = document.getElementById("signup-form");
+  const signupMsg   = document.getElementById("signup-message");
+  const loginEmail  = document.getElementById("login-email");
+  let signingUp = false;
+
+  signupForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    if (signingUp) return;
+    signingUp = true;
+    signupForm.querySelector('button[type="submit"]').disabled = true;
+
+    signupMsg.className = "error-message";
+    signupMsg.textContent = "";
+
+    const email    = document.getElementById("signup-email").value.trim();
+    const password = document.getElementById("signup-password").value;
+
+    if (!isAllowedDomain(email)) {
+      signupMsg.textContent = "학교 이메일(@bible.ac.kr)만 허용됩니다.";
+      signingUp = false;
+      signupForm.querySelector('button[type="submit"]').disabled = false;
+      return;
+    }
+
+    try {
+      // ✅ 회원가입 + 인증메일 발송 + 자동 로그아웃 (firebase.js에 구현)
+      await signUpWithEmailVerification(email, password);
+
+      // 사용자 안내 + 로그인 화면으로 전환 + 이메일 채워주기
+      signupMsg.className = "success-message";
+      signupMsg.textContent = "인증 메일을 보냈어요. 인증을 끝내면 로그인할 수 있어요.";
+      showLogin();
+      if (loginEmail) loginEmail.value = email;
+    } catch (err) {
+      signupMsg.className = "error-message";
+      signupMsg.textContent = "회원가입 실패: " + (err?.message || err);
+    } finally {
+      signingUp = false;
+      signupForm.querySelector('button[type="submit"]').disabled = false;
+    }
+  });
+
+  // 이미 로그인 & 인증 끝난 유저는 홈으로
+  onAuthStateChanged(auth, (user) => {
+  if (user && user.emailVerified) {
+    location.replace("index.html");
+    setTimeout(() => location.replace("index.html"), 0);
+  }
+});
 </script>
+
+
 
 </body>
 </html>
