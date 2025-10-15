@@ -3,670 +3,311 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>사이트맵</title>
-  <style>
-.child-of-list {
-  margin-left: -18rem; /* 리스트 박스 기준 왼쪽 위치로 */
-}
+  <title>성서제휴맵 - 사이트맵</title>
 
-.child-of-ask {
-  margin-left: 18rem;  /* 문의 박스 기준 오른쪽 위치로 */
-}
-
-body {
-  margin: 0;
-  font-family: 'Helvetica Neue', 'Apple SD Gothic Neo', 'Malgun Gothic', 'Noto Sans KR', Arial, sans-serif;
-  color: white;
-  overflow-x: hidden;
- 
-      text-align: center;
-    
-  background: linear-gradient(to bottom, #3f3f3f 30%, #d0d0d0 90%);
-}
-
-.main-title {
-  text-align: center;
-  font-size: 3rem;
-  margin-bottom: 0.5rem;
-  padding-bottom: 3rem;
-  color: white;
-}
-
-.tree > .level:first-child::before {
-  display: none;
-}
-
-    h1 {
-      font-size: 2.5rem;
-      margin-bottom: 2rem;
-    }
-    .tree {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 3rem;
-    }
-    .level {
-      display: flex;
-      gap: 2rem;
-      justify-content: center;
-      position: relative;
-    }
-    .node {
-      background: white;
-      color: black;
-       padding: 1rem 1.6rem; /* 기존보다 큼 */
-  font-size: 1.2rem;    /* 글자 크기도 키움 */
-      border-radius: 8px;
-      font-weight: bold;
-      text-decoration: none;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-      position: relative;
-    }
-
-    
-    .level::before {
-      content: "";
-      position: absolute;
-      top: -1.2rem;
-      left: 0;
-      right: 0;
-      height: 2px;
-      background: white;
-    }
-    .line {
-      position: absolute;
-      height: 1.2rem;
-      width: 2px;
-      background: white;
-      top: -1.2rem;
-      left: 50%;
-      transform: translateX(-50%);
-    }
-    .node-container {
-      position: relative;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-    a.node:hover {
-      background: #eee;
-    }
-
-
-
-
-
-    @media (max-width: 768px) {
-      .sitemap-container {
-        flex-direction: column;
-        align-items: center;
+  <script>
+    (function() {
+      const savedTheme = localStorage.getItem('theme') || 'light';
+      if (savedTheme === 'dark') {
+        document.documentElement.classList.add('dark-mode');
       }
+    })();
+  </script>
+
+  <style>
+    :root {
+      --bg-color: #f5f5f7;
+      --bg-gradient-start: rgba(245, 245, 247, 0.9);
+      --bg-gradient-end: rgba(220, 220, 225, 0.95);
+      --text-color: #1d1d1f;
+      --text-color-secondary: #6e6e73;
+      --header-bg: rgba(255, 255, 255, 0.7);
+      --card-bg: rgba(255, 255, 255, 0.8);
+      --border-color: rgba(0, 0, 0, 0.2);
+      --signup-bg: #000;
+      --signup-text: #fff;
+      --apple-blue: #007aff;
+      --apple-blur: saturate(180%) blur(20px);
     }
+    html.dark-mode {
+      --bg-color: #111112;
+      --bg-gradient-start: rgba(17, 17, 18, 0.85);
+      --bg-gradient-end: rgba(51, 51, 53, 0.95);
+      --text-color: #f5f5f7;
+      --text-color-secondary: #86868b;
+      --header-bg: rgba(28, 28, 30, 0.7);
+      --card-bg: rgba(28, 28, 30, 0.85);
+      --border-color: rgba(255, 255, 255, 0.25);
+      --signup-bg: #fff;
+      --signup-text: #000;
+    }
+    html { overflow-x: hidden; }
+    body {
+      margin: 0;
+      font-family: sans-serif;
+      min-height: 100vh;
+      background-color: var(--bg-color);
+      background-image: url('22235_23589_729.jpg');
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+      transition: background-color 0.3s, color 0.3s;
+    }
+    /* --- main 태그 수정 --- */
+    main {
+      display: flex; 
+      flex-direction: column; 
+      align-items: center; 
+      justify-content: center; /* 수직 중앙 정렬 */
+      min-height: 100vh; 
+      box-sizing: border-box;
+      padding: 6rem 2rem; /* 헤더 높이만큼 위쪽 여백 */
+      background: linear-gradient(to bottom, var(--bg-gradient-start), var(--bg-gradient-end));
+      transition: background 0.3s;
+    }
+    header {
+      position: fixed; top: 0; width: 100%;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 1rem 1.5rem; z-index: 1000; box-sizing: border-box;
+      background-color: var(--header-bg);
+      backdrop-filter: var(--apple-blur); -webkit-backdrop-filter: var(--apple-blur);
+      border-bottom: 1px solid var(--border-color);
+      transition: background-color 0.3s, border-color 0.3s;
+    }
+    .school-name { font-size: 1.5rem; font-weight: 600; color: var(--text-color); text-decoration: none; transition: color 0.3s; }
+    .school-name:hover { color: var(--apple-blue); }
+    .nav-buttons > .nav-list { list-style: none; display: flex; gap: 1rem; margin: 0; padding: 0; align-items: center; }
+    .nav-buttons a, .nav-buttons .dropbtn, .nav-buttons button { color: var(--text-color); background: transparent; border: none; font-size: 1rem; font-weight: 500; text-decoration: none; cursor: pointer; white-space: nowrap; transition: color 0.3s ease; }
+    .nav-buttons a:hover, .nav-buttons .dropbtn:hover, .nav-buttons button:hover { color: var(--apple-blue); }
+    .nav-buttons .signup { background-color: var(--signup-bg); color: var(--signup-text); border-radius: 999px; padding: 0.4rem 1rem; font-weight: 600; transition: background-color 0.3s, color 0.3s; }
+    .dropdown { position: relative; }
+    .dropdown-content { display: none; position: absolute; top: 150%; left: 50%; transform: translateX(-50%); min-width: 160px; border-radius: 12px; box-shadow: 0 8px 30px rgba(0,0,0,0.2); z-index: 1001; list-style: none; padding: 0.5rem 0; margin: 0; overflow: hidden; background-color: var(--card-bg); backdrop-filter: var(--apple-blur); -webkit-backdrop-filter: var(--apple-blur); border: 1px solid var(--border-color); }
+    .dropdown:hover .dropdown-content { display: block; }
+    .dropdown-content li a { display: block; padding: 0.7rem 1.2rem; color: var(--text-color); text-decoration: none; font-size: 0.95rem; transition: background-color 0.2s, color 0.2s; }
+    .dropdown-content li a:hover { background-color: var(--apple-blue); color: #fff; }
+    .theme-switcher { display: flex; align-items: center; }
+    #theme-toggle { display: none; }
+    #theme-toggle + label { position: relative; display: flex; align-items: center; width: 50px; height: 28px; background-color: #ccc; border-radius: 999px; cursor: pointer; transition: background-color 0.3s; }
+    #theme-toggle + label::before { content: ''; position: absolute; left: 3px; width: 22px; height: 22px; background-color: white; border-radius: 50%; transition: transform 0.3s; }
+    #theme-toggle + label .icon { position: absolute; font-size: 14px; transition: opacity 0.3s; user-select: none; }
+    #theme-toggle + label .sun-icon { right: 5px; opacity: 1; }
+    #theme-toggle + label .moon-icon { left: 5px; opacity: 0; }
+    #theme-toggle:checked + label { background-color: var(--apple-blue); }
+    #theme-toggle:checked + label::before { transform: translateX(22px); }
+    #theme-toggle:checked + label .sun-icon { opacity: 0; }
+    #theme-toggle:checked + label .moon-icon { opacity: 1; }
+    #side-nav { position: fixed; top: 0; right: -300px; width: 300px; height: 100vh; box-shadow: -10px 0 30px rgba(0,0,0,0.3); transition: right 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), background-color 0.3s; z-index: 1500; display: flex; flex-direction: column; padding: 2rem; box-sizing: border-box; background-color: var(--header-bg); backdrop-filter: var(--apple-blur); -webkit-backdrop-filter: var(--apple-blur); border-left: 1px solid var(--border-color); }
+    #side-nav.open { right: 0; }
+    #side-nav button.close-btn { align-self: flex-end; background: transparent; border: none; color: var(--text-color-secondary); font-size: 2rem; cursor: pointer; margin-bottom: 2rem; transition: color 0.3s; }
+    #side-nav nav ul { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 1.5rem; }
+    #side-nav nav ul li button, #side-nav nav ul li a { background: none; border: none; color: var(--text-color); font-size: 1.2rem; font-weight: 500; cursor: pointer; text-align: left; width: 100%; padding: 0; display: block; text-decoration: none; transition: color 0.3s; }
+    #side-nav nav ul li button { display: flex; justify-content: space-between; align-items: center; }
+    #side-nav nav ul li ul { display: none; flex-direction: column; padding-left: 1.5rem; margin-top: 1.2rem; gap: 1rem; list-style-type: none; }
+    #overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 1200; background: rgba(0, 0, 0, 0.2); backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px); display: none; }
+    #overlay.active { display: block; }
 
-
-
-.label {
-  flex: 0 0 55px; /* 고정 너비 정확히 */
-  font-weight: bold;
-  color: #fff;
-  text-align: left;
-}
-
-.value {
-  flex: 1;
-  color: #eee;
-  text-align: left;
-  min-width: 0; /* flex 줄바꿈 정리 */
-}
-
-
-body {
-  background: linear-gradient(to bottom, #3f3f3f 30%, #d0d0d0 90%);
-  background-attachment: fixed;
-  background-repeat: no-repeat;
-  background-size: cover;
-  color: white;
-  margin: 0;
-  font-family: 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif;
-}
-header {
-  overflow: visible; /* 드롭다운 보이게 만들기 */
-  position: fixed;
-  top: 0;
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 1rem 1.5rem;
-  background-color: transparent;
-  z-index: 1000;
-  box-sizing: border-box;
-}
-
-.school-name {
-  font-size: 1.5rem;
-  font-weight: bold;
-  color: white;
-  flex-shrink: 0;
-}
-
-.nav-buttons {
-  display: flex;
-  gap: 1rem;
-  flex-wrap: nowrap;
-  overflow-x: auto;
-  scrollbar-width: none;
-  -webkit-overflow-scrolling: touch;
-}
-.nav-buttons a,
-.nav-buttons .dropbtn,
-.nav-buttons button {
-  color: white;
-  background: transparent;
-  border: none;
-  font-size: 1rem;
-  text-decoration: none;
-  cursor: pointer;
-  white-space: nowrap;
-  flex-shrink: 0;
-}
-
-.nav-buttons .signup {
-  border: 1px solid white;
-  border-radius: 5px;
-  padding: 0.3rem 0.8rem;
-}
-
-.nav-buttons::-webkit-scrollbar {
-  display: none;
-}
-
-.nav-buttons button {
-  background: transparent;
-  border: none;
-  color: white;
-  font-size: 1rem;
-  cursor: pointer;
-  white-space: nowrap;
-  flex-shrink: 0;
-}
-
-.nav-buttons .signup {
-  border: 1px solid white;
-  border-radius: 5px;
-  padding: 0.3rem 0.8rem;
-}
-
-main {
-  padding-top: 120px;
-  
-}
-
-.main-title {
-  text-align: center;
-  font-size: 3rem;
-  margin-bottom: 0.5rem;
-  color: white;
-}
-
-.subtitle {
-  text-align: center;
-  font-size: 1.5rem;
-  margin-bottom: 2rem;
-  color: white;
-}
-
-
-
-
-
-/* 사이드바 */
-#side-nav {
-  position: fixed;
-  top: 0;
-  right: -280px;
-  width: 280px;
-  height: 100vh;
-  background-color: #000;
-  color: white;
-  box-shadow: -4px 0 8px rgba(0,0,0,0.7);
-  transition: right 0.3s ease;
-  z-index: 1500;
-  display: flex;
-  flex-direction: column;
-  padding: 2rem 1.5rem;
-  box-sizing: border-box;
-}
-
-#side-nav.open {
-  right: 0;
-}
-
-#side-nav button.close-btn {
-  align-self: flex-end;
-  background: transparent;
-  border: none;
-  color: white;
-  font-size: 1.8rem;
-  cursor: pointer;
-  margin-bottom: 2rem;
-}
-
-#side-nav nav ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 1.2rem;
-}
-
-#side-nav nav ul li button,
-#side-nav nav ul li a {
-  background: none;
-  border: none;
-  color: white;
-  font-size: 1.1rem;
-  cursor: pointer;
-  text-align: left;
-  width: 100%;
-  padding: 0;
-  display: block;
-  text-decoration: none;
-}
-
-#side-nav nav ul li button {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-#side-nav nav ul li ul {
-  display: none;
-  flex-direction: column;
-  padding-left: 1rem;
-  margin-top: 1rem;
-  list-style-type: none;
-}
-
-#side-nav nav ul li ul li a {
-  font-size: 1rem;
-  padding: 0rem 0;
-  color: white;
-  text-decoration: none;
-  cursor: pointer;
-}
-
-#side-nav nav ul li ul li a:hover {
-  text-decoration: underline;
-}
-
-#overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  z-index: 1200;
-  background: rgba(0, 0, 0, 0.1);
-  backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px);
-  display: none;
-}
-
-#overlay.active {
-  display: block;
-}
-/* 드롭다운 */
-.dropdown {
-  position: relative;
-}
-
-.dropbtn {
-  color: white;
-  cursor: pointer;
-  padding: 0.3rem 0.5rem;
-}
-.dropdown-content {
-  display: none;
-  position: absolute;
-  top: 100%;
-  left: 0;
-  background-color: #444;
-  border-radius: 5px;
-  min-width: 140px;
-  box-shadow: 0px 8px 16px rgba(0,0,0,0.2);
-  z-index: 1001;
-}
-.dropdown-content a {
-  width: 77%;      
-  display: block;
-  padding: 0.5rem 1rem;
-  color: white;
-  text-decoration: none;
-  font-size: 0.9rem;
-}
-.dropdown .dropbtn {
-  color: white;
-  background: transparent;
-  border: none;
-  font-size: 1rem;
-  text-decoration: none;
-  cursor: pointer;
-  white-space: nowrap;
-  padding: 0.3rem 0.5rem;
-}
-
-.dropdown-content li a {
-  display: block;
-  padding: 0.6rem 1rem;
-  color: white;
-  text-decoration: none;
-  font-size: 0.9rem;
-}
-
-
-.dropdown-content li a:hover {
-  background-color: #666;
-}
-
-/* 핵심: hover 시 열기 */
-.dropdown:hover .dropdown-content {
-  display: block;
-}
-.dropdown-content a:hover {
-  background-color: #666;
-}
-
-
-/* 기본 숨김 */
-.nav-buttons li.dropdown ul.dropdown-content {
-  display: none;
-  position: absolute;
-  top: 100%;
-  left: 0;
-  background-color: #444;
-  min-width: 140px;
-  border-radius: 5px;
-  box-shadow: 0px 8px 16px rgba(0,0,0,0.2);
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  z-index: 1001;
-}
-
-/* 항목 스타일 */
-.nav-buttons li.dropdown ul.dropdown-content li a {
-  display: block;
-  padding: 0.6rem 1rem;
-  color: white;
-  text-decoration: none;
-  font-size: 0.9rem;
-}
-
-.nav-buttons li.dropdown ul.dropdown-content li a:hover {
-  background-color: #666;
-}
-
-/* 마우스 올렸을 때 표시 */
-.nav-buttons li.dropdown:hover ul.dropdown-content {
-  display: block;
-}
-
-.nav-buttons ul {
-  list-style: none;     /* ● 마커 제거 */
-  display: flex;        /* 가로 정렬 */
-  gap: 1rem;            /* 항목 간 간격 */
-  margin: 0;
-  padding: 0;
-  align-items: center;  /* 햄버거 버튼 높이 정렬 */
-}
-
-.nav-buttons ul li {
-  display: flex;
-  align-items: center;
-}
-.nav-buttons {
-  overflow: visible;
-}
-
-.nav-list {
-  list-style: none;
-  display: flex;
-  gap: 1rem;
-  margin: 0;
-  padding: 0;
-  overflow: visible;
-}
-
-.nav-list li {
-  position: relative;
-}
-
-.nav-list li.dropdown .dropdown-content {
-  display: none;
-  position: absolute;
-  top: 100%;
-  left: 0;
-  background-color: #444;
-  padding: 0.5rem 0;
-  min-width: 140px;
-  border-radius: 5px;
-  z-index: 1000;
-  box-shadow: 0 8px 16px rgba(0,0,0,0.2);
-}
-
-.nav-list li.dropdown:hover .dropdown-content {
-  display: block;
-}
-
-.nav-list li.dropdown .dropdown-content li a {
-  display: block;
-  padding: 0.5rem 1rem;
-  color: white;
-  text-decoration: none;
-}
-
-.nav-list li.dropdown .dropdown-content li a:hover {
-  background-color: #666;
-}
-
-
+    /* --- 사이트맵 전용 스타일 --- */
+    .sitemap-title { text-align: center; font-size: 3.5rem; font-weight: 700; margin-bottom: 5rem; color: var(--text-color); }
+    .tree { text-align: center; }
+    .tree ul { padding: 20px 0; position: relative; transition: all 0.5s; display: flex; justify-content: center; }
+    .tree li {
+      float: left; text-align: center;
+      list-style-type: none;
+      position: relative;
+      padding: 20px 5px 0 5px;
+    }
+    .tree li::before, .tree li::after {
+      content: '';
+      position: absolute; top: 0; right: 50%;
+      border-top: 2px solid var(--border-color);
+      width: 50%; height: 20px;
+    }
+    .tree li::after {
+      right: auto; left: 50%;
+      border-left: 2px solid var(--border-color);
+    }
+    .tree li:only-child::after, .tree li:only-child::before { display: none; }
+    .tree li:first-child::before, .tree li:last-child::after { border: 0 none; }
+    .tree li:last-child::before { border-right: 2px solid var(--border-color); border-radius: 0 5px 0 0; }
+    .tree li:first-child::after { border-radius: 5px 0 0 0; }
+    .tree ul ul::before {
+      content: '';
+      position: absolute; top: 0; left: 50%;
+      border-left: 2px solid var(--border-color);
+      width: 0; height: 20px;
+    }
+    .tree li a {
+      background-color: var(--card-bg); color: var(--text-color);
+      padding: 1rem 1.5rem; font-size: 1rem; font-weight: 500;
+      border-radius: 12px; text-decoration: none;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.1); border: 1px solid var(--border-color);
+      backdrop-filter: var(--apple-blur); -webkit-backdrop-filter: var(--apple-blur);
+      transition: all 0.3s ease;
+      display: inline-block;
+      min-width: 120px;
+      box-sizing: border-box;
+    }
+    .tree li a:hover { transform: translateY(-5px); box-shadow: 0 12px 25px rgba(0,0,0,0.15); border-color: var(--apple-blue); }
+    .tree > ul > li > a { font-size: 1.5rem; padding: 1.2rem 3rem; font-weight: 600; }
+    .tree > ul > li > ul > li > a { font-size: 1.1rem; padding: 1rem 2rem; }
+    .tree > ul > li > ul > li > ul > li > a { font-size: 1rem; padding: 0.8rem 1.5rem; }
+    .tree li a + ul li::after { height: 20px; border-left: 2px solid var(--border-color); }
+    .tree li ul li:first-child::before, .tree li ul li:last-child::after { border: 0 none; }
+    .tree li ul li:last-child::before { border-right: 2px solid var(--border-color); border-radius: 0 5px 0 0; }
+    .tree li ul li:first-child::after { border-radius: 5px 0 0 0; }
   </style>
 </head>
-</head>
 <body>
-<header>
-  <div class="school-name">한국성서대학교</div>
-  <nav class="nav-buttons">
-    <ul class="nav-list">
-      <li><a href="index.html">HOME</a></li>
-      <li><a href="map.html">지도</a></li>
+  <header>
+    <a href="index.html" class="school-name">KBU Partner Map</a>
+    <nav class="nav-buttons">
+      <ul class="nav-list">
+        <li><a href="index.html">HOME</a></li>
+        <li><a href="map.html">지도</a></li>
+        <li class="dropdown">
+          <a href="#" class="dropbtn">리스트</a>
+          <ul class="dropdown-content">
+            <li><a href="list_restourant.html">식당 제휴</a></li>
+            <li><a href="list_leisure.html">여가 제휴</a></li>
+          </ul>
+        </li>
+        <li><a href="external.html">외부업체</a></li>
+        <li class="theme-switcher">
+          <input type="checkbox" id="theme-toggle">
+          <label for="theme-toggle">
+              <span class="icon sun-icon">☀️</span>
+              <span class="icon moon-icon">🌙</span>
+          </label>
+        </li>
+        <li><button id="hamburger-btn" style="font-size: 1.5rem; padding-bottom: 4px;">☰</button></li>
+        <li><a href="login.html" class="signup">Sign Up</a></li>
+      </ul>
+    </nav>
+  </header>
 
-      <li class="dropdown">
-        <a href="#" class="dropbtn">리스트</a>
-        <ul class="dropdown-content">
-          <li><a href="list_restourant.html">식당 제휴</a></li>
-          <li><a href="list_leisure.html">여가 제휴</a></li>
-        </ul>
-      </li>
+  <aside id="side-nav" aria-label="사이드 내비게이션">
+    <button class="close-btn" aria-label="사이드 내비 닫기">&times;</button>
+    <nav>
+      <ul>
+        <li><a href="map.html">지도로 보기</a></li>
+        <li>
+          <button id="side-list-btn" aria-expanded="false">리스트로 보기 ⏷</button>
+          <ul id="side-list-submenu" style="display: none;">
+            <li><a href="list_restourant.html">식당 제휴</a></li>
+            <li><a href="list_leisure.html">여가 제휴</a></li>
+            <li><a href="external.html">외부 업체</a></li>
+          </ul>
+        </li>
+        <li><a href="sitemap.html">사이트맵</a></li>
+        <li><a href="ask.html">문의</a></li>
+      </ul>
+    </nav>
+  </aside>
+  <div id="overlay"></div>
 
-      <li><a href="external.html">외부업체</a></li>
-      <li><button id="hamburger-btn" style="margin-top: -4px;">☰</button></li>
-      <li><a href="login.html" class="signup">Sign Up</a></li>
-    </ul>
-  </nav>
-</header>
-
-
-
-
-<aside id="side-nav" aria-label="사이드 내비게이션">
-  <button class="close-btn" aria-label="사이드 내비 닫기">&times;</button>
-  <nav>
-    <ul>
-      <li><a href="map.html">지도로 보기</a></li>
-      <li>
-        <button id="side-list-btn" aria-expanded="false" aria-controls="side-list-submenu">
-          리스트로 보기 ⏷
-        </button>
-        <ul id="side-list-submenu" aria-label="리스트 하위메뉴">
-          <li><a href="list_restourant.html">식당 제휴</a></li>
-          <li><a href="list_leisure.html">여가 제휴</a></li>
-        </ul>
-      </li>
-      <li><a href="external.html">외부 제휴</a></li>
-      <li><a href="sitemap.html">사이트맵</a></li>
-      <li><a href="ask.html">문의</a></li>
-      
-      
-    </ul>
-  </nav>
-</aside>
-<div id="overlay"></div>
-
-<main>
-<h1>성서제휴맵 사이트맵</h1>
-  <div class="tree">
-    <div class="level">
-      <div class="node-container">
-        <a href="index.html" class="node">홈</a>
-      </div>
+  <main>
+    <h1 class="sitemap-title">사이트맵</h1>
+    <div class="tree">
+      <ul>
+        <li>
+          <a href="index.html">홈페이지</a>
+          <ul>
+            <li><a href="map.html">지도</a></li>
+            <li>
+              <a href="#">리스트</a>
+              <ul>
+                <li><a href="list_restourant.html">식당 제휴</a></li>
+                <li><a href="list_leisure.html">여가 제휴</a></li>
+              </ul>
+            </li>
+            <li><a href="external.html">외부업체</a></li>
+            <li>
+              <a href="ask.html">문의</a>
+              <ul>
+                <li><a href="ask_form.html">문의 작성</a></li>
+              </ul>
+            </li>
+            <li><a href="login.html">로그인/가입</a></li>
+          </ul>
+        </li>
+      </ul>
     </div>
-
-    <div class="level">
-      <div class="node-container">
-        <div class="line"></div>
-        <a href="list_restourant.html" class="node">리스트</a>
-      </div>
-      <div class="node-container">
-        <div class="line"></div>
-        <a href="map.html" class="node">지도</a>
-      </div>
-      <div class="node-container">
-        <div class="line"></div>
-        <a href="external.html" class="node">외부업체</a>
-      </div>
-      <div class="node-container">
-        <div class="line"></div>
-        <a href="ask.html" class="node">문의</a>
-      </div>
-      <div class="node-container">
-        <div class="line"></div>
-        <a href="login.html" class="node">로그인</a>
-      </div>
-      <div class="node-container">
-        <div class="line"></div>
-        <a href="info.html" class="node">상세 정보</a>
-      </div>
-    </div>
-
-    <div class="level">
-      <div class="node-container">
-        <div class="line"></div>
-        <a href="list_restourant.html" class="node">식당 제휴</a>
-      </div>
-      <div class="node-container">
-        <div class="line"></div>
-        <a href="list_leisure.html" class="node">여가 제휴</a>
-      </div>
-      <div class="node-container">
-        <div class="line"></div>
-        <a href="ask_form.html" class="node">문의 작성</a>
-      </div>
-    </div>
-  </div>
-
-</main>
-<!-- Firebase SDK -->
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
-<script>
-  const firebaseConfig = {
-    apiKey: "AIzaSyD-itP2Il2kZYzm-4BXL5wXXphp5gnTN3U",
-    authDomain: "web-programing-6218e.firebaseapp.com",
-    projectId: "web-programing-6218e",
-    appId: "1:687421762824:web:be3d91a6c66d304a32d0bd"
-  };
-  firebase.initializeApp(firebaseConfig);
-  // ✅ 전역에 명시적으로 선언 추가
-let currentUser; // 또는 var currentUser;
-  const auth = firebase.auth();
+  </main>
 
   
-    
-auth.onAuthStateChanged(user => {
-  currentUser = user; // ✅ 전역 저장
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // --- 공통 UI 스크립트 ---
+      const hamburgerBtn = document.getElementById("hamburger-btn");
+      const sideNav = document.getElementById("side-nav");
+      const closeBtn = document.querySelector("#side-nav .close-btn");
+      const overlay = document.getElementById("overlay");
+      const sideListBtn = document.getElementById("side-list-btn");
+      const sideListSubmenu = document.getElementById("side-list-submenu");
+      const themeToggle = document.getElementById('theme-toggle');
+      const htmlElement = document.documentElement;
 
-  const signupBtn = document.querySelector(".signup");
-  if (!signupBtn) return;
+      hamburgerBtn?.addEventListener("click", () => { sideNav.classList.add("open"); overlay.classList.add("active"); });
+      closeBtn?.addEventListener("click", () => { sideNav.classList.remove("open"); overlay.classList.remove("active"); });
+      overlay?.addEventListener("click", () => { sideNav.classList.remove("open"); overlay.classList.remove("active"); });
+      sideListBtn?.addEventListener("click", () => {
+        const isOpen = sideListSubmenu.style.display === "flex";
+        sideListSubmenu.style.display = isOpen ? "none" : "flex";
+        sideListBtn.innerHTML = isOpen ? "리스트로 보기 ⏷" : "리스트로 보기 ⏶";
+      });
 
-  const homeBtn = signupBtn.cloneNode(true);
-  signupBtn.parentNode.replaceChild(homeBtn, signupBtn);
+      if (htmlElement.classList.contains('dark-mode')) { themeToggle.checked = true; }
+      themeToggle.addEventListener('change', () => {
+        if (themeToggle.checked) { htmlElement.classList.add('dark-mode'); localStorage.setItem('theme', 'dark'); } 
+        else { htmlElement.classList.remove('dark-mode'); localStorage.setItem('theme', 'light'); }
+      });
 
-  if (user) {
-    homeBtn.textContent = "Log out";
-    homeBtn.onclick = () => {
-      auth.signOut().then(() => location.reload());
-    };
-  } else {
-    homeBtn.textContent = "Sign Up";
-    homeBtn.onclick = () => {
-      window.location.href = "login.html";
-    };
-  }
-
-  // ✅ 로그인 확인 후 접근 제한 처리
-  const protectedPages = ["list_restourant.html","list_leisure.html", "map.html", "external.html", "ask.html","sitemap.html"];
-  const currentPath = window.location.pathname.split("/").pop();
-  if (!user && protectedPages.includes(currentPath)) {
-    alert("로그인이 필요합니다.");
-    window.location.href = "login.html";
-  }
-});
-
-
-
-
+      
+        }
+    );
+   
+  </script>
 
 
-  
-</script>
+<script type="module">
+  import { auth } from "./firebase.js";
+  import { onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
-<script>
-  const hamburgerBtn = document.querySelector(".nav-buttons button[id='hamburger-btn']") || document.querySelector(".nav-buttons button:contains('☰')");
-  const sideNav = document.getElementById("side-nav");
-  const closeBtn = document.querySelector("#side-nav .close-btn");
-  const overlay = document.getElementById("overlay");
-  const sideListBtn = document.getElementById("side-list-btn");
-  const sideListSubmenu = document.getElementById("side-list-submenu");
+  onAuthStateChanged(auth, (user) => {
+    const signupBtnContainer = document.querySelector(".signup")?.parentNode;
+    if (!signupBtnContainer) return;
 
-  hamburgerBtn?.addEventListener("click", () => {
-    sideNav.classList.add("open");
-    overlay.classList.add("active");
-  });
+    const oldBtn = signupBtnContainer.querySelector(".signup");
+    const newBtn = oldBtn.cloneNode(true);
+    oldBtn.parentNode.replaceChild(newBtn, oldBtn);
 
-  closeBtn?.addEventListener("click", () => {
-    sideNav.classList.remove("open");
-    overlay.classList.remove("active");
-  });
-
-  overlay?.addEventListener("click", () => {
-    sideNav.classList.remove("open");
-    overlay.classList.remove("active");
-  });
-
-  sideListBtn?.addEventListener("click", () => {
-    const isOpen = sideListSubmenu.style.display === "flex";
-    sideListSubmenu.style.display = isOpen ? "none" : "flex";
-    sideListBtn.textContent = isOpen ? "리스트로 보기 ⏷" : "리스트로 보기 ⏶";
-    sideListBtn.setAttribute("aria-expanded", isOpen ? "false" : "true");
+    if (user) {
+      newBtn.textContent = "Log out";
+      newBtn.removeAttribute("href");
+      newBtn.onclick = async (e) => { e.preventDefault(); await signOut(auth); location.reload(); };
+    } else {
+      newBtn.textContent = "Sign Up";
+      newBtn.href = "login.html";
+      newBtn.onclick = null;
+    }
   });
 </script>
 
+<!-- 로그인 가드 -->
+<script type="module">
+  import { auth, guardRequireVerifiedAuth } from "./firebase.js";
+  import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
+  // ① 인증 가드: 미로그인/미인증이면 login.html로 보냄
+  guardRequireVerifiedAuth("login.html");
 
+  // ② 인증 OK면 화면 보이기
+  onAuthStateChanged(auth, (user) => {
+    if (user && user.emailVerified) {
+      document.documentElement.classList.remove('auth-check');
+    }
+  });
+</script>
 
 
 
