@@ -10,851 +10,130 @@
       background: white;
       color: #333;
     }
-
     .container {
       display: flex;
       flex-direction: column;
     }
-
     .image-wrapper {
       position: relative;
       width: 100%;
       height: 250px;
       overflow: hidden;
     }
-
     .image-wrapper img {
       width: 100%;
       height: 100%;
       object-fit: cover;
     }
-
-    .close-btn {
-      position: absolute;
-      top: 10px;
-      right: 15px;
-      font-size: 24px;
-      color: white;
-      background: rgba(0,0,0,0.5);
-      border: none;
-      border-radius: 50%;
-      width: 32px;
-      height: 32px;
-      cursor: pointer;
-    }
-
     .info-box {
       padding: 1.5rem;
       background: white;
       border-radius: 0 0 12px 12px;
     }
-
     .info-box h2 {
       margin: 0;
       font-size: 1.4rem;
     }
-
     .info-box .category {
       font-size: 0.9rem;
       color: gray;
       margin-bottom: 1rem;
     }
-
     .info-box .label {
       font-weight: bold;
       margin-top: 0.5rem;
     }
-
-
-
-
-.thumbnails {
-  display: flex;
-  gap: 0.5rem;
-  padding: 1rem 0;
-  flex-wrap: wrap;
-}
-
-.thumbnails img {
-  width: 150px;
-  height: 150px;
-  object-fit: cover;
-  border-radius: 6px;
-  border: 1px solid #ccc;
-}
-
-
-
-.fullscreen-viewer {
-  position: fixed;
-  top: 0; left: 0; right: 0; bottom: 0;
-  background-color: rgba(0,0,0,0.85);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 9999;
-}
-.fullscreen-viewer img {
-  max-width: 90%;
-  max-height: 90%;
-  border-radius: 8px;
-}
-
-
-
-
-
+    .thumbnails {
+      display: flex;
+      gap: 0.5rem;
+      padding: 1rem 0;
+      flex-wrap: wrap;
+    }
+    .thumbnails img {
+      width: 150px;
+      height: 150px;
+      object-fit: cover;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      cursor: pointer; /* 클릭 가능함을 표시 */
+    }
+    .fullscreen-viewer {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background-color: rgba(0,0,0,0.85);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+    }
+    .fullscreen-viewer img {
+      max-width: 90%;
+      max-height: 90%;
+      border-radius: 8px;
+    }
   </style>
 </head>
 <body>
 <div class="container">
   <div class="image-wrapper">
     <img id="place-img" src="" alt="대표 이미지">
-   
-
-
-
-
-
-
   </div>
   <div class="info-box">
-    <h2 id="place-name">권순옥 김밥</h2>
-    <div class="category" id="category">분식</div>
+    <h2 id="place-name">정보를 불러오는 중...</h2>
+    <div class="category" id="category"></div>
 
-    <div><span class="label">도로명</span> <div id="address">서울시 노원구 어딘가 123</div></div>
-    <div><span class="label">영업시간</span> <div id="hours">10:00~21:00</div></div>
-    <div><span class="label">번호</span> <div id="phone">02-0000-0000</div></div>
-    <div><span class="label">제휴혜택</span> <div id="benefit">10% 할인</div></div>
- <div class="thumbnails" id="thumbnails"></div>
+    <div><span class="label">도로명</span> <div id="address"></div></div>
+    <div><span class="label">영업시간</span> <div id="hours"></div></div>
+    <div><span class="label">번호</span> <div id="phone"></div></div>
+    <div><span class="label">제휴혜택</span> <div id="benefit"></div></div>
+    <div class="thumbnails" id="thumbnails"></div>
   </div>
 </div>
 
+<!-- 1. data.js 파일을 먼저 불러옵니다. -->
+<script src="data.js"></script>
+
+<!-- 2. 불러온 데이터를 사용하여 페이지를 채우는 스크립트를 실행합니다. -->
 <script>
   const params = new URLSearchParams(location.search);
-  const name = params.get("name");
+  const nameFromUrl = decodeURIComponent(params.get("name"));
 
-  const storeData = {
-    "권순옥김밥": {
-      image: "https://raw.githubusercontent.com/sooah-125/map/main/img/kwon_sun_ok_gimbap.png", 
-      name: "권순옥 김밥",
-      category: "분식",
-      address: "서울 노원구 동일로 1354 명석빌딩 1층",
-      hours: "06:30~20:30",
-      phone: "02-935-5260",
-      benefit: "현금/계좌이체 시 10% 할인",
-
-        subImages: [
-    "https://raw.githubusercontent.com/sooah-125/map/main/img/kwon_sun_ok_gimbap_menu.png",
-    "https://raw.githubusercontent.com/sooah-125/map/main/img/kwon_sun_ok_gimbap_1.png",
-     "https://raw.githubusercontent.com/sooah-125/map/main/img/kwon_sun_ok_gimbap_2.png"
-  ]
-
-    },
-    "흥부솥뚜껑 생삼겹살 노원본점": {
-      image: "https://raw.githubusercontent.com/sooah-125/map/main/img/heungbu_sot_samgyeopsal.png",
-      name: "흥부솥뚜껑 생삼겹살 노원본점",
-      category: "고기류, 찌개류",
-      address: "서울 노원구 동일로 1353",
-      hours: "16:00~23:00",
-      phone: "0507-1352-6584",
-      benefit: "학생증 제시 시1인분당 1,000원 할인",
-
-        subImages: [
-    "https://raw.githubusercontent.com/sooah-125/map/main/img/heungbu_sot_samgyeopsal_1.png",
-     "https://raw.githubusercontent.com/sooah-125/map/main/img/heungbu_sot_samgyeopsal_2.png"
-  ]
-
-    }, 
-
-
-    "컴포즈커피 상계백병원점": {
-      image: "https://raw.githubusercontent.com/sooah-125/map/main/img/compose_coffee.png",
-      name: "컴포즈커피 상계백병원점",
-      category: "카페",
-      address: "서울 노원구 동일로 1350",
-      hours: "08:00~22:30",
-      phone: "02-952-1656",
-      benefit: "현금/계좌이체 시 10% 할인 (중복적립X, 사이드 메뉴X)",
-      subImages: [
-    "https://raw.githubusercontent.com/sooah-125/map/main/img/compose_menu.png",
-    "https://raw.githubusercontent.com/sooah-125/map/main/img/compose_1.png",
-     "https://raw.githubusercontent.com/sooah-125/map/main/img/compose_2.png"
-  ]
-    },
-
-
- "노원수제비": {
-      image: "https://raw.githubusercontent.com/sooah-125/map/main/img/nowon_sujebi.png",
-      name: "노원수제비",
-      category: "수제비",
-      address: "서울 노원구 동일로 1354",
-      hours: "11:00~22:00",
-      phone: "02-932-4948",
-      benefit: "현금/계좌이체 결제 시 500원 할인",
-        subImages: [
-    "https://raw.githubusercontent.com/sooah-125/map/main/img/nowon_sujebi_menu.png",
-    "https://raw.githubusercontent.com/sooah-125/map/main/img/nowon_sujebi_1.png",
-     
-  ]
-
-    },
-
-
-"니뽕내뽕 노원역점": {
-      image: "https://raw.githubusercontent.com/sooah-125/map/main/img/nipong_naepong_nowon.png",
-      name: "니뽕내뽕 노원역점",
-      category: "중식",
-      address: "서울 노원구 상계로 76, 2층",
-      hours: "11:30~21:00/14:40~16:30 브레이크 (수요일 정기휴무)",
-      phone: "0507-1301-7463",
-      benefit: "짬뽕 주문 시 탄산음료 제공<br>(세트 주문 시 에이드로 업그레이드)",
-
-     subImages: [
-    "https://raw.githubusercontent.com/sooah-125/map/main/img/nipong_naepong_menu.png",
-    "https://raw.githubusercontent.com/sooah-125/map/main/img/nipong_naepong_1.png",
-     "https://raw.githubusercontent.com/sooah-125/map/main/img/nipong_naepong_2.png"
-  ]
-
-
-    },
-
-"노원고로케": {
-      image: "https://raw.githubusercontent.com/sooah-125/map/main/img/nowon_korokke.png",
-      name: "노원고로케",
-      category: "고로케",
-      address: "서울 노원구 동일로 1354, 108호",
-      hours: "12:00~19:00 (일요일 정기휴무/재료 소진 시 영업종료)",
-      phone: "02-935-7482",
-      benefit: "10개 구매 시 1개 추가 증정",
-        subImages: [
-    "https://raw.githubusercontent.com/sooah-125/map/main/img/NowonKorokke_menu.png",
-    "https://raw.githubusercontent.com/sooah-125/map/main/img/NowonKorokke_1.png",
-     "https://raw.githubusercontent.com/sooah-125/map/main/img/NowonKorokke_2.png"
-  ]
-
-    },
-
-"롯데리아 노원역점": {
-      image: "https://raw.githubusercontent.com/sooah-125/map/main/img/lotteria_nowon.png",
-      name: "롯데리아 노원역점",
-      category: "햄버거",
-      address: "서울 노원구 상계로 64",
-      hours: "24시간 영업",
-      phone: "02-932-1756",
-      benefit: "세트 4종(불고기, 새우, 크리스피, 데리버거 10% 할인)",
-
-  
-
-    },
-
-  "명랑핫도그": {
-      image: "https://raw.githubusercontent.com/sooah-125/map/main/img/myeongrang_hotdog.png",
-      name: "명랑핫도그",
-      category: "핫도그",
-      address: "서울 노원구 동일로 1393",
-      hours: "11:00~22:10 (화요일 정기 휴무)",
-      phone: "02-932-5122",
-      benefit: "10,000원 이상 구매 시 미닛메이드 1개 or 생수 1개 제공",
-
-
-
-      subImages: [
-    "https://raw.githubusercontent.com/sooah-125/map/main/img/myeongrang_hotdog_menu.png",
-    "https://raw.githubusercontent.com/sooah-125/map/main/img/myeongrang_hotdog_1.png",
-     "https://raw.githubusercontent.com/sooah-125/map/main/img/myeongrang_hotdog_2.png"
-  ]
-
-    },
-
-
-
-
-  "밀알생돈까스": {
-      image: "https://raw.githubusercontent.com/sooah-125/map/main/img/milal_pork_cutlet.png",
-      name: "밀알생돈까스",
-      category: "돈까스",
-      address: "서울 노원구 동일로 1356 상계동 213호",
-      hours: "11:00~20:30 (토요일 20:00까지 / 일요일 정기휴무)",
-      phone: "0507-1401-5430",
-      benefit: "8,500원 이상 결제 시 500원 할인",
-        subImages: [
-    "https://raw.githubusercontent.com/sooah-125/map/main/img/milal_pork_cutlet_1.png",
-    "https://raw.githubusercontent.com/sooah-125/map/main/img/milal_pork_cutlet_2.png",
-     "https://raw.githubusercontent.com/sooah-125/map/main/img/milal_pork_cutlet_3.png"
-  ]
-
-    },
-
-
-  "수유리우동집 상계백병원점": {
-      image: "https://raw.githubusercontent.com/sooah-125/map/main/img/suyuri_noodle_house.png",
-      name: "수유리우동집 상계백병원점",
-      category: "우동",
-      address: "서울 노원구 동일로 1361",
-      hours: "10:30~22:00 (일요일 정기휴무)",
-      phone: "02-930-9485",
-      benefit: "1인당 면류 하나 이상 주문 시 우동면, 잔치면 곱빼기 제공"
-    },
-
-
- "슈엔차이 상계점": {
-      image: "https://raw.githubusercontent.com/sooah-125/map/main/img/xuanchai.png",
-      name: "슈엔차이 상계점",
-      category: "중식",
-      address: "서울 노원구 동일로 1335 대원빌딩 2층",
-      hours: "11:30~21:00/15:00~16:30 브레이크 (주말 브레이크X)",
-      phone: "02-933-3345",
-      benefit: "현금/계좌이체 시 식사 메뉴당 500원 할인 / 요리류 1,000원 할인",
-
-
-      subImages: [
-    "https://raw.githubusercontent.com/sooah-125/map/main/img/xuanchai_menu.png",
-    "https://raw.githubusercontent.com/sooah-125/map/main/img/xuanchai_1.png",
-     "https://raw.githubusercontent.com/sooah-125/map/main/img/xuanchai_2.png"
-  ]
-
-    },
-
-
- "신화쭈꾸미 노원본점": {
-      image: "https://raw.githubusercontent.com/sooah-125/map/main/img/sinhwa_jjukkumi.png",
-      name: "신화쭈꾸미 노원본점",
-      category: "주꾸미 요리",
-      address: "서울 노원구 동일로 1361, 201동 상가 1층",
-      hours: "11:30~23:00",
-      phone: "0507-1438-8956",
-      benefit: "1인당 1,000원 할인(철판요리)"
-    },
-
-"영성식당": {
-      image: "https://raw.githubusercontent.com/sooah-125/map/main/img/yeongseong_sikdang.png",
-      name: "영성식당",
-      category: "백반",
-      address: "서울 노원구 동일로 1343",
-      hours: "11:00~22:00",
-      phone: "02-931-6837",
-      benefit: "테이블당 캔음료 1개 or 계란찜 제공 (가게 내부 혼잡할 경우 계란찜 제공 불가할 수 있음)",
-
-  subImages: [
-    "https://raw.githubusercontent.com/sooah-125/map/main/img/yeongseong_sikdang_menu.png",
-    "https://raw.githubusercontent.com/sooah-125/map/main/img/yeongseong_sikdang_1.png",
-     "https://raw.githubusercontent.com/sooah-125/map/main/img/yeongseong_sikdang_2.png"]
-      
-    },
-
-"다비치 안경 노원상계백병원건너점": {
-      image: "https://raw.githubusercontent.com/sooah-125/map/main/img/davich_glasses_nowon.png",
-      name: "다비치 안경 노원상계백병원건너점",
-      category: "안경점",
-      address: "서울 노원구 동일로 1365",
-      hours: "10:00~22:30",
-      phone: "02-935-1357",
-      benefit: "전 상품 10% 할인<br>(최저가 팩렌즈 행사품 제외)",
-      subImages: [
-    "https://raw.githubusercontent.com/sooah-125/map/main/img/davich_glasses_nowon_1.png",
-    "https://raw.githubusercontent.com/sooah-125/map/main/img/davich_glasses_nowon_2.png",
-     "https://raw.githubusercontent.com/sooah-125/map/main/img/davich_glasses_nowon_3.png"]
-      
-    },
-
-    "거북이 보드게임 카페": {
-      image: "https://raw.githubusercontent.com/sooah-125/map/main/img/turtle_boardgame_cafe.png",
-      name: "거북이 보드게임 카페",
-      category: "보드게임",
-      address: "서울 광진구 능동로13길 36 지하 1층",
-      hours: "24시간",
-      phone: "0507-1470-5547",
-      benefit: "평일 시간 무제한 이용권 10% 할인 /주말 시간 무제한 이용권 약 13% 할인"
-    },
-
-
- "더메이즈 노원점": {
-      image: "https://raw.githubusercontent.com/sooah-125/map/main/img/the_maze_nowon.png",
-      name: "더메이즈 노원점",
-      category: "방탈출",
-      address: "서울 노원구 상계로5길 26 신일빌딩 6층",
-      hours: "11:00~23:30(연중무휴)",
-      phone: "02-6012-2620",
-      benefit: "최소 하루 전 전화 예약/학생증 지참 시 인당 5,000원 할인",
-
-
-
-    },
-
- "디톤헤어 (구 제이빛 헤어)": {
-      image: "https://raw.githubusercontent.com/sooah-125/map/main/img/ditone_hair.png",
-      name: "디톤헤어 (구 제이빛 헤어)",
-      category: "미용실",
-      address: "서울 노원구 동일로 1363 2층 201호",
-      hours: "화~토 10:00~20:00 (일·월요일 정기휴무)",
-      phone: "010-5457-9498",
-      benefit: "펌·염색 시술 시 20% 할인 (부분 시술 제외)/컷 2,000원 할인",
-
-
-  subImages: [
-    "https://raw.githubusercontent.com/sooah-125/map/main/img/ditone_hair_1.png",
-    "https://raw.githubusercontent.com/sooah-125/map/main/img/ditone_hair_2.png",
-     "https://raw.githubusercontent.com/sooah-125/map/main/img/ditone_hair_3.png"
-  ]
-
-    },
-
-
-
-
-"피자스쿨 노원점": {
-      image: "https://raw.githubusercontent.com/sooah-125/map/main/img/PizzaSchool.png",
-      name: "피자스쿨 노원점",
-      category: "피자",
-      address: "서울 노원구 동일로 1390",
-      hours: "11:00~23:00",
-      phone: "02-936-3339",
-      benefit: "모든 피자 500원 할인",
-
-
-    },
-
-
-
-"신미방마라탕 노원점": {
-      image: "https://raw.githubusercontent.com/sooah-125/map/main/img/Sinmibang_Malatang.png",
-      name: "신미방마라탕 노원점",
-      category: "마라탕",
-      address: "서울 노원구 상계로64, 1층 2호",
-      hours: "10:40~22:40 (금·토·일 10:40~23:55)",
-      phone: "070-7576-1883",
-      benefit: "캔음료 1캔 or 꼬치류 2개 증정",
-
-
-    },
-
-"별학골명품소머리국밥": {
-      image: "https://raw.githubusercontent.com/sooah-125/map/main/img/Byeolhakgol_Premium_Oxhead_Soup.png",
-      name: "별학골명품소머리국밥",
-      category: "국밥",
-      address: "서울 노원구 동일로 1362",
-      hours: "10:00~23:00",
-      phone: "02-939-0707",
-      benefit: "현금/계좌이체 시 500원 할인",
-
-
-    },
-
-"시장풍경 국시집": {
-      image: "https://raw.githubusercontent.com/sooah-125/map/main/img/SijangPoonggyeong_Guksijip.png",
-      name: "시장풍경 국시집",
-      category: "국밥",
-      address: "서울 노원구 동일로 1362",
-      hours: "11:30~20:00/15:00~16:30 브레이크(주말 11:30~15:00)",
-      phone: "02-935-2469",
-      benefit: "닭, 멸치 국시, 냉모밀 양 1.5배 제공",
-
-
-    },
-
-
-"샐러디 노원역점": {
-      image: "https://raw.githubusercontent.com/sooah-125/map/main/img/saladey_nowon.png",
-      name: "샐러디 노원역점",
-      category: "샐러드",
-      address: "서울 노원구 노해로 501, 104호",
-      hours: "10:00 ~ 21:00 (모든 공휴일 정상영업)",
-      phone: "0507-1362-3286",
-      benefit: "매장 이용 시 10% 할인",
-
-
-    },
-
-"Poke all day 포케 앤 샐러드 노원점": {
-      image: "https://raw.githubusercontent.com/sooah-125/map/main/img/Poke_all_day.png",
-      name: "Poke all day 포케 앤 샐러드 노원점",
-      category: "샐러드",
-      address: "서울 노원구 동일로217가길 17 1층 106호",
-      hours: "10:00~20:30/15:30~16:30 브레이크(토요일 20:00까지/일요일 정기휴일)",
-      phone: "02-935-7771",
-      benefit: "포케 1개당 음료제공(학생증 제시 필수)",
-    },
-
-
-
-
-"재이한의원": {
-      image: "https://raw.githubusercontent.com/sooah-125/map/main/img/Jaei_Oriental_Clinic.png",
-      name: "재이한의원",
-      category: "한의원",
-      address: "서울 노원구 동일로 1345 3층",
-      hours: "09:30~20:00(토요일 09:30~15:00/일요일 정기휴무)",
-      phone: "02-937-8875",
-      benefit: "비급여 항목 10% 할인(다이어트 한약, 일반 한약, 약침, 소화제류, 파스류, 감기약 등)",
-
-
-    },
-
-
-
-"포메인 노원점": {
-      image: "https://raw.githubusercontent.com/sooah-125/map/main/img/PhoMein.png",
-      name: "포메인 노원점",
-      category: "베트남 음식",
-      address: "서울 노원구 노해로77길 14-3",
-      hours: "11:00~22:00",
-      phone: "02-3391-3649",
-      benefit: "인당 음료 제공",
-
-
-    },
-
-
-
-    "드랍더핏피티스튜디오": {
-      image: "https://raw.githubusercontent.com/sooah-125/map/main/img/drop_the_fit_pt_studio.png",
-      name: "드랍더핏피티스튜디오",
-      category: "스포츠 시설",
-      address: "서울 노원구 동일로 1352 6층",
-      hours: "09:00~23:00(토요일 10:00~16:00/일요일 정기휴무)",
-      phone: "0507-1395-8606",
-      benefit: "PT 20회 + 3개월 990,000원"
-
-    },
-
-
-
-    "필라테스인 노원중계본점": {
-      image: "https://raw.githubusercontent.com/sooah-125/map/main/img/Pilates_In.png",
-      name: "필라테스인 노원중계본점",
-      category: "스포츠 시설",
-      address: "서울 노원구 동일로 1341 경남빌딩 7층",
-      hours: "10:00~22:00(토요일 10:00~15:00/일요일 정기휴무)",
-      phone: "0507-1341-7290",
-      benefit: "체험권·그룹레슨·개인레슨 할인 제공"
-
-    },
-  "죽이야기": {
-      image: "https://raw.githubusercontent.com/sooah-125/map/main/img/juk_story.png",
-      name: "죽이야기",
-      category: "죽",
-      address: "서울 노원구 동일로 1354 명석빌딩",
-      hours: "08:00~20:00",
-      phone: "02-952-6666",
-      benefit: "현금/계좌이체 시 500원 할인"
-
-    },
-
-"치히로 노원점": {
-      image: "https://raw.githubusercontent.com/sooah-125/map/main/img/chihiro_nowon.png",
-      name: "치히로 노원점",
-      category: "일식",
-      address: "서울 노원구 상계로 76, 2층",
-      hours: "11:00~22:00/15:00~16:30 브레이크(주말은 브레이크X)",
-      phone: "0507-1387-5968",
-      benefit: "인원수 대로 메뉴 주문시 김치나베돈까스 제공"
-
-    },
-
-
-
-"쩝스버거": {
-      image: "https://raw.githubusercontent.com/sooah-125/map/main/img/jjeops_burger.png",
-      name: "쩝스버거",
-      category: "버거",
-      address: "서울 노원구 상계로 91, 1층 102호",
-      hours: "11:30~21:00/15:00~16:30 브레이크(일요일 정기휴무)",
-      phone: "0507-1395-9075",
-      benefit: "10,000원 이상 구매 시 5% 할인"
-
-    },
-
-"생명의말씀사": {
-      image: "https://raw.githubusercontent.com/sooah-125/map/main/img/word_of_life_bookstore.png",
-      name: "생명의말씀사",
-      category: "서점",
-      address: "서울 노원구 동일로 1366",
-      hours: "10:00~20:00(일요일 정기휴무)",
-      phone: "02-938-7979",
-      benefit: "5% 할인 + 5% 추가 적립(큐티책, 성경공부 교재 등 일부 품목 제외)"
-
-    },
-
-"김호증모가발 리디아153 노원점": {
-      image: "https://raw.githubusercontent.com/sooah-125/map/main/img/kimho_ridia153_nowon.png",
-      name: "김호증모가발 리디아153 노원점",
-      category: "서점",
-      address: "서울 노원구 동일로 1379",
-      hours: "109:30~20:00(일요일 정기휴무)",
-      phone: "0507-1429-7020",
-      benefit: "가발 구매 및 증모 시술 시 가족 포함 10% 할인"
-
-    },
-
-
-"루프쉘하우스": {
-      image: "https://raw.githubusercontent.com/sooah-125/map/main/img/loop_shell_house.png",
-      name: "루프쉘하우스",
-      category: "고시텔",
-      address: "서울 노원구 동일로 1456",
-      hours: "08:00~24:00",
-      phone: "0507-1342-2594",
-      benefit: "10개월 이상 거주 시 매달 10,000원 할인/도배·바닥 리모델링 제공/이사 당일 1층~4층까지 픽업 지원"
-
-    },
-
-"빌리버짐 중계역점": {
-      image: "https://raw.githubusercontent.com/sooah-125/map/main/img/believer_gym_junggye.png",
-      name: "빌리버짐 중계역점",
-      category: "헬스장",
-      address: "서울 노원구 동일로 1308",
-      hours: "06:00~24:00(주말 08:00~22:00)",
-      phone: "0507-1337-3011",
-      benefit: "회원권 20% 할인"
-
-    },
-"빌리버짐 중계역점": {
-      image: "https://raw.githubusercontent.com/sooah-125/map/main/img/believer_gym_junggye.png",
-      name: "빌리버짐 중계역점",
-      category: "헬스장",
-      address: "서울 노원구 동일로 1308",
-      hours: "06:00~24:00(주말 08:00~22:00)",
-      phone: "0507-1337-3011",
-      benefit: "회원권 20% 할인"
-
-    },
-
-
-    "아이존팝": {
-      image: "https://raw.githubusercontent.com/sooah-125/map/main/img/izonepop.png",
-      name: "아이존팝",
-      category: "오락실",
-      address: "서울 노원구 노해로 485 지하 2층",
-      hours: "14:00~23:00(주말 10:00~23:55)",
-      phone: "0507-1369-2506",
-      benefit: "1시간-1,000원/2시간-2,000원/5인 이상 시 인당 2,000원 할인(모두 현금,계좌이체시 적용)"
-
-    },
-
-
-     "아이존팝": {
-      image: "https://raw.githubusercontent.com/sooah-125/map/main/img/izonepop.png",
-      name: "아이존팝",
-      category: "오락실",
-      address: "서울 노원구 노해로 485 지하 2층",
-      hours: "14:00~23:00(주말 10:00~23:55)",
-      phone: "0507-1369-2506",
-      benefit: "1시간-1,000원/2시간-2,000원/5인 이상 시 인당 2,000원 할인(모두 현금,계좌이체시 적용)"
-
-    },
-
-
-    "온 스터디 카페": {
-      image: "https://raw.githubusercontent.com/sooah-125/map/main/img/OnStudy_Cafe.png",
-      name: "온 스터디 카페",
-      category: "스터디 카페",
-      address: "서울 노원구 노해로 482 지하 1층",
-      hours: "24시간",
-      phone: "0507-1380-4248",
-      benefit: "사전 연락 시 한 달 이상 기간권 10% 할인(학생증 제시 필수)"
-
-    },
-
-"오늘, 우리 사진관": {
-      image: "https://raw.githubusercontent.com/sooah-125/map/main/img/OneulWoori_PhotoStudio.png",
-      name: "오늘, 우리 사진관",
-      category: "사진관",
-      address: "서울 노원구 동일로 218길 17",
-      hours: "09:00~23:00",
-      phone: "0506-753-1618",
-      benefit: "2~4인 상품(30,000원)을 1인 상품(20,000원)으로 제공/평일 1장 추가 인화/가능한 지점 (노원, 성신여대, 신촌, 광명철산, 수원영통)"
-
-    },
-
-
-
-
-    "알파 상계점": {
-      image: "https://raw.githubusercontent.com/sooah-125/map/main/img/Alpha_Sanggye.png",
-      name: "알파 상계점",
-      category: "문구점",
-      address: "서울 노원구 노해로 501",
-      hours: "월요일~금요일 09:00~21:00(일요일 11:00~20:00/토요일 09:00~20:00)",
-      phone: "02-935-8382",
-      benefit: "학생증 제시 시<br>10,000원 이상 5% 할인<br>/50,000원 이상 10% 할인"
-
-    },
-
-"아프리카코인노래방": {
-      image: "https://raw.githubusercontent.com/sooah-125/map/main/img/africa_coin_noraebang.png",
-      name: "아프리카코인노래방",
-      category: "문구점",
-      address: "서울 노원구 동일로 1323 지하 1층",
-      hours: "11:00~23:45",
-      phone: "010-3028-0801",
-      benefit: "6곡 결제 시 1곡 추가/1시간 결제 시 10분 추가/특실·이벤트룸 10분 추가"
-
-    },
-
-"에이바헤어": {
-      image: "https://raw.githubusercontent.com/sooah-125/map/main/img/Ava_Hair.png",
-      name: "에이바헤어",
-      category: "문구점",
-      address: "서울 노원구 동일로 1356",
-      hours: "10:00~20:00",
-      phone: "0507-1358-1483",
-      benefit: "커트(16,000원) 2,000원 할인"
-
-    },
-
-
-    "조아코인노래방": {
-      image: "https://raw.githubusercontent.com/sooah-125/map/main/img/joa_coin_noraebang.png",
-      name: "조아코인노래방",
-      category: "문구점",
-      address: "서울 노원구 상계로 65 현성빌딩",
-      hours: "11:00~24:00",
-      phone: "010-3059-7556",
-      benefit: "1,000원 4곡방 또는<br>8곡 결제 시 +1곡<br>/3곡방 또는 3곡 결제 시 +1곡"
-
-    },
-
-
-     "조아코인노래방": {
-      image: "https://raw.githubusercontent.com/sooah-125/map/main/img/joa_coin_noraebang.png",
-      name: "조아코인노래방",
-      category: "문구점",
-      address: "서울 노원구 상계로 65 현성빌딩",
-      hours: "11:00~24:00",
-      phone: "010-3059-7556",
-      benefit: "1,000원 4곡방 또는<br>8곡 결제 시 +1곡<br>/3곡방 또는 3곡 결제 시 +1곡"
-
-    },
-
-
- "중계주짓수": {
-      image: "https://raw.githubusercontent.com/sooah-125/map/main/img/Junggye_JiuJitsu.png",
-      name: "중계주짓수",
-      category: "주짓수",
-      address: "서울 노원구 동일로 1354",
-      hours: "월요일~금요일 10:00~23:00/토요일 11:30~15:00(일요일 정기휴무)",
-      phone: "0507-1332-5021",
-      benefit: "현금/계좌이체 시 10,000원 할인 (일일체험 제외)"
-
-    },
-
-"쿠방플러스": {
-      image: "https://raw.githubusercontent.com/sooah-125/map/main/img/Koobang_Plus.png",
-      name: "쿠방플러스",
-      category: "디저트 공방",
-      address: "서울 노원구 노원로26길 39",
-      hours: "10:00~20:00(월요일 정기휴무)",
-      phone: "0507-1436-4104",
-      benefit: "쿠키·케이크 체험 시 음료 500원 할인"
-
-    },
-
-"쿠방플러스": {
-      image: "https://raw.githubusercontent.com/sooah-125/map/main/img/Koobang_Plus.png",
-      name: "쿠방플러스",
-      category: "디저트 공방",
-      address: "서울 노원구 노원로26길 39",
-      hours: "10:00~20:00(월요일 정기휴무)",
-      phone: "0507-1436-4104",
-      benefit: "쿠키·케이크 체험 시 음료 500원 할인"
-
-    },
-
-
-    "핑퐁라이온스클럽": {
-      image: "https://raw.githubusercontent.com/sooah-125/map/main/img/PingPong_Lions.png",
-      name: "핑퐁라이온스클럽",
-      category: "디저트 공방",
-      address: "서울 노원구 동일로 1370",
-      hours: "평일 24시간",
-      phone: "02-931-7070",
-      benefit: "학생증 제시 시 1시간 1,000원 할인/성서대 탁구단 가입 시 10분 무료 레슨"
-
-    },
-
-  "포포PC방": {
-      image: "https://raw.githubusercontent.com/sooah-125/map/main/img/PingPong_Lions.png",
-      name: "포포PC방",
-      category: "PC방",
-      address: "서울 노원구 동일로 1323",
-      hours: "24시간(연중무휴)",
-      phone: "070-8244-8799",
-      benefit: "회원쿠폰 5,000원 구매 시 1시간 무료 제공"
-
-    },
-
-    "퍼퓸플레이": {
-      image: "https://raw.githubusercontent.com/sooah-125/map/main/img/Perfume_Play.png",
-      name: "퍼퓸플레이",
-      category: "PC방",
-      address: "서울 노원구 상계로7길 16층",
-      hours: "11:00~20:00/토요일 10:00~20:00/일요일 14:00~20:00",
-      phone: "0507-1345-6734",
-      benefit: "학생증 제시 및 본인 확인 후 30ml 이상 퍼퓸 구매 시 5% 할인"
-
-    },
-
-
-    "홈즈앤루팡 보드게임카페": {
-      image: "https://raw.githubusercontent.com/sooah-125/map/main/img/Holmes_and_Lupin.png",
-      name: "홈즈앤루팡 보드게임카페",
-      category: "보드게임카페",
-      address: "서울 노원구 상계로 64화랑빌딩 3층",
-      hours: "13:00~24:00/토요일 12:00~01:00/일요일 12:00~24:00",
-      phone: "0507-1430-7799",
-      benefit: "인당 1시간 1,000원 할인"
-
-    },
-
-     "휴식 노원1호점": {
-      image: "https://raw.githubusercontent.com/sooah-125/map/main/img/hyusik_nowon_branch1.png",
-      name: "휴식 노원1호점",
-      category: "고시텔",
-      address: "서울 노원구 상계로 76",
-      hours: "24시간",
-      phone: "0504-1363-4079",
-      benefit: "신규 입실 시 20,000원 할인<br>/6개월 이상 계약 시 월마다 20,000원 추가 할인<br>/파티룸 10% 할인"
-
-    },
-
-
-
-
-
-  };
-
-  const data = storeData[name];
+  // data.js에서 불러온 storeData 배열에서 이름이 일치하는 가게를 찾습니다.
+  const data = storeData.find(store => store.name === nameFromUrl);
 
   if (data) {
     document.getElementById("place-img").src = data.image;
     document.getElementById("place-name").textContent = data.name;
-    document.getElementById("category").textContent = data.category;
-    document.getElementById("address").textContent = data.address;
-    document.getElementById("hours").textContent = data.hours;
-    document.getElementById("phone").textContent = data.phone;
-    document.getElementById("benefit").textContent = data.benefit;
+    document.getElementById("category").textContent = data.type; // data.js의 type 필드를 사용
+    document.getElementById("address").innerHTML = data.address;
+    document.getElementById("hours").innerHTML = data.hours;
+    document.getElementById("phone").innerHTML = data.phone;
+    document.getElementById("benefit").innerHTML = data.benefit;
+
+    // 추가 이미지(썸네일) 표시 로직
+    const thumbnailsContainer = document.getElementById("thumbnails");
+    if (data.subImages && data.subImages.length > 0) {
+      data.subImages.forEach(url => {
+        const img = document.createElement("img");
+        img.src = url;
+        img.alt = "추가 이미지";
+        
+        // 썸네일 클릭 시 전체 화면으로 보여주는 이벤트 추가
+        img.addEventListener("click", () => {
+          const viewer = document.createElement("div");
+          viewer.className = "fullscreen-viewer";
+          viewer.innerHTML = `<img src="${url}">`;
+          viewer.addEventListener("click", () => viewer.remove());
+          document.body.appendChild(viewer);
+        });
+
+        thumbnailsContainer.appendChild(img);
+      });
+    }
+
   } else {
-    document.querySelector(".info-box").innerHTML = "<p>정보를 불러올 수 없습니다.</p>";
+    document.querySelector(".info-box").innerHTML = "<h2>정보를 찾을 수 없습니다.</h2><p>요청하신 가게의 정보를 찾지 못했습니다.</p>";
   }
-
-
-
-if (data.subImages && data.subImages.length > 0) {
-  data.subImages.forEach(url => {
-    const img = document.createElement("img");
-    img.src = url;
-    img.alt = "추가 이미지";
-    img.addEventListener("click", () => {
-      const viewer = document.createElement("div");
-      viewer.className = "fullscreen-viewer";
-      viewer.innerHTML = `<img src="${url}">`;
-      viewer.addEventListener("click", () => viewer.remove());
-      document.body.appendChild(viewer);
-    });
-    document.getElementById("thumbnails").appendChild(img);
-  });
-}
 </script>
 </body>
 </html>
