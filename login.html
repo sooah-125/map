@@ -2,428 +2,235 @@
 <html lang="ko">
 <head>
   <meta charset="UTF-8">
-  <title>성서제휴맵_로그인</title>
+  <title>성서제휴맵 - 로그인</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <script>
+    // 페이지가 깜빡이는 현상(FOUC)을 막기 위해, CSS를 읽기 전에 테마를 먼저 적용합니다.
+    (function() {
+      const savedTheme = localStorage.getItem('theme') || 'light';
+      if (savedTheme === 'dark') {
+        document.documentElement.classList.add('dark-mode');
+      }
+    })();
+  </script>
+
   <style>
+    /* --- 테마별 색상 변수 정의 --- */
+    :root {
+      /* 라이트 모드 (기본값) */
+      --bg-color: #f5f5f7;
+      --bg-gradient-start: rgba(245, 245, 247, 0.9);
+      --bg-gradient-end: rgba(220, 220, 225, 0.95);
+      --text-color: #1d1d1f;
+      --text-color-secondary: #6e6e73;
+      --header-bg: rgba(255, 255, 255, 0.7);
+      --card-bg: rgba(255, 255, 255, 0.8);
+      --border-color: rgba(0, 0, 0, 0.1);
+      --input-bg: rgba(230, 230, 235, 0.7);
+      --signup-bg: #000;
+      --signup-text: #fff;
+      --apple-blue: #007aff;
+      --apple-blur: saturate(180%) blur(20px);
+    }
 
+    html.dark-mode {
+      /* 다크 모드 */
+      --bg-color: #111112;
+      --bg-gradient-start: rgba(17, 17, 18, 0.85);
+      --bg-gradient-end: rgba(51, 51, 53, 0.95);
+      --text-color: #f5f5f7;
+      --text-color-secondary: #86868b;
+      --header-bg: rgba(28, 28, 30, 0.7);
+      --card-bg: rgba(44, 44, 46, 0.85);
+      --border-color: rgba(255, 255, 255, 0.15);
+      --input-bg: rgba(60, 60, 62, 0.7);
+      --signup-bg: #fff;
+      --signup-text: #000;
+    }
 
-
-
-header {
-  overflow: visible; /* 드롭다운 보이게 만들기 */
-  position: fixed;
-  top: 0;
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 1rem 1.5rem;
-  background-color: transparent;
-  z-index: 1000;
-  box-sizing: border-box;
-}
-
-
-
-
+    /* --- 기본 스타일 (변수 사용) --- */
     body {
       margin: 0;
-      font-family: 'Helvetica Neue', 'Apple SD Gothic Neo', 'Malgun Gothic', 'Noto Sans KR', sans-serif;
-      background: linear-gradient(to bottom, #3f3f3f 10%, #f5fef5 90%);
-      color: white;
+      font-family: sans-serif;
+      color: var(--text-color);
       min-height: 100vh;
-      padding-top: 120px;
+      overflow-x: hidden;
+      background-color: var(--bg-color);
+      background-image: url('22235_23589_729.jpg');
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+      transition: background-color 0.3s, color 0.3s;
     }
 
     main {
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: flex-start;
-      min-height: calc(100vh - 120px);
+      justify-content: center;
+      padding: 8rem 2rem 6rem 2rem;
+      min-height: 100vh;
+      box-sizing: border-box;
+      background: linear-gradient(to bottom, var(--bg-gradient-start), var(--bg-gradient-end));
+      transition: background 0.3s;
     }
 
+    /* --- Header (헤더) --- */
+    header {
+      position: fixed; top: 0; width: 100%;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 1rem 1.5rem; z-index: 1000; box-sizing: border-box;
+      background-color: var(--header-bg);
+      backdrop-filter: var(--apple-blur); -webkit-backdrop-filter: var(--apple-blur);
+      border-bottom: 1px solid var(--border-color);
+      transition: background-color 0.3s, border-color 0.3s;
+    }
+    .school-name { font-size: 1.5rem; font-weight: 600; color: var(--text-color); text-decoration: none; transition: color 0.3s; }
+    .school-name:hover { color: var(--apple-blue); }
+    .nav-buttons > .nav-list { list-style: none; display: flex; gap: 1rem; margin: 0; padding: 0; align-items: center; }
+    .nav-buttons a, .nav-buttons .dropbtn, .nav-buttons button {
+      color: var(--text-color); background: transparent; border: none;
+      font-size: 1rem; font-weight: 500; text-decoration: none;
+      cursor: pointer; white-space: nowrap; transition: color 0.3s ease;
+    }
+    .nav-buttons a:hover, .nav-buttons .dropbtn:hover, .nav-buttons button:hover { color: var(--apple-blue); }
+    .nav-buttons .signup {
+      background-color: var(--signup-bg); color: var(--signup-text);
+      border-radius: 999px; padding: 0.4rem 1rem; font-weight: 600;
+      transition: background-color 0.3s, color 0.3s;
+    }
+
+    /* --- 드롭다운 메뉴 --- */
+    .dropdown { position: relative; }
+    .dropdown-content {
+      display: none; position: absolute; top: 150%; left: 50%;
+      transform: translateX(-50%); min-width: 160px; border-radius: 12px;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.2); z-index: 1001;
+      list-style: none; padding: 0.5rem 0; margin: 0; overflow: hidden; 
+      background-color: var(--card-bg);
+      backdrop-filter: var(--apple-blur); -webkit-backdrop-filter: var(--apple-blur);
+      border: 1px solid var(--border-color);
+    }
+    .dropdown:hover .dropdown-content { display: block; }
+    .dropdown-content li a {
+      display: block; padding: 0.7rem 1.2rem; color: var(--text-color);
+      text-decoration: none; font-size: 0.95rem; 
+      transition: background-color 0.2s, color 0.2s;
+    }
+    .dropdown-content li a:hover { background-color: var(--apple-blue); color: #fff; }
+    
+    /* --- 테마 전환 토글 스위치 --- */
+    .theme-switcher { display: flex; align-items: center; }
+    #theme-toggle { display: none; }
+    #theme-toggle + label {
+      position: relative; display: flex; align-items: center;
+      width: 50px; height: 28px; background-color: #ccc;
+      border-radius: 999px; cursor: pointer; transition: background-color 0.3s;
+    }
+    #theme-toggle + label::before {
+      content: ''; position: absolute; left: 3px;
+      width: 22px; height: 22px; background-color: white;
+      border-radius: 50%; transition: transform 0.3s;
+    }
+    #theme-toggle + label .icon { position: absolute; font-size: 14px; transition: opacity 0.3s; user-select: none; }
+    #theme-toggle + label .sun-icon { right: 5px; opacity: 1; }
+    #theme-toggle + label .moon-icon { left: 5px; opacity: 0; }
+    #theme-toggle:checked + label { background-color: var(--apple-blue); }
+    #theme-toggle:checked + label::before { transform: translateX(22px); }
+    #theme-toggle:checked + label .sun-icon { opacity: 0; }
+    #theme-toggle:checked + label .moon-icon { opacity: 1; }
+
+    /* --- 로그인 컨테이너 (카드 스타일) --- */
     .login-container {
-      background-color: white;
-      color: black;
-      padding: 2rem;
-      border-radius: 16px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-      width: 90%;
+      background-color: var(--card-bg);
+      backdrop-filter: var(--apple-blur); -webkit-backdrop-filter: var(--apple-blur);
+      border: 1px solid var(--border-color);
+      padding: 2.5rem;
+      border-radius: 22px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+      width: 100%;
       max-width: 400px;
       text-align: center;
+      box-sizing: border-box;
     }
 
     .login-container h2 {
-      margin-bottom: 0.5rem;
-      font-size: 2rem;
+      margin: 0 0 0.5rem 0;
+      font-size: 2.2rem;
+      font-weight: 600;
+      color: var(--text-color);
     }
 
     .login-container p {
-      margin-bottom: 2rem;
-      font-size: 0.9rem;
-      color: #333;
+      margin-bottom: 2.5rem;
+      font-size: 1rem;
+      color: var(--text-color-secondary);
     }
 
     .login-container input {
       width: 100%;
-      padding: 0.7rem;
+      padding: 0.9rem 1rem;
       margin-bottom: 1rem;
-      border-radius: 8px;
-      border: 1px solid #ccc;
+      border-radius: 12px;
+      border: 1px solid var(--border-color);
+      background-color: var(--input-bg);
+      color: var(--text-color);
       font-size: 1rem;
+      box-sizing: border-box;
+      transition: border-color 0.3s, box-shadow 0.3s;
+    }
+    .login-container input:focus {
+      outline: none;
+      border-color: var(--apple-blue);
+      box-shadow: 0 0 0 3px rgba(0, 122, 255, 0.3);
     }
 
-    .login-container button {
+    .login-container button[type="submit"] {
       width: 100%;
-      padding: 0.8rem;
+      padding: 0.9rem;
       border: none;
-      border-radius: 8px;
-      background-color: #3f3f3f;
-      color: white;
-      font-size: 1rem;
+      border-radius: 999px;
+      background-color: var(--signup-bg);
+      color: var(--signup-text);
+      font-size: 1.1rem;
+      font-weight: 600;
       cursor: pointer;
-      margin-top: 0.5rem;
+      margin-top: 1rem;
+      transition: filter 0.3s, transform 0.3s;
     }
-
-    .login-container button:hover {
-      background-color: black;
+    .login-container button[type="submit"]:hover {
+      filter: brightness(1.2);
+      transform: scale(1.02);
     }
 
     .switch-btn {
-      background-color: transparent;
-      color: #3f3f3f;
+      background: none;
       border: none;
-      margin-top: 1rem;
+      color: var(--apple-blue);
+      margin-top: 1.5rem;
       cursor: pointer;
-      font-size: 0.9rem;
+      font-size: 0.95rem;
+      font-weight: 500;
+      text-decoration: none;
+    }
+    .switch-btn:hover {
       text-decoration: underline;
     }
 
-    .error-message {
-      color: red;
-      margin-top: 0.5rem;
-    }
-
-    .success-message {
-      color: green;
-      margin-top: 0.5rem;
-
-    }
-
-
-.school-name {
-  font-size: 1.5rem;
-  font-weight: bold;
-  color: white;
-  flex-shrink: 0;
-}
-
-
-.nav-buttons {
-  display: flex;
-  gap: 1rem;
-  flex-wrap: nowrap;
-  overflow-x: auto;
-  scrollbar-width: none;
-  -webkit-overflow-scrolling: touch;
-}
-.nav-buttons a,
-.nav-buttons .dropbtn,
-.nav-buttons button {
-  color: white;
-  background: transparent;
-  border: none;
-  font-size: 1rem;
-  text-decoration: none;
-  cursor: pointer;
-  white-space: nowrap;
-  flex-shrink: 0;
-}
-
-.nav-buttons .signup {
-  border: 1px solid white;
-  border-radius: 5px;
-  padding: 0.3rem 0.8rem;
-}
-
-.nav-buttons::-webkit-scrollbar {
-  display: none;
-}
-
-.nav-buttons button {
-  background: transparent;
-  border: none;
-  color: white;
-  font-size: 1rem;
-  cursor: pointer;
-  white-space: nowrap;
-  flex-shrink: 0;
-}
-
-.nav-buttons .signup {
-  border: 1px solid white;
-  border-radius: 5px;
-  padding: 0.3rem 0.8rem;
-}
-
-
-/* 사이드바 */
-#side-nav {
-  position: fixed;
-  top: 0;
-  right: -280px;
-  width: 280px;
-  height: 100vh;
-  background-color: #000;
-  color: white;
-  box-shadow: -4px 0 8px rgba(0,0,0,0.7);
-  transition: right 0.3s ease;
-  z-index: 1500;
-  display: flex;
-  flex-direction: column;
-  padding: 2rem 1.5rem;
-  box-sizing: border-box;
-}
-
-#side-nav.open {
-  right: 0;
-}
-
-#side-nav button.close-btn {
-  align-self: flex-end;
-  background: transparent;
-  border: none;
-  color: white;
-  font-size: 1.8rem;
-  cursor: pointer;
-  margin-bottom: 2rem;
-}
-
-#side-nav nav ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 1.2rem;
-}
-
-#side-nav nav ul li button,
-#side-nav nav ul li a {
-  background: none;
-  border: none;
-  color: white;
-  font-size: 1.1rem;
-  cursor: pointer;
-  text-align: left;
-  width: 100%;
-  padding: 0;
-  display: block;
-  text-decoration: none;
-}
-
-#side-nav nav ul li button {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-#side-nav nav ul li ul {
-  display: none;
-  flex-direction: column;
-  padding-left: 1rem;
-  margin-top: 1rem;
-  list-style-type: none;
-}
-
-#side-nav nav ul li ul li a {
-  font-size: 1rem;
-  padding: 0rem 0;
-  color: white;
-  text-decoration: none;
-  cursor: pointer;
-}
-
-#side-nav nav ul li ul li a:hover {
-  text-decoration: underline;
-}
-
-
-
-/* 드롭다운 */
-.dropdown {
-  position: relative;
-}
-
-.dropbtn {
-  color: white;
-  cursor: pointer;
-  padding: 0.3rem 0.5rem;
-}
-.dropdown-content {
-  display: none;
-  position: absolute;
-  top: 100%;
-  left: 0;
-  background-color: #444;
-  border-radius: 5px;
-  min-width: 140px;
-  box-shadow: 0px 8px 16px rgba(0,0,0,0.2);
-  z-index: 1001;
-}
-.dropdown-content a {
-  width: 77%;      
-  display: block;
-  padding: 0.5rem 1rem;
-  color: white;
-  text-decoration: none;
-  font-size: 0.9rem;
-}
-.dropdown .dropbtn {
-  color: white;
-  background: transparent;
-  border: none;
-  font-size: 1rem;
-  text-decoration: none;
-  cursor: pointer;
-  white-space: nowrap;
-  padding: 0.3rem 0.5rem;
-}
-
-.dropdown-content li a {
-  display: block;
-  padding: 0.6rem 1rem;
-  color: white;
-  text-decoration: none;
-  font-size: 0.9rem;
-}
-
-
-.dropdown-content li a:hover {
-  background-color: #666;
-}
-
-/* 핵심: hover 시 열기 */
-.dropdown:hover .dropdown-content {
-  display: block;
-}
-.dropdown-content a:hover {
-  background-color: #666;
-}
-
-
-/* 기본 숨김 */
-.nav-buttons li.dropdown ul.dropdown-content {
-  display: none;
-  position: absolute;
-  top: 100%;
-  left: 0;
-  background-color: #444;
-  min-width: 140px;
-  border-radius: 5px;
-  box-shadow: 0px 8px 16px rgba(0,0,0,0.2);
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  z-index: 1001;
-}
-
-/* 항목 스타일 */
-.nav-buttons li.dropdown ul.dropdown-content li a {
-  display: block;
-  padding: 0.6rem 1rem;
-  color: white;
-  text-decoration: none;
-  font-size: 0.9rem;
-}
-
-.nav-buttons li.dropdown ul.dropdown-content li a:hover {
-  background-color: #666;
-}
-
-/* 마우스 올렸을 때 표시 */
-.nav-buttons li.dropdown:hover ul.dropdown-content {
-  display: block;
-}
-
-.nav-buttons ul {
-  list-style: none;     /* ● 마커 제거 */
-  display: flex;        /* 가로 정렬 */
-  gap: 1rem;            /* 항목 간 간격 */
-  margin: 0;
-  padding: 0;
-  align-items: center;  /* 햄버거 버튼 높이 정렬 */
-}
-
-.nav-buttons ul li {
-  display: flex;
-  align-items: center;
-}
-.nav-buttons {
-  overflow: visible;
-}
-
-.nav-list {
-  list-style: none;
-  display: flex;
-  gap: 1rem;
-  margin: 0;
-  padding: 0;
-  overflow: visible;
-}
-
-.nav-list li {
-  position: relative;
-}
-
-.nav-list li.dropdown .dropdown-content {
-  display: none;
-  position: absolute;
-  top: 100%;
-  left: 0;
-  background-color: #444;
-  padding: 0.5rem 0;
-  min-width: 140px;
-  border-radius: 5px;
-  z-index: 1000;
-  box-shadow: 0 8px 16px rgba(0,0,0,0.2);
-}
-
-.nav-list li.dropdown:hover .dropdown-content {
-  display: block;
-}
-
-.nav-list li.dropdown .dropdown-content li a {
-  display: block;
-  padding: 0.5rem 1rem;
-  color: white;
-  text-decoration: none;
-}
-
-.nav-list li.dropdown .dropdown-content li a:hover {
-  background-color: #666;
-}
-
-
+    .error-message { color: #ff453a; margin-top: 1rem; font-weight: 500; }
+    .success-message { color: #32d74b; margin-top: 1rem; font-weight: 500; }
 
   </style>
 </head>
 <body>
 
-</head>
-<body>
-
-  
-  </head>
-<body>
 <header>
-  <div class="school-name">한국성서대학교</div>
+  <a href="index.html" class="school-name">KBU Partner Map</a>
   <nav class="nav-buttons">
     <ul class="nav-list">
       <li><a href="index.html">HOME</a></li>
       <li><a href="map.html">지도</a></li>
-
       <li class="dropdown">
         <a href="#" class="dropbtn">리스트</a>
         <ul class="dropdown-content">
@@ -431,138 +238,222 @@ header {
           <li><a href="list_leisure.html">여가 제휴</a></li>
         </ul>
       </li>
-
-      <li><a href="partner.html">외부업체</a></li>
-      <li><button id="hamburger-btn" style="margin-top: -4px;">☰</button></li>
-      <li><a href="login.html" class="signup">Sign Up</a></li>
+      <li><a href="external.html">외부업체</a></li>
+      <li class="theme-switcher">
+        <input type="checkbox" id="theme-toggle">
+        <label for="theme-toggle">
+            <span class="icon sun-icon">☀️</span>
+            <span class="icon moon-icon">🌙</span>
+        </label>
+      </li>
+      <!-- 로그인 페이지에서는 햄버거/로그인 버튼을 숨길 수 있습니다. -->
+      <!-- <li><button id="hamburger-btn" style="font-size: 1.5rem; padding-bottom: 4px;">☰</button></li> -->
+      <!-- <li><a href="login.html" class="signup">Sign Up</a></li> -->
     </ul>
   </nav>
 </header>
 
-
-  <main>
-    <div class="login-container" id="login-section">
-      <h2>로그인</h2>
-      <p>학교 이메일(@bible.ac.kr)로 로그인하세요.</p>
-      <form id="login-form">
-        <input type="email" id="login-email" placeholder="학교 이메일" required>
-        <input type="password" id="login-password" placeholder="비밀번호" required>
-        <button type="submit">로그인</button>
-      </form>
-      <div id="login-error" class="error-message"></div>
-      <button class="switch-btn" onclick="showSignup()">회원가입 하러가기</button>
-    </div>
-
-    <div class="login-container" id="signup-section" style="display: none;">
-      <h2>회원가입</h2>
-      <p>학교 이메일(@bible.ac.kr)로 회원가입하세요.</p>
-      <form id="signup-form">
-        <input type="email" id="signup-email" placeholder="학교 이메일" required>
-        <input type="password" id="signup-password" placeholder="비밀번호" required>
-        <button type="submit">회원가입</button>
-      </form>
-      <div id="signup-message" class="error-message"></div>
-      <button class="switch-btn" onclick="showLogin()">로그인 하러가기</button>
-    </div>
-  </main>
-
-
-<aside id="side-nav" aria-label="사이드 내비게이션">
-  <button class="close-btn" aria-label="사이드 내비 닫기">&times;</button>
-  <nav>
-    <ul>
-      <li><a href="map.html">지도로 보기</a></li>
-      <li>
-        <button id="side-list-btn" aria-expanded="false" aria-controls="side-list-submenu">
-          리스트로 보기 ⏷
-        </button>
-        <ul id="side-list-submenu" aria-label="리스트 하위메뉴">
-          <li><a href="list_restourant.html">식당 제휴</a></li>
-          <li><a href="list_leisure.html">여가 제휴</a></li>
-        </ul>
-      </li>
-      <li><a href="external.html">외부 제휴</a></li>
-      <li><a href="sitemap.html">사이트맵</a></li>
-      <li><a href="ask.html">문의</a></li>
+<main>
+    <!-- 로그인 섹션 -->
+  <div class="login-container" id="login-section">
+    <h2>로그인</h2>
+    <p>학교 이메일(@bible.ac.kr)로 로그인하세요.</p>
+    <form id="login-form">
+      <input type="email" id="login-email" placeholder="학교 이메일" required>
+      <input type="password" id="login-password" placeholder="비밀번호" required>
+      <button type="submit">로그인</button>
+    </form>
+    <div id="login-error" class="error-message"></div>
+    <button id="resend-btn" type="button" style="display:none; margin-top: 8px;">인증 메일 다시 보내기</button>
+    <button class="switch-btn" onclick="showSignup()">계정이 없으신가요? 회원가입</button>
+  </div>
+    
       
       
-    </ul>
-  </nav>
-</aside>
-<div id="overlay"></div>
+       <!-- 회원가입 섹션 (로그인 섹션 바깥, 형제) -->
+  <div class="login-container" id="signup-section" style="display: none;">
+    <h2>회원가입</h2>
+    <p>학교 이메일(@bible.ac.kr)을 사용해 주세요.</p>
+    <form id="signup-form">
+      <input type="email" id="signup-email" placeholder="학교 이메일" required>
+      <input type="password" id="signup-password" placeholder="비밀번호" required>
+      <button type="submit">회원가입</button>
+    </form>
+    <div id="signup-message"></div>
+    <button class="switch-btn" onclick="showLogin()">이미 계정이 있으신가요? 로그인</button>
+  </div>
+</main>
+
+<script>
+  // --- 테마 전환 로직 ---
+  const themeToggle = document.getElementById('theme-toggle');
+  const htmlElement = document.documentElement;
+
+  if (htmlElement.classList.contains('dark-mode')) {
+    themeToggle.checked = true;
+  }
+  themeToggle.addEventListener('change', () => {
+    if (themeToggle.checked) {
+      htmlElement.classList.add('dark-mode');
+      localStorage.setItem('theme', 'dark');
+    } else {
+      htmlElement.classList.remove('dark-mode');
+      localStorage.setItem('theme', 'light');
+    }
+  });
+
+  // --- 폼 전환 로직 ---
+  function showSignup() {
+    document.getElementById("login-section").style.display = "none";
+    document.getElementById("signup-section").style.display = "block";
+  }
+  function showLogin() {
+    document.getElementById("signup-section").style.display = "none";
+    document.getElementById("login-section").style.display = "block";
+  }
+</script>
 
 
-  <!-- Firebase CDN -->
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
-  <script>
-    const firebaseConfig = {
-      apiKey: "AIzaSyD-itP2Il2kZYzm-4BXL5wXXphp5gnTN3U",
-      authDomain: "web-programing-6218e.firebaseapp.com",
-      projectId: "web-programing-6218e",
-      appId: "1:687421762824:web:be3d91a6c66d304a32d0bd"
-    };
-    firebase.initializeApp(firebaseConfig);
-    const auth = firebase.auth();
+<!-- 1) 공용 Firebase 초기화/헬퍼 -->
+<script type="module" src="./firebase.js"></script>
 
-    function showSignup() {
-      document.getElementById("login-section").style.display = "none";
-      document.getElementById("signup-section").style.display = "block";
+<script type="module">
+  import {
+    signUpWithEmailVerification,
+    signInRequireVerified,
+    auth,
+  } from "./firebase.js";
+  import {
+    onAuthStateChanged,
+    sendEmailVerification,
+    signOut,
+  } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+  // 학교 도메인 제한 (@bible.ac.kr)
+  const isAllowedDomain = (email) => email.endsWith("@bible.ac.kr");
+
+  // 화면 토글
+  window.showSignup = () => {
+    document.getElementById("login-section").style.display = "none";
+    document.getElementById("signup-section").style.display = "block";
+  };
+  window.showLogin = () => {
+    document.getElementById("signup-section").style.display = "none";
+    document.getElementById("login-section").style.display = "block";
+  };
+
+  // --- 로그인 폼 ---
+  const loginForm   = document.getElementById("login-form");
+  const loginError  = document.getElementById("login-error");
+  const resendBtn   = document.getElementById("resend-btn");
+  let loggingIn = false;
+
+  loginForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    if (loggingIn) return;
+    loggingIn = true;
+    loginForm.querySelector('button[type="submit"]').disabled = true;
+
+    loginError.textContent = "";
+    resendBtn.style.display = "none";
+
+    const email    = document.getElementById("login-email").value.trim();
+    const password = document.getElementById("login-password").value;
+
+    if (!isAllowedDomain(email)) {
+      loginError.textContent = "학교 이메일(@bible.ac.kr)만 허용됩니다.";
+      loggingIn = false;
+      loginForm.querySelector('button[type="submit"]').disabled = false;
+      return;
     }
 
-    function showLogin() {
-      document.getElementById("signup-section").style.display = "none";
-      document.getElementById("login-section").style.display = "block";
+    try {
+      await signInRequireVerified(email, password); // ✅ 인증된 사용자만 통과
+      alert("로그인 성공! 홈페이지로 이동합니다.");
+      location.replace("index.html");
+setTimeout(() => location.replace("index.html"), 0);
+    } catch (err) {
+      if (err?.message === "EMAIL_NOT_VERIFIED") {
+        loginError.textContent = "이메일 인증이 필요합니다. 메일함을 확인하세요.";
+        resendBtn.style.display = "inline-block";
+        await signOut(auth); // (권장) 미인증이면 세션 정리
+      } else {
+        loginError.textContent = "로그인 실패: " + (err?.message || err);
+      }
+    } finally {
+      loggingIn = false;
+      loginForm.querySelector('button[type="submit"]').disabled = false;
+    }
+  });
+
+  // 인증 메일 재전송
+  resendBtn?.addEventListener("click", async () => {
+    const user = auth.currentUser;
+    if (!user) { alert("먼저 로그인 시도 후 사용하세요."); return; }
+    try {
+      await sendEmailVerification(user, {
+        url: "https://sooah-125.github.io/map/login.html",
+        handleCodeInApp: false
+      });
+      alert("인증 메일을 다시 보냈습니다. 스팸함도 확인해 주세요.");
+    } catch (e) {
+      alert("재전송 실패: " + (e?.message || e));
+    }
+  });
+
+  // --- 회원가입 폼 ---
+  const signupForm  = document.getElementById("signup-form");
+  const signupMsg   = document.getElementById("signup-message");
+  const loginEmail  = document.getElementById("login-email");
+  let signingUp = false;
+
+  signupForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    if (signingUp) return;
+    signingUp = true;
+    signupForm.querySelector('button[type="submit"]').disabled = true;
+
+    signupMsg.className = "error-message";
+    signupMsg.textContent = "";
+
+    const email    = document.getElementById("signup-email").value.trim();
+    const password = document.getElementById("signup-password").value;
+
+    if (!isAllowedDomain(email)) {
+      signupMsg.textContent = "학교 이메일(@bible.ac.kr)만 허용됩니다.";
+      signingUp = false;
+      signupForm.querySelector('button[type="submit"]').disabled = false;
+      return;
     }
 
-    document.getElementById("login-form").addEventListener("submit", function (e) {
-      e.preventDefault();
-      const email = document.getElementById("login-email").value;
-      const password = document.getElementById("login-password").value;
+    try {
+      // ✅ 회원가입 + 인증메일 발송 + 자동 로그아웃 (firebase.js에 구현)
+      await signUpWithEmailVerification(email, password);
 
-      if (!email.endsWith("@bible.ac.kr")) {
-        document.getElementById("login-error").textContent = "학교 이메일만 허용됩니다.";
-        return;
-      }
+      // 사용자 안내 + 로그인 화면으로 전환 + 이메일 채워주기
+      signupMsg.className = "success-message";
+      signupMsg.textContent = "인증 메일을 보냈어요. 인증을 끝내면 로그인할 수 있어요.";
+      showLogin();
+      if (loginEmail) loginEmail.value = email;
+    } catch (err) {
+      signupMsg.className = "error-message";
+      signupMsg.textContent = "회원가입 실패: " + (err?.message || err);
+    } finally {
+      signingUp = false;
+      signupForm.querySelector('button[type="submit"]').disabled = false;
+    }
+  });
 
-      auth.signInWithEmailAndPassword(email, password)
-        .then(() => {
-          alert("로그인 성공! 홈페이지로 이동합니다.");
-          window.location.href = "index.html";
-        })
-        .catch((error) => {
-          document.getElementById("login-error").textContent = "로그인 실패: " + error.message;
-        });
-    });
-
-    document.getElementById("signup-form").addEventListener("submit", function (e) {
-      e.preventDefault();
-      const email = document.getElementById("signup-email").value;
-      const password = document.getElementById("signup-password").value;
-
-      if (!email.endsWith("@bible.ac.kr")) {
-        document.getElementById("signup-message").textContent = "학교 이메일만 허용됩니다.";
-        return;
-      }
-
-      auth.createUserWithEmailAndPassword(email, password)
-        .then(() => {
-          document.getElementById("signup-message").className = "success-message";
-          document.getElementById("signup-message").textContent = "회원가입 완료! 로그인해주세요.";
-          document.getElementById("signup-form").reset();
-        })
-        .catch((error) => {
-          document.getElementById("signup-message").className = "error-message";
-          document.getElementById("signup-message").textContent = "회원가입 실패: " + error.message;
-        });
-    });
-  </script>
- <script>
-auth.onAuthStateChanged(user => {
-  if (user) {
-    window.location.href = "index.html";
+  // 이미 로그인 & 인증 끝난 유저는 홈으로
+  onAuthStateChanged(auth, (user) => {
+  if (user && user.emailVerified) {
+    location.replace("index.html");
+    setTimeout(() => location.replace("index.html"), 0);
   }
 });
- </script>
+</script>
+
+
+
 </body>
 </html>
